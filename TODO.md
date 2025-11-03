@@ -95,9 +95,9 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [x] `WebPush` (for notifications)
   - [x] `Swashbuckle.AspNetCore` (Swagger/OpenAPI)
 - [x] Configure `appsettings.json` with connection string
-- [ ] Configure `appsettings.Development.json` for local DB
+- [x] Configure `appsettings.Development.json` for local DB
 - [x] Set up CORS policy for Angular dev server
-- [ ] Configure Swagger/OpenAPI documentation
+- [x] Configure Swagger/OpenAPI documentation
 
 ### 1.3 Frontend Project Setup (Angular)
 - [ ] Create Angular project (`ng new fundarbok-web --routing --style=scss`)
