@@ -115,10 +115,10 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [x] `src/app/models` (TypeScript interfaces)
 
 ### 1.4 Database Setup
-- [ ] Create PostgreSQL database `fundarbok`
-- [ ] Create database user with appropriate permissions
-- [ ] Test connection from pgAdmin/CLI
-- [ ] Document database credentials in secure location
+- [x] Create PostgreSQL database `fundarbok`
+- [x] Create database user with appropriate permissions
+- [x] Test connection from pgAdmin/CLI
+- [x] Document database credentials in secure location
 
 ---
 
