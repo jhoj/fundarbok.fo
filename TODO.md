@@ -11,63 +11,6 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
 
 ---
 
-## Phase 0: Translation System Setup (i18n)
-
-### 0.1 Translation File Structure
-- [ ] Create `src/assets/i18n` folder
-- [ ] Create `en.json` (English - default)
-- [ ] Create `fo.json` (Faroese)
-- [ ] Define translation file structure:
-  ```json
-  {
-    "common": {
-      "save": "Save",
-      "cancel": "Cancel",
-      "delete": "Delete"
-    },
-    "meetings": {
-      "title": "Meetings Overview",
-      "create": "Create New Meeting"
-    }
-  }
-  ```
-
-### 0.2 Translation Service
-- [ ] Create `src/app/core/services/translation.service.ts`:
-  - [ ] `currentLanguage$: BehaviorSubject<string>` (default: 'en')
-  - [ ] `translations: { [key: string]: any }` (loaded translations)
-  - [ ] `loadTranslations(lang: string): Observable<any>`
-  - [ ] `setLanguage(lang: string): void`
-  - [ ] `translate(key: string): string` (supports nested keys like 'meetings.title')
-  - [ ] Store selected language in localStorage
-  - [ ] Load language on app init
-
-### 0.3 Translation Pipe
-- [ ] Create `src/app/shared/pipes/translate.pipe.ts`:
-  - [ ] `transform(key: string): string`
-  - [ ] Usage: `{{ 'meetings.title' | translate }}`
-  - [ ] Mark as pure pipe for performance
-- [ ] Add to SharedModule exports
-
-### 0.4 Language Switcher Component
-- [ ] Create `src/app/shared/components/language-switcher/language-switcher.component.ts`:
-  - [ ] Dropdown/toggle for EN/FO
-  - [ ] Call TranslationService.setLanguage() on change
-  - [ ] Show current language
-- [ ] Add to main layout (top bar or sidebar)
-
-### 0.5 Initial Translations
-- [ ] Populate `en.json` with all UI text from Figma
-- [ ] Populate `fo.json` with Faroese translations
-- [ ] Organize by feature module:
-  - [ ] auth (login, register)
-  - [ ] meetings (list, detail, create)
-  - [ ] committees
-  - [ ] documents
-  - [ ] common (buttons, labels, messages)
-
----
-
 ## Phase 1: Project Setup & Infrastructure
 
 ### 1.1 Development Environment Setup
@@ -127,7 +70,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
 ### 2.1 Domain Models (Fundarbok.Domain)
 **NOTE: All property names in English, translations handled by frontend**
 
-- [ ] Create `Committee.cs` entity:
+- [x] Create `Committee.cs` entity:
   - [ ] Id (Guid)
   - [ ] Name (string, required)
   - [ ] Description (string, optional)
@@ -135,7 +78,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: Collection of CommitteeMembers
   - [ ] Navigation: Collection of Meetings
-- [ ] Create `CommitteeMember.cs` entity:
+- [x] Create `CommitteeMember.cs` entity:
   - [ ] Id (Guid)
   - [ ] CommitteeId (Guid, foreign key)
   - [ ] Name (string, required)
@@ -145,7 +88,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] CreatedAt (DateTime)
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: Committee
-- [ ] Create `Meeting.cs` entity:
+- [x] Create `Meeting.cs` entity:
   - [ ] Id (Guid)
   - [ ] CommitteeId (Guid, foreign key)
   - [ ] MeetingNumber (string, e.g., "5/2022")
@@ -162,7 +105,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] Navigation: Committee
   - [ ] Navigation: Collection of AgendaItems
   - [ ] Navigation: Collection of MeetingParticipants
-- [ ] Create `MeetingParticipant.cs` (join table):
+- [x] Create `MeetingParticipant.cs` (join table):
   - [ ] Id (Guid)
   - [ ] MeetingId (Guid, foreign key)
   - [ ] CommitteeMemberId (Guid, foreign key)
@@ -170,7 +113,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] CreatedAt (DateTime)
   - [ ] Navigation: Meeting
   - [ ] Navigation: CommitteeMember
-- [ ] Create `AgendaItem.cs` entity:
+- [x] Create `AgendaItem.cs` entity:
   - [ ] Id (Guid)
   - [ ] MeetingId (Guid, foreign key)
   - [ ] Number (int, ordering)
@@ -184,14 +127,14 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] Navigation: Collection of Conclusions
   - [ ] Navigation: Collection of Notes
   - [ ] Navigation: Collection of Tasks
-- [ ] Create `Recommendation.cs` entity:
+- [x] Create `Recommendation.cs` entity:
   - [ ] Id (Guid)
   - [ ] AgendaItemId (Guid, foreign key)
   - [ ] Text (string, text content)
   - [ ] CreatedAt (DateTime)
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: AgendaItem
-- [ ] Create `Document.cs` entity:
+- [x] Create `Document.cs` entity:
   - [ ] Id (Guid)
   - [ ] AgendaItemId (Guid, foreign key, nullable for meeting-level docs)
   - [ ] MeetingId (Guid, foreign key, nullable)
@@ -208,14 +151,14 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: AgendaItem (optional)
   - [ ] Navigation: Meeting (optional)
-- [ ] Create `Conclusion.cs` entity:
+- [x] Create `Conclusion.cs` entity:
   - [ ] Id (Guid)
   - [ ] AgendaItemId (Guid, foreign key)
   - [ ] Text (string, text content)
   - [ ] CreatedAt (DateTime)
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: AgendaItem
-- [ ] Create `Note.cs` entity:
+- [x] Create `Note.cs` entity:
   - [ ] Id (Guid)
   - [ ] AgendaItemId (Guid, foreign key)
   - [ ] UserId (Guid, user who created note)
@@ -224,7 +167,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: AgendaItem
   - [ ] Navigation: User
-- [ ] Create `Task.cs` entity:
+- [x] Create `Task.cs` entity: **(Note: Renamed to `AgendaTask.cs` to avoid conflict with System.Threading.Tasks.Task)**
   - [ ] Id (Guid)
   - [ ] AgendaItemId (Guid, foreign key)
   - [ ] Description (string, task description)
@@ -235,7 +178,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] UpdatedAt (DateTime)
   - [ ] Navigation: AgendaItem
   - [ ] Navigation: User (AssignedUser)
-- [ ] Create `User.cs` entity:
+- [x] Create `User.cs` entity:
   - [ ] Id (Guid)
   - [ ] Name (string)
   - [ ] Email (string, unique)
@@ -248,7 +191,7 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] IsActive (bool)
   - [ ] Navigation: Collection of Notes
   - [ ] Navigation: Collection of AssignedTasks
-- [ ] Create `PushSubscription.cs` entity:
+- [x] Create `PushSubscription.cs` entity:
   - [ ] Id (Guid)
   - [ ] UserId (Guid, foreign key)
   - [ ] Endpoint (string)
@@ -258,53 +201,57 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
   - [ ] Navigation: User
 
 ### 2.2 Entity Framework DbContext (Fundarbok.Infrastructure)
-- [ ] Create `FundarbokDbContext.cs`
-- [ ] Add DbSet properties for all entities:
-  - [ ] DbSet<Committee> Committees
-  - [ ] DbSet<CommitteeMember> CommitteeMembers
-  - [ ] DbSet<Meeting> Meetings
-  - [ ] DbSet<MeetingParticipant> MeetingParticipants
-  - [ ] DbSet<AgendaItem> AgendaItems
-  - [ ] DbSet<Recommendation> Recommendations
-  - [ ] DbSet<Document> Documents
-  - [ ] DbSet<Conclusion> Conclusions
-  - [ ] DbSet<Note> Notes
-  - [ ] DbSet<Task> Tasks
-  - [ ] DbSet<User> Users
-  - [ ] DbSet<PushSubscription> PushSubscriptions
-- [ ] Configure entity relationships in `OnModelCreating`:
-  - [ ] Committee → CommitteeMembers (one-to-many)
-  - [ ] Committee → Meetings (one-to-many)
-  - [ ] Meeting → AgendaItems (one-to-many)
-  - [ ] Meeting → MeetingParticipants (one-to-many)
-  - [ ] AgendaItem → Recommendations (one-to-many)
-  - [ ] AgendaItem → Documents (one-to-many)
-  - [ ] AgendaItem → Conclusions (one-to-many)
-  - [ ] AgendaItem → Notes (one-to-many)
-  - [ ] AgendaItem → Tasks (one-to-many)
-  - [ ] User → PushSubscriptions (one-to-many)
-  - [ ] User → Notes (one-to-many)
-  - [ ] User → Tasks (one-to-many, for assigned tasks)
-- [ ] Add indexes for performance:
-  - [ ] Email on User (unique)
-  - [ ] CommitteeId on Meeting
-  - [ ] MeetingId on AgendaItem
-  - [ ] UserId on Note
-  - [ ] AssignedUserId on Task
-- [ ] Configure column constraints (required fields, max lengths)
-- [ ] Add default values (CreatedAt, UpdatedAt)
-- [ ] Configure cascade delete rules appropriately
+- [x] Create `FundarbokDbContext.cs`
+- [x] Add DbSet properties for all entities:
+  - [x] DbSet<Committee> Committees
+  - [x] DbSet<CommitteeMember> CommitteeMembers
+  - [x] DbSet<Meeting> Meetings
+  - [x] DbSet<MeetingParticipant> MeetingParticipants
+  - [x] DbSet<AgendaItem> AgendaItems
+  - [x] DbSet<Recommendation> Recommendations
+  - [x] DbSet<Document> Documents
+  - [x] DbSet<Conclusion> Conclusions
+  - [x] DbSet<Note> Notes
+  - [x] DbSet<AgendaTask> AgendaTasks
+  - [x] DbSet<User> Users
+  - [x] DbSet<PushSubscription> PushSubscriptions
+- [x] Configure entity relationships in `OnModelCreating`:
+  - [x] Committee → CommitteeMembers (one-to-many)
+  - [x] Committee → Meetings (one-to-many)
+  - [x] Meeting → AgendaItems (one-to-many)
+  - [x] Meeting → MeetingParticipants (one-to-many)
+  - [x] AgendaItem → Recommendations (one-to-many)
+  - [x] AgendaItem → Documents (one-to-many)
+  - [x] AgendaItem → Conclusions (one-to-many)
+  - [x] AgendaItem → Notes (one-to-many)
+  - [x] AgendaItem → Tasks (one-to-many)
+  - [x] User → PushSubscriptions (one-to-many)
+  - [x] User → Notes (one-to-many)
+  - [x] User → Tasks (one-to-many, for assigned tasks)
+- [x] Add indexes for performance:
+  - [x] Email on User (unique)
+  - [x] CommitteeId on Meeting
+  - [x] MeetingId on AgendaItem
+  - [x] UserId on Note
+  - [x] AssignedUserId on Task
+- [x] Configure column constraints (required fields, max lengths)
+- [x] Add default values (CreatedAt, UpdatedAt)
+- [x] Configure cascade delete rules appropriately
 
 ### 2.3 Database Migrations
-- [ ] Create initial migration (`dotnet ef migrations add InitialCreate`)
-- [ ] Review generated migration code
-- [ ] Apply migration to database (`dotnet ef database update`)
-- [ ] Verify tables created in pgAdmin (Tables: Committees, CommitteeMembers, Meetings, etc.)
-- [ ] Create seed data migration for:
-  - [ ] Default Committees (e.g., "Technical Committee", "Social Committee")
-  - [ ] Test User (admin/secretary role)
-  - [ ] Sample CommitteeMembers
-- [ ] Apply seed migration
+- [x] Create initial migration (`dotnet ef migrations add InitialCreate`)
+- [x] Review generated migration code
+- [x] Apply migration to database (`dotnet ef database update`)
+- [x] Verify tables created in pgAdmin (Tables: Committees, CommitteeMembers, Meetings, etc.)
+- [x] Create seed data migration for:
+  - [x] Default Committees (e.g., "Technical Committee", "Social Committee")
+  - [x] Test User (admin/secretary role)
+  - [x] Sample CommitteeMembers
+- [x] Apply seed migration
+
+**Test Credentials (seeded in database):**
+- **Secretary**: `secretary@fundarbok.fo` / `password123`
+- **Committee Member**: `jens@fundarbok.fo` / `password123`
 
 ---
 
@@ -778,6 +725,65 @@ Services, Controllers, Repositories, and Components should follow this pattern.
 - [ ] Add breadcrumb navigation (optional)
 - [ ] Add notification bell icon (for push notifications)
 - [ ] Add "Skifta felag" (Switch organization) button (future multi-tenant)
+
+---
+
+## Phase 12.5: Translation System Setup (i18n) - OPTIONAL FOR LATER
+
+**NOTE:** This phase can be implemented later as it's a secondary requirement. For initial development, use hardcoded English/Faroese text in components.
+
+### 12.5.1 Translation File Structure
+- [ ] Create `src/assets/i18n` folder
+- [ ] Create `en.json` (English - default)
+- [ ] Create `fo.json` (Faroese)
+- [ ] Define translation file structure:
+  ```json
+  {
+    "common": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "meetings": {
+      "title": "Meetings Overview",
+      "create": "Create New Meeting"
+    }
+  }
+  ```
+
+### 12.5.2 Translation Service
+- [ ] Create `src/app/core/services/translation.service.ts`:
+  - [ ] `currentLanguage$: BehaviorSubject<string>` (default: 'en')
+  - [ ] `translations: { [key: string]: any }` (loaded translations)
+  - [ ] `loadTranslations(lang: string): Observable<any>`
+  - [ ] `setLanguage(lang: string): void`
+  - [ ] `translate(key: string): string` (supports nested keys like 'meetings.title')
+  - [ ] Store selected language in localStorage
+  - [ ] Load language on app init
+
+### 12.5.3 Translation Pipe
+- [ ] Create `src/app/shared/pipes/translate.pipe.ts`:
+  - [ ] `transform(key: string): string`
+  - [ ] Usage: `{{ 'meetings.title' | translate }}`
+  - [ ] Mark as pure pipe for performance
+- [ ] Add to SharedModule exports
+
+### 12.5.4 Language Switcher Component
+- [ ] Create `src/app/shared/components/language-switcher/language-switcher.component.ts`:
+  - [ ] Dropdown/toggle for EN/FO
+  - [ ] Call TranslationService.setLanguage() on change
+  - [ ] Show current language
+- [ ] Add to main layout (top bar or sidebar)
+
+### 12.5.5 Initial Translations
+- [ ] Populate `en.json` with all UI text from Figma
+- [ ] Populate `fo.json` with Faroese translations
+- [ ] Organize by feature module:
+  - [ ] auth (login, register)
+  - [ ] meetings (list, detail, create)
+  - [ ] committees
+  - [ ] documents
+  - [ ] common (buttons, labels, messages)
 
 ---
 
