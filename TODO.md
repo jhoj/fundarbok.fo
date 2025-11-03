@@ -100,19 +100,19 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
 - [x] Configure Swagger/OpenAPI documentation
 
 ### 1.3 Frontend Project Setup (Angular)
-- [ ] Create Angular project (`ng new fundarbok-web --routing --style=scss`)
-- [ ] Add Angular Material (`ng add @angular/material`)
-- [ ] Add PWA support (`ng add @angular/pwa`)
-- [ ] Install additional dependencies:
-  - [ ] `ngx-extended-pdf-viewer` (for PDF viewing)
-  - [ ] `date-fns` (date manipulation)
-- [ ] Set up environment files (environment.ts, environment.prod.ts)
-- [ ] Configure proxy.conf.json for API calls during development
-- [ ] Set up folder structure:
-  - [ ] `src/app/core` (services, guards, interceptors)
-  - [ ] `src/app/shared` (shared components, directives, pipes)
-  - [ ] `src/app/features` (feature modules)
-  - [ ] `src/app/models` (TypeScript interfaces)
+- [x] Create Angular project (`ng new fundarbok-web --routing --style=scss`)
+- [x] Add Angular Material (`ng add @angular/material`)
+- [x] Add PWA support (`ng add @angular/pwa`)
+- [x] Install additional dependencies:
+  - [x] `ngx-extended-pdf-viewer` (for PDF viewing)
+  - [x] `date-fns` (date manipulation)
+- [x] Set up environment files (environment.ts, environment.prod.ts)
+- [x] Configure proxy.conf.json for API calls during development
+- [x] Set up folder structure:
+  - [x] `src/app/core` (services, guards, interceptors)
+  - [x] `src/app/shared` (shared components, directives, pipes)
+  - [x] `src/app/features` (feature modules)
+  - [x] `src/app/models` (TypeScript interfaces)
 
 ### 1.4 Database Setup
 - [ ] Create PostgreSQL database `fundarbok`
