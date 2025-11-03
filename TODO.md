@@ -71,32 +71,32 @@ Building a PWA for meeting management with Angular frontend, ASP.NET Core backen
 ## Phase 1: Project Setup & Infrastructure
 
 ### 1.1 Development Environment Setup
-- [ ] Install .NET 8 SDK
-- [ ] Install Node.js (LTS version) and npm
-- [ ] Install Angular CLI (`npm install -g @angular/cli`)
-- [ ] Install PostgreSQL
-- [ ] Install pgAdmin or preferred DB tool
-- [ ] Set up Git repository
-- [ ] Create `.gitignore` for .NET and Angular
+- [x] Install .NET 8 SDK
+- [x] Install Node.js (LTS version) and npm
+- [x] Install Angular CLI (`npm install -g @angular/cli`)
+- [x] Install PostgreSQL
+- [x] Install pgAdmin or preferred DB tool
+- [x] Set up Git repository
+- [x] Create `.gitignore` for .NET and Angular
 
 ### 1.2 Backend Project Setup (ASP.NET Core)
-- [ ] Create solution folder structure
-- [ ] Create ASP.NET Core Web API project (`dotnet new webapi -n Fundarbok.API`)
-- [ ] Create Class Library for Domain models (`dotnet new classlib -n Fundarbok.Domain`)
-- [ ] Create Class Library for Infrastructure/Data (`dotnet new classlib -n Fundarbok.Infrastructure`)
-- [ ] Create Class Library for Application layer (`dotnet new classlib -n Fundarbok.Application`)
-- [ ] Add project references (API → Application → Domain, Infrastructure → Domain)
-- [ ] Install NuGet packages:
-  - [ ] `Npgsql.EntityFrameworkCore.PostgreSQL`
-  - [ ] `Microsoft.EntityFrameworkCore.Design`
-  - [ ] `Microsoft.EntityFrameworkCore.Tools`
-  - [ ] `Microsoft.AspNetCore.Authentication.JwtBearer`
-  - [ ] `BCrypt.Net-Next` (for password hashing)
-  - [ ] `WebPush` (for notifications)
-  - [ ] `Swashbuckle.AspNetCore` (Swagger/OpenAPI)
-- [ ] Configure `appsettings.json` with connection string
+- [x] Create solution folder structure
+- [x] Create ASP.NET Core Web API project (`dotnet new webapi -n Fundarbok.API`)
+- [x] Create Class Library for Domain models (`dotnet new classlib -n Fundarbok.Domain`)
+- [x] Create Class Library for Infrastructure/Data (`dotnet new classlib -n Fundarbok.Infrastructure`)
+- [x] Create Class Library for Application layer (`dotnet new classlib -n Fundarbok.Application`)
+- [x] Add project references (API → Application → Domain, Infrastructure → Domain)
+- [x] Install NuGet packages:
+  - [x] `Npgsql.EntityFrameworkCore.PostgreSQL`
+  - [x] `Microsoft.EntityFrameworkCore.Design`
+  - [x] `Microsoft.EntityFrameworkCore.Tools`
+  - [x] `Microsoft.AspNetCore.Authentication.JwtBearer`
+  - [x] `BCrypt.Net-Next` (for password hashing)
+  - [x] `WebPush` (for notifications)
+  - [x] `Swashbuckle.AspNetCore` (Swagger/OpenAPI)
+- [x] Configure `appsettings.json` with connection string
 - [ ] Configure `appsettings.Development.json` for local DB
-- [ ] Set up CORS policy for Angular dev server
+- [x] Set up CORS policy for Angular dev server
 - [ ] Configure Swagger/OpenAPI documentation
 
 ### 1.3 Frontend Project Setup (Angular)
