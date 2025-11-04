@@ -1,0 +1,168 @@
+.meetings-list-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #1a2332;
+    margin: 0;
+  }
+}
+
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+
+  .filter-controls {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+    flex-wrap: wrap;
+
+    mat-form-field {
+      &.committee-select {
+        min-width: 200px;
+      }
+
+      &.date-picker {
+        min-width: 180px;
+      }
+    }
+
+    mat-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    button {
+      white-space: nowrap;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  .meetings-table {
+    width: 100%;
+
+    th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: #1a2332;
+      padding: 16px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    td {
+      padding: 16px;
+      color: #333;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .meeting-row {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      &:nth-child(even) {
+        background-color: #fafafa;
+
+        &:hover {
+          background-color: #f5f5f5;
+        }
+      }
+    }
+
+    // Status colors
+    .approved {
+      color: #000;
+      font-weight: 500;
+    }
+
+    .not-approved {
+      color: #d32f2f;
+      font-weight: 500;
+    }
+  }
+
+  .empty-state {
+    padding: 60px 24px;
+    text-align: center;
+    color: #757575;
+    font-size: 16px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .meetings-list-container {
+    padding: 16px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+
+    .filter-controls {
+      width: 100%;
+      flex-direction: column;
+
+      mat-form-field {
+        width: 100%;
+      }
+    }
+
+    .action-buttons {
+      width: 100%;
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .meetings-table {
+      min-width: 800px;
+    }
+  }
+}
