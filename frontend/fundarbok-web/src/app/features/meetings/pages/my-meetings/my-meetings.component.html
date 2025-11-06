@@ -1,0 +1,96 @@
+<div class="my-meetings-page">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">{{ 'meetings.myMeetings.title' | translate }}</h1>
+    <p class="page-subtitle">{{ 'meetings.myMeetings.subtitle' | translate }}</p>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>{{ 'common.ui.filter' | translate }}</mat-label>
+      <mat-select [(ngModel)]="currentFilter" (selectionChange)="onFilterChange()">
+        <mat-option value="all">
+          {{ 'meetings.myMeetings.allFilter' | translate }}
+        </mat-option>
+        <mat-option value="upcoming">
+          {{ 'meetings.myMeetings.upcomingFilter' | translate }}
+        </mat-option>
+        <mat-option value="past">
+          {{ 'meetings.myMeetings.pastFilter' | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>{{ 'common.ui.loading' | translate }}</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="hasNoMeetings()">
+    <mat-icon class="empty-icon">event_note</mat-icon>
+    <h2>{{ 'meetings.myMeetings.noMeetings' | translate }}</h2>
+    <p>{{ 'meetings.myMeetings.noMeetingsMessage' | translate }}</p>
+  </div>
+
+  <!-- Meetings Table -->
+  <div class="meetings-container" *ngIf="!isLoading && !hasNoMeetings()">
+    <table mat-table [dataSource]="filteredMeetings" class="meetings-table">
+      <!-- Committee Column -->
+      <ng-container matColumnDef="committee">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.name' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="committee-cell">
+            <span class="committee-name">{{ getCommitteeName(element) }}</span>
+            <span class="meeting-number">{{ element.meetingNumber }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.date' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.startDate | date:'dd-MM-yyyy HH:mm' }}
+        </td>
+      </ng-container>
+
+      <!-- Location Column -->
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.location' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.location }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.status' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip class="status-chip" [ngClass]="getStatusBadgeClass(element)">
+            {{ getStatusLabel(element) }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.actions.view' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            (click)="viewMeeting(element)"
+            [matTooltip]="'common.actions.view' | translate">
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+    </table>
+  </div>
+</div>

@@ -100,6 +100,28 @@
       "filter": "Filter",
       "allCommittees": "All Committees"
     },
+    "myMeetings": {
+      "title": "My Meetings",
+      "subtitle": "View all meetings where you are a participant",
+      "allFilter": "All Meetings",
+      "upcomingFilter": "Upcoming",
+      "pastFilter": "Past",
+      "noMeetings": "No Meetings Yet",
+      "noMeetingsMessage": "You don't have any meetings assigned yet"
+    },
+    "myTasks": {
+      "title": "My Tasks",
+      "subtitle": "Manage tasks assigned to you",
+      "pending": "Pending Tasks",
+      "completed": "Completed Tasks",
+      "noTasks": "No Tasks",
+      "noTasksMessage": "You don't have any tasks assigned yet",
+      "noPendingTasks": "You have completed all tasks!",
+      "noCompletedTasks": "No tasks have been completed yet",
+      "taskCompleted": "Task marked as complete",
+      "taskReactivated": "Task marked as pending",
+      "dueDate": "Due Date"
+    },
     "form": {
       "editMeeting": "Edit Meeting",
       "createNewMeeting": "Create New Meeting",

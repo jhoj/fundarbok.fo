@@ -7,6 +7,14 @@ const routes: Routes = [
     loadComponent: () => import('./meetings-list/meetings-list.component').then(m => m.MeetingsListComponent)
   },
   {
+    path: 'my-meetings',
+    loadComponent: () => import('./pages/my-meetings/my-meetings.component').then(m => m.MyMeetingsComponent)
+  },
+  {
+    path: 'my-tasks',
+    loadComponent: () => import('./pages/my-tasks/my-tasks.component').then(m => m.MyTasksComponent)
+  },
+  {
     path: 'new',
     loadComponent: () => import('./pages/meeting-form/meeting-form.component').then(m => m.MeetingFormComponent)
   },

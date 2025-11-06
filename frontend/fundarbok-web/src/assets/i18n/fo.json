@@ -99,6 +99,28 @@
       "filter": "Filtrera",
       "allCommittees": "Allar nevndir"
     },
+    "myMeetings": {
+      "title": "Mínir Fundir",
+      "subtitle": "Hygg á alla fundir, har tú ert luttakari",
+      "allFilter": "Allir Fundir",
+      "upcomingFilter": "Næstkomandi",
+      "pastFilter": "Lidnir",
+      "noMeetings": "Eingin Fundir Enn",
+      "noMeetingsMessage": "Tú hevur eingin fundir útvisað enn"
+    },
+    "myTasks": {
+      "title": "Mínar Uppgávur",
+      "subtitle": "Stýr uppgávum, sum eru útvisaðar til tín",
+      "pending": "Ventandi Uppgávur",
+      "completed": "Liðugar Uppgávur",
+      "noTasks": "Eingin Uppgávur",
+      "noTasksMessage": "Tú hevur eingin uppgávur útvisað enn",
+      "noPendingTasks": "Tú hevur fullført allar uppgávur!",
+      "noCompletedTasks": "Eingi uppgávur eru liðugar enn",
+      "taskCompleted": "Uppgáva merkt sum fullførd",
+      "taskReactivated": "Uppgáva merkt sum ventandi",
+      "dueDate": "Skiladag"
+    },
     "form": {
       "editMeeting": "Rætta fund",
       "createNewMeeting": "Stovna nýggjan fund",

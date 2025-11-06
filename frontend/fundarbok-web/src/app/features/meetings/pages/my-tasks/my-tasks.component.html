@@ -1,0 +1,117 @@
+<div class="my-tasks-page">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">{{ 'meetings.myTasks.title' | translate }}</h1>
+    <p class="page-subtitle">{{ 'meetings.myTasks.subtitle' | translate }}</p>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>{{ 'common.ui.loading' | translate }}</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="hasNoTasks()">
+    <mat-icon class="empty-icon">task_alt</mat-icon>
+    <h2>{{ 'meetings.myTasks.noTasks' | translate }}</h2>
+    <p>{{ 'meetings.myTasks.noTasksMessage' | translate }}</p>
+  </div>
+
+  <!-- Tasks Content -->
+  <div class="tasks-content" *ngIf="!isLoading && !hasNoTasks()">
+    <!-- Pending Tasks Section -->
+    <mat-card class="tasks-card" [class.empty]="hasNoPendingTasks()">
+      <mat-card-header>
+        <mat-card-title class="section-title">
+          {{ 'meetings.myTasks.pending' | translate }}
+          <span class="task-count" *ngIf="!hasNoPendingTasks()">{{ pendingTasks.length }}</span>
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="empty-section" *ngIf="hasNoPendingTasks()">
+          <mat-icon class="section-empty-icon">check_circle</mat-icon>
+          <p>{{ 'meetings.myTasks.noPendingTasks' | translate }}</p>
+        </div>
+
+        <mat-list *ngIf="!hasNoPendingTasks()">
+          <mat-list-item *ngFor="let task of pendingTasks" class="task-item">
+            <mat-checkbox
+              matListItemIcon
+              [checked]="task.isCompleted"
+              (change)="toggleTaskComplete(task)"
+              class="task-checkbox">
+            </mat-checkbox>
+
+            <div matListItemTitle class="task-description">
+              {{ task.description }}
+            </div>
+
+            <div matListItemLine class="task-meta">
+              <span class="task-date" [ngClass]="{ 'overdue': isDueOverdue(task.dueDate), 'today': isDueToday(task.dueDate) }">
+                {{ getDueDateLabel(task.dueDate) }}
+              </span>
+            </div>
+
+            <button
+              mat-icon-button
+              matListItemMeta
+              (click)="viewMeeting(task)"
+              *ngIf="task.meetingId"
+              [matTooltip]="'common.actions.view' | translate">
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Completed Tasks Section -->
+    <mat-card class="tasks-card" [class.empty]="hasNoCompletedTasks()">
+      <mat-card-header>
+        <mat-card-title class="section-title">
+          {{ 'meetings.myTasks.completed' | translate }}
+          <span class="task-count" *ngIf="!hasNoCompletedTasks()">{{ completedTasks.length }}</span>
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="empty-section" *ngIf="hasNoCompletedTasks()">
+          <mat-icon class="section-empty-icon">task</mat-icon>
+          <p>{{ 'meetings.myTasks.noCompletedTasks' | translate }}</p>
+        </div>
+
+        <mat-list *ngIf="!hasNoCompletedTasks()" class="completed-tasks">
+          <mat-list-item *ngFor="let task of completedTasks" class="task-item completed">
+            <mat-checkbox
+              matListItemIcon
+              [checked]="task.isCompleted"
+              (change)="toggleTaskComplete(task)"
+              class="task-checkbox">
+            </mat-checkbox>
+
+            <div matListItemTitle class="task-description completed-text">
+              {{ task.description }}
+            </div>
+
+            <div matListItemLine class="task-meta">
+              <span class="task-date">
+                {{ getDueDateLabel(task.dueDate) }}
+              </span>
+            </div>
+
+            <button
+              mat-icon-button
+              matListItemMeta
+              (click)="viewMeeting(task)"
+              *ngIf="task.meetingId"
+              [matTooltip]="'common.actions.view' | translate">
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
