@@ -406,5 +406,21 @@
       "theme": "Theme",
       "notifications": "Notifications"
     }
+  },
+  "pwa": {
+    "notifications": {
+      "title": "Enable Notifications",
+      "message": "Enable notifications to receive meeting updates and task assignments?",
+      "enableButton": "Enable",
+      "enabled": "Notifications enabled!",
+      "failed": "Failed to enable notifications",
+      "disabled": "Notifications disabled",
+      "offline": "You are offline - Some features may not work"
+    },
+    "updates": {
+      "available": "New version available",
+      "update": "Update",
+      "failed": "Failed to update app"
+    }
   }
 }

@@ -11,6 +11,8 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { TranslationService } from './core/services/translation.service';
+import { NotificationService } from './core/services/notification.service';
+import { SwUpdateService } from './core/services/sw-update.service';
 
 // Register Danish locale (closest to Faroese for date formatting with 24h clock)
 registerLocaleData(localeDa, 'da');
@@ -47,6 +49,9 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeTranslations,
       deps: [TranslationService],
       multi: true
-    }
+    },
+    // PWA Services - initialize on app startup
+    NotificationService,
+    SwUpdateService
   ]
 };

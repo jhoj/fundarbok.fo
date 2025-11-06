@@ -385,5 +385,21 @@
       "theme": "Tema",
       "notifications": "Fráboðanir"
     }
+  },
+  "pwa": {
+    "notifications": {
+      "title": "Virka Fráboðanir",
+      "message": "Virka fráboðanir fyri at mótaka fundarupplýsingar og verkefni?",
+      "enableButton": "Virka",
+      "enabled": "Fráboðanir virkaðar!",
+      "failed": "Tók ikki at virka fráboðanir",
+      "disabled": "Fráboðanir virka ikki",
+      "offline": "Tú ert frá netinum - Sum funktionarlitir virka ikki"
+    },
+    "updates": {
+      "available": "Ný útgáva tøk",
+      "update": "Uppfæra",
+      "failed": "Tók ikki at uppfæra app"
+    }
   }
 }

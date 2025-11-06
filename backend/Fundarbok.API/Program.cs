@@ -22,6 +22,7 @@ builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<IRecommendationRepository, RecommendationRepository>();
 builder.Services.AddScoped<IConclusionRepository, ConclusionRepository>();
+builder.Services.AddScoped<IPushSubscriptionRepository, PushSubscriptionRepository>();
 
 // Register application services
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -34,6 +35,7 @@ builder.Services.AddScoped<INoteService, NoteService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.AddScoped<IConclusionService, ConclusionService>();
+builder.Services.AddScoped<IPushNotificationService, PushNotificationService>();
 
 // Configure JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"] ?? throw new InvalidOperationException("JWT Secret not configured");

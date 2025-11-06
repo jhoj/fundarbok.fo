@@ -11,6 +11,8 @@ import { AuthService } from '../../services/auth.service';
 import { TranslationService } from '../../services/translation.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { NotificationPromptComponent } from '../../../shared/components/notification-prompt/notification-prompt.component';
+import { OfflineIndicatorComponent } from '../../../shared/components/offline-indicator/offline-indicator.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -25,9 +27,14 @@ import { HasRoleDirective } from '../../../shared/directives/has-role.directive'
     MatListModule,
     MatMenuModule,
     TranslatePipe,
-    HasRoleDirective
+    HasRoleDirective,
+    NotificationPromptComponent,
+    OfflineIndicatorComponent
   ],
   template: `
+    <app-offline-indicator></app-offline-indicator>
+    <app-notification-prompt></app-notification-prompt>
+
     <mat-toolbar color="primary" class="main-toolbar">
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
