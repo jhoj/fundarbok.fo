@@ -22,6 +22,7 @@ export const routes: Routes = [
     children: [
       { path: '', loadComponent: () => import('./features/committees/pages/committees-list/committees-list.component').then(m => m.CommitteesListComponent) },
       { path: 'new', canActivate: [RoleGuard], data: { role: 'Secretary' }, loadComponent: () => import('./features/committees/pages/committee-form/committee-form.component').then(m => m.CommitteeFormComponent) },
+      { path: ':id/edit', canActivate: [RoleGuard], data: { role: 'Secretary' }, loadComponent: () => import('./features/committees/pages/committee-form/committee-form.component').then(m => m.CommitteeFormComponent) },
       { path: ':id', loadComponent: () => import('./features/committees/pages/committee-detail/committee-detail.component').then(m => m.CommitteeDetailComponent) }
     ]
   },

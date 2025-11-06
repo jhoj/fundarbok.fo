@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { TranslationService } from '../../../../core/services/translation.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
@@ -140,7 +141,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translationService: TranslationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -157,13 +159,17 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.isLoading.set(false);
-        this.snackBar.open('Signed in successfully', 'Close', { duration: 3000 });
+        this.snackBar.open(
+          this.translationService.translate('auth.messages.loginSuccess'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 3000 }
+        );
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         this.isLoading.set(false);
-        const message = error.error?.message || 'Login failed';
-        this.snackBar.open(message, 'Close', { duration: 5000 });
+        const message = error.error?.message || this.translationService.translate('auth.messages.loginFailed');
+        this.snackBar.open(message, this.translationService.translate('common.actions.close'), { duration: 5000 });
       }
     });
   }

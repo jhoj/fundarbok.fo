@@ -22,9 +22,36 @@ public class MeetingService : IMeetingService
         _logger = logger;
     }
 
-    public async Task<IEnumerable<MeetingDto>> GetAllMeetingsAsync()
+    public async Task<IEnumerable<MeetingDto>> GetAllMeetingsAsync(Guid? committeeId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isCompleted = null, bool? isApproved = null)
     {
         var meetings = await _meetingRepository.GetAllAsync();
+
+        // Apply filters
+        if (committeeId.HasValue)
+        {
+            meetings = meetings.Where(m => m.CommitteeId == committeeId.Value);
+        }
+
+        if (startDate.HasValue)
+        {
+            meetings = meetings.Where(m => m.StartDate >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            meetings = meetings.Where(m => m.StartDate <= endDate.Value);
+        }
+
+        if (isCompleted.HasValue)
+        {
+            meetings = meetings.Where(m => m.IsCompleted == isCompleted.Value);
+        }
+
+        if (isApproved.HasValue)
+        {
+            meetings = meetings.Where(m => m.IsApproved == isApproved.Value);
+        }
+
         return meetings.Select(MapToMeetingDto);
     }
 

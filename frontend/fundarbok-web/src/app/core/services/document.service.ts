@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Document } from '../../models/document.model';
+import { Document as DocumentModel } from '../../models/document.model';
 import { ApiService } from './api.service';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +13,24 @@ export class DocumentService {
 
   constructor(private api: ApiService, private http: HttpClient) {}
 
-  getDocumentsByAgendaItem(agendaItemId: string): Observable<Document[]> {
-    return this.api.get<Document[]>(`/documents/agenda-item/${agendaItemId}`);
+  getDocumentsByAgendaItem(agendaItemId: string): Observable<DocumentModel[]> {
+    return this.api.get<DocumentModel[]>(`/documents/agenda-item/${agendaItemId}`);
   }
 
-  getDocumentsByMeeting(meetingId: string): Observable<Document[]> {
-    return this.api.get<Document[]>(`/documents/meeting/${meetingId}`);
+  getDocumentsByMeeting(meetingId: string): Observable<DocumentModel[]> {
+    return this.api.get<DocumentModel[]>(`/documents/meeting/${meetingId}`);
   }
 
-  getDocument(id: string): Observable<Document> {
-    return this.api.get<Document>(`/documents/${id}`);
+  getDocument(id: string): Observable<DocumentModel> {
+    return this.api.get<DocumentModel>(`/documents/${id}`);
   }
 
-  uploadDocument(formData: FormData): Observable<Document> {
-    return this.http.post<Document>(`${this.apiUrl}/documents/upload`, formData);
+  uploadDocument(formData: FormData): Observable<DocumentModel> {
+    return this.http.post<DocumentModel>(`${this.apiUrl}/documents/upload`, formData);
   }
 
-  updateDocument(id: string, request: any): Observable<Document> {
-    return this.api.put<Document>(`/documents/${id}`, request);
+  updateDocument(id: string, request: any): Observable<DocumentModel> {
+    return this.api.put<DocumentModel>(`/documents/${id}`, request);
   }
 
   deleteDocument(id: string): Observable<any> {

@@ -1,0 +1,49 @@
+<div class="sidebar-container">
+  <!-- Meeting Description Section -->
+  <div class="description-section" *ngIf="meetingDescription">
+    <div class="section-header">
+      <mat-icon class="section-icon">description</mat-icon>
+      <h3>{{ 'common.ui.description' | translate }}</h3>
+    </div>
+    <p class="description-text">{{ meetingDescription }}</p>
+  </div>
+
+  <!-- Agenda Items List -->
+  <div class="agenda-items-list">
+    <mat-list cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListDisabled]="!canReorder()">
+      <mat-list-item
+        *ngFor="let item of agendaItems; let i = index"
+        cdkDrag
+        class="agenda-item"
+        [class.selected]="isSelected(item)"
+        (click)="onSelectItem(item)">
+        <div class="drag-handle" cdkDragHandle *appHasRole="'Secretary'">
+          <mat-icon>drag_indicator</mat-icon>
+        </div>
+        <div class="item-number">
+          <span class="number-badge">{{ item.number }}</span>
+        </div>
+        <div class="item-content">
+          <span class="item-title">{{ item.title }}</span>
+        </div>
+        <div class="item-actions">
+          <div class="document-badge" *ngIf="getDocumentCount(item) > 0">
+            <mat-icon>description</mat-icon>
+            <span>{{ getDocumentCount(item) }}</span>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+
+    <p *ngIf="agendaItems.length === 0" class="no-items">
+      {{ 'agendaItems.noItems' | translate }}
+    </p>
+  </div>
+
+  <!-- Add Button (Secretary only) -->
+  <div class="add-button-container" *appHasRole="'Secretary'">
+    <button mat-fab color="accent" (click)="onAddItem()" class="add-button">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

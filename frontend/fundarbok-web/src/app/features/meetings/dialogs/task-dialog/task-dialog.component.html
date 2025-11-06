@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>
+  {{ isEditMode ? ('meetings.editTask' | translate) : ('meetings.createTask' | translate) }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'meetings.taskDescription' | translate }}</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        rows="4"
+        [placeholder]="'meetings.taskPlaceholder' | translate">
+      </textarea>
+      <mat-error *ngIf="form.get('description')?.hasError('required')">
+        {{ 'common.required' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'meetings.assignedUser' | translate }}</mat-label>
+      <mat-select formControlName="assignedUserId">
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          {{ user.name }} ({{ user.email }})
+        </mat-option>
+      </mat-select>
+      <mat-icon matPrefix>person</mat-icon>
+      <mat-error *ngIf="form.get('assignedUserId')?.hasError('required')">
+        {{ 'common.required' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'meetings.dueDate' | translate }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dueDatePicker"
+        formControlName="dueDate"
+        [placeholder]="'meetings.dueDatePlaceholder' | translate">
+      <mat-datepicker-toggle matIconSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #dueDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="dialog-hint">
+      <mat-icon>info</mat-icon>
+      <span>{{ 'meetings.taskHint' | translate }}</span>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" type="button">
+    {{ 'common.cancel' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="onSubmit()"
+    [disabled]="!form.valid"
+    type="button">
+    <mat-icon>save</mat-icon>
+    {{ 'common.save' | translate }}
+  </button>
+</mat-dialog-actions>

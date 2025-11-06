@@ -4,7 +4,7 @@ namespace Fundarbok.Application.Services;
 
 public interface IMeetingService
 {
-    Task<IEnumerable<MeetingDto>> GetAllMeetingsAsync();
+    Task<IEnumerable<MeetingDto>> GetAllMeetingsAsync(Guid? committeeId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isCompleted = null, bool? isApproved = null);
     Task<MeetingDto?> GetMeetingByIdAsync(Guid id);
     Task<MeetingDetailDto?> GetMeetingWithDetailsAsync(Guid id);
     Task<IEnumerable<MeetingDto>> GetMeetingsByCommitteeIdAsync(Guid committeeId);

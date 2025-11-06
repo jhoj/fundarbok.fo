@@ -1,0 +1,50 @@
+<div class="documents-container" *ngIf="documents && documents.length > 0">
+  <h3 class="section-title">Documents ({{ documents.length }})</h3>
+
+  <div class="documents-grid">
+    <div class="document-card"
+         *ngFor="let document of documents"
+         (click)="onDocumentClick(document)"
+         [matTooltip]="document.fileName">
+      <div class="document-icon-wrapper">
+        <mat-icon class="document-icon" [class.pdf]="getFileIcon(document.mimeType) === 'picture_as_pdf'">
+          {{ getFileIcon(document.mimeType) }}
+        </mat-icon>
+
+        <!-- Delete button (Secretary only) -->
+        <button *ngIf="canEdit"
+                mat-icon-button
+                class="delete-btn"
+                color="warn"
+                (click)="onDeleteClick($event, document)"
+                matTooltip="Delete document">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <div class="document-info">
+        <div class="document-name" [matTooltip]="document.name">{{ document.name }}</div>
+        <div class="document-size">{{ formatFileSize(document.fileSize) }}</div>
+      </div>
+
+      <!-- Status badges -->
+      <div class="document-badges">
+        <mat-icon *ngIf="document.isPublic"
+                  class="badge-icon public"
+                  matTooltip="Public">
+          public
+        </mat-icon>
+        <mat-icon *ngIf="document.isLocked"
+                  class="badge-icon locked"
+                  matTooltip="Locked">
+          lock
+        </mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!documents || documents.length === 0" class="no-documents">
+  <mat-icon>folder_open</mat-icon>
+  <p>No documents attached</p>
+</div>

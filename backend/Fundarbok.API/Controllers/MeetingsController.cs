@@ -23,16 +23,26 @@ public class MeetingsController : ControllerBase
     }
 
     /// <summary>
-    /// Get all meetings
+    /// Get all meetings with optional filters
     /// </summary>
-    /// <returns>List of all meetings</returns>
+    /// <param name="committeeId">Optional committee ID to filter by</param>
+    /// <param name="startDate">Optional start date for date range filter</param>
+    /// <param name="endDate">Optional end date for date range filter</param>
+    /// <param name="isCompleted">Optional filter by completion status</param>
+    /// <param name="isApproved">Optional filter by approval status</param>
+    /// <returns>List of meetings matching the filters</returns>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<MeetingDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetAllMeetings()
+    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetAllMeetings(
+        [FromQuery] Guid? committeeId = null,
+        [FromQuery] DateTime? startDate = null,
+        [FromQuery] DateTime? endDate = null,
+        [FromQuery] bool? isCompleted = null,
+        [FromQuery] bool? isApproved = null)
     {
         try
         {
-            var meetings = await _meetingService.GetAllMeetingsAsync();
+            var meetings = await _meetingService.GetAllMeetingsAsync(committeeId, startDate, endDate, isCompleted, isApproved);
             return Ok(meetings);
         }
         catch (Exception ex)

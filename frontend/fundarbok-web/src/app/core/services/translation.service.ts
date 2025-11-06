@@ -7,13 +7,13 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TranslationService {
-  private currentLanguage = new BehaviorSubject<string>(this.getStoredLanguage() || 'en');
+  private currentLanguage = new BehaviorSubject<string>(this.getStoredLanguage() || 'fo');
   public currentLanguage$ = this.currentLanguage.asObservable();
 
   private translations: { [key: string]: any } = {};
 
   constructor(private http: HttpClient) {
-    this.loadTranslations(this.currentLanguage.value);
+    // Translations will be loaded via APP_INITIALIZER in app.config.ts
   }
 
   loadTranslations(lang: string): Observable<any> {

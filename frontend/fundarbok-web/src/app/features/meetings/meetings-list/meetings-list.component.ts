@@ -1,14 +1,43 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MeetingService, MeetingFilter } from '../services/meeting.service';
 import { CommitteeService } from '../../../core/services/committee.service';
 import { Meeting } from '../../../models/meeting.model';
 import { Committee } from '../../../models/committee.model';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-meetings-list',
   templateUrl: './meetings-list.component.html',
-  styleUrls: ['./meetings-list.component.scss']
+  styleUrls: ['./meetings-list.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    HasRoleDirective,
+    TranslatePipe
+  ],
+  standalone: true
 })
 export class MeetingsListComponent implements OnInit {
   meetings: Meeting[] = [];
@@ -66,10 +95,16 @@ export class MeetingsListComponent implements OnInit {
       filters.committeeId = this.selectedCommitteeId;
     }
     if (this.startDate) {
-      filters.startDate = this.startDate.toISOString();
+      // Set to start of day (00:00:00)
+      const startOfDay = new Date(this.startDate);
+      startOfDay.setHours(0, 0, 0, 0);
+      filters.startDate = startOfDay.toISOString();
     }
     if (this.endDate) {
-      filters.endDate = this.endDate.toISOString();
+      // Set to end of day (23:59:59.999)
+      const endOfDay = new Date(this.endDate);
+      endOfDay.setHours(23, 59, 59, 999);
+      filters.endDate = endOfDay.toISOString();
     }
 
     this.meetingService.getMeetings(filters).subscribe({
@@ -95,10 +130,6 @@ export class MeetingsListComponent implements OnInit {
 
   onRowClick(meeting: Meeting): void {
     this.router.navigate(['/meetings', meeting.id]);
-  }
-
-  navigateToCreateCommittee(): void {
-    this.router.navigate(['/committees/new']);
   }
 
   navigateToCreateMeeting(): void {
@@ -129,7 +160,8 @@ export class MeetingsListComponent implements OnInit {
   }
 
   getApprovedStatusText(meeting: Meeting): string {
-    return meeting.isApproved ? 'ja' : 'Nei';
+    // Use localized yes/no based on language
+    return meeting.isApproved ? 'Ja' : 'Nei';
   }
 
   isApprovedClass(meeting: Meeting): string {

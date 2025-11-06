@@ -1,15 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MeetingsListComponent } from './meetings-list/meetings-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MeetingsListComponent
+    loadComponent: () => import('./meetings-list/meetings-list.component').then(m => m.MeetingsListComponent)
+  },
+  {
+    path: 'new',
+    loadComponent: () => import('./pages/meeting-form/meeting-form.component').then(m => m.MeetingFormComponent)
+  },
+  {
+    path: ':id/edit',
+    loadComponent: () => import('./pages/meeting-form/meeting-form.component').then(m => m.MeetingFormComponent)
+  },
+  {
+    path: ':id',
+    loadComponent: () => import('./pages/meeting-detail/meeting-detail.component').then(m => m.MeetingDetailComponent)
   }
-  // Future routes:
-  // { path: 'new', component: CreateMeetingComponent }
-  // { path: ':id', component: MeetingDetailComponent }
 ];
 
 @NgModule({

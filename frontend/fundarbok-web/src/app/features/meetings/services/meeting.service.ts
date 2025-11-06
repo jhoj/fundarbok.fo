@@ -7,13 +7,17 @@ import {
   MeetingDetail,
   CreateMeetingRequest,
   UpdateMeetingRequest,
-  UpdateMeetingStatusRequest
+  UpdateMeetingStatusRequest,
+  MeetingParticipant,
+  AddParticipantRequest
 } from '../../../models/meeting.model';
 
 export interface MeetingFilter {
   committeeId?: string;
   startDate?: string;
   endDate?: string;
+  isCompleted?: boolean;
+  isApproved?: boolean;
 }
 
 @Injectable({
@@ -34,12 +38,26 @@ export class MeetingService {
     if (filters?.endDate) {
       params = params.set('endDate', filters.endDate);
     }
+    if (filters?.isCompleted !== undefined) {
+      params = params.set('isCompleted', filters.isCompleted.toString());
+    }
+    if (filters?.isApproved !== undefined) {
+      params = params.set('isApproved', filters.isApproved.toString());
+    }
 
     return this.http.get<Meeting[]>(`${this.api.baseUrl}/meetings`, { params });
   }
 
   getMeetingById(id: string): Observable<MeetingDetail> {
     return this.api.get<MeetingDetail>(`/meetings/${id}/details`);
+  }
+
+  getMeetingDetail(id: string): Observable<MeetingDetail> {
+    return this.api.get<MeetingDetail>(`/meetings/${id}/details`);
+  }
+
+  getMeeting(id: string): Observable<Meeting> {
+    return this.api.get<Meeting>(`/meetings/${id}`);
   }
 
   createMeeting(request: CreateMeetingRequest): Observable<Meeting> {
@@ -56,5 +74,13 @@ export class MeetingService {
 
   updateMeetingStatus(id: string, status: UpdateMeetingStatusRequest): Observable<Meeting> {
     return this.api.patch<Meeting>(`/meetings/${id}/status`, status);
+  }
+
+  addParticipant(meetingId: string, request: AddParticipantRequest): Observable<MeetingParticipant> {
+    return this.api.post<MeetingParticipant>(`/meetings/${meetingId}/participants`, request);
+  }
+
+  removeParticipant(meetingId: string, participantId: string): Observable<boolean> {
+    return this.api.delete<boolean>(`/meetings/${meetingId}/participants/${participantId}`);
   }
 }

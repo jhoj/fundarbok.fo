@@ -1,3 +1,5 @@
+import { Document as DocumentModel } from './document.model';
+
 export interface Meeting {
   id: string;
   committeeId: string;
@@ -16,7 +18,7 @@ export interface Meeting {
 
 export interface MeetingDetail extends Meeting {
   committee: any;
-  agendaItems: AgendaItem[];
+  agendaItems: AgendaItemDetail[];
   participants: MeetingParticipant[];
 }
 
@@ -27,6 +29,11 @@ export interface MeetingParticipant {
   isParticipating: boolean;
   createdAt: string;
   committeeMember?: any;
+}
+
+export interface AddParticipantRequest {
+  committeeMemberId: string;
+  isParticipating: boolean;
 }
 
 export interface CreateMeetingRequest {
@@ -65,7 +72,7 @@ export interface AgendaItem {
 
 export interface AgendaItemDetail extends AgendaItem {
   recommendations: Recommendation[];
-  documents: Document[];
+  documents: DocumentModel[];
   conclusions: Conclusion[];
   notes: Note[];
   tasks: Task[];

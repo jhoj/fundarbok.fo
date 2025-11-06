@@ -46,22 +46,22 @@ import { HasRoleDirective } from '../../../shared/directives/has-role.directive'
     <mat-sidenav-container class="sidenav-container">
       <mat-sidenav #sidenav class="sidenav">
         <mat-nav-list>
-          <mat-list-item routerLink="/dashboard" routerLinkActive="active">
+          <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
             <mat-icon matListItemIcon>dashboard</mat-icon>
             <span matListItemTitle>{{ 'navigation.dashboard' | translate }}</span>
-          </mat-list-item>
-          <mat-list-item routerLink="/meetings" routerLinkActive="active">
+          </a>
+          <a mat-list-item routerLink="/meetings" routerLinkActive="active">
             <mat-icon matListItemIcon>event</mat-icon>
             <span matListItemTitle>{{ 'navigation.meetings' | translate }}</span>
-          </mat-list-item>
-          <mat-list-item *appHasRole="'Secretary'" routerLink="/committees" routerLinkActive="active">
+          </a>
+          <a mat-list-item *appHasRole="'Secretary'" routerLink="/committees" routerLinkActive="active">
             <mat-icon matListItemIcon>group</mat-icon>
             <span matListItemTitle>{{ 'navigation.committees' | translate }}</span>
-          </mat-list-item>
-          <mat-list-item routerLink="/settings" routerLinkActive="active">
+          </a>
+          <a mat-list-item routerLink="/settings" routerLinkActive="active">
             <mat-icon matListItemIcon>settings</mat-icon>
             <span matListItemTitle>{{ 'navigation.settings' | translate }}</span>
-          </mat-list-item>
+          </a>
         </mat-nav-list>
       </mat-sidenav>
 

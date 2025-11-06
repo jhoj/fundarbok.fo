@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { TranslationService } from '../../../../core/services/translation.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
@@ -26,7 +27,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    TranslatePipe
+    TranslatePipe,
+    MatButtonModule
   ],
   template: `
     <div class="register-container">
@@ -165,7 +167,8 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translationService: TranslationService
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -193,13 +196,17 @@ export class RegisterComponent {
     this.authService.register(formData).subscribe({
       next: () => {
         this.isLoading.set(false);
-        this.snackBar.open('Registration successful', 'Close', { duration: 3000 });
+        this.snackBar.open(
+          this.translationService.translate('auth.messages.registerSuccess'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 3000 }
+        );
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         this.isLoading.set(false);
-        const message = error.error?.message || 'Registration failed';
-        this.snackBar.open(message, 'Close', { duration: 5000 });
+        const message = error.error?.message || this.translationService.translate('auth.messages.registerError');
+        this.snackBar.open(message, this.translationService.translate('common.actions.close'), { duration: 5000 });
       }
     });
   }

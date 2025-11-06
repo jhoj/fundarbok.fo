@@ -1,0 +1,140 @@
+<div class="agenda-detail-container" *ngIf="agendaItem">
+  <!-- Agenda Item Header -->
+  <div class="detail-header">
+    <h2>{{ agendaItem.title }}</h2>
+    <div class="header-actions" *appHasRole="'Secretary'">
+      <button mat-icon-button (click)="onEditAgendaItem()" [matTooltip]="('common.actions.edit' | translate)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="onDeleteAgendaItem()" [matTooltip]="('common.actions.delete' | translate)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Agenda Item Description -->
+  <div class="detail-section" *ngIf="agendaItem.description">
+    <p class="description">{{ agendaItem.description }}</p>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Recommendations Section -->
+  <div class="detail-section" *ngIf="agendaItem.recommendations && agendaItem.recommendations.length > 0">
+    <h3>{{ 'agendaItems.recommendations' | translate }}</h3>
+    <div class="item-list">
+      <div class="item" *ngFor="let recommendation of agendaItem.recommendations; let i = index">
+        <div class="item-number">{{ i + 1 }}.</div>
+        <div class="item-content">
+          <p>{{ recommendation.text }}</p>
+          <span class="timestamp">{{ recommendation.createdAt | date:'dd-MM-yyyy HH:mm' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conclusions Section -->
+  <div class="detail-section conclusions-section" *ngIf="agendaItem.conclusions && agendaItem.conclusions.length > 0">
+    <h3 class="conclusions-header">{{ 'agendaItems.conclusions' | translate }}</h3>
+    <div class="item-list">
+      <div class="item conclusion-item" *ngFor="let conclusion of agendaItem.conclusions">
+        <div class="item-content">
+          <p>{{ conclusion.text }}</p>
+          <span class="timestamp">Skrá leysgivin {{ conclusion.createdAt | date:'dd-MM-yyyy' }} kl. {{ conclusion.createdAt | date:'HH:mm' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes Section (visible to current user) -->
+  <div class="detail-section" *ngIf="agendaItem.notes && agendaItem.notes.length > 0">
+    <h3>{{ 'agendaItems.notes' | translate }}</h3>
+    <div class="item-list">
+      <div class="item" *ngFor="let note of agendaItem.notes">
+        <div class="item-content">
+          <p>{{ note.text }}</p>
+          <span class="timestamp">{{ note.createdAt | date:'dd-MM-yyyy HH:mm' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="detail-section" *ngIf="agendaItem.tasks && agendaItem.tasks.length > 0">
+    <h3>{{ 'agendaItems.tasks' | translate }}</h3>
+    <div class="item-list">
+      <div class="item" *ngFor="let task of agendaItem.tasks">
+        <div class="item-content">
+          <p>{{ task.description }}</p>
+          <span class="timestamp">
+            Endar: {{ task.dueDate | date:'dd-MM-yyyy' }}
+            <span *ngIf="task.isCompleted" class="completed-badge">✓ Liðugt</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Documents Section -->
+  <div class="detail-section documents-section">
+    <div class="section-header">
+      <h3>{{ 'agendaItems.documents' | translate }}</h3>
+      <button *ngIf="canEdit"
+              mat-raised-button
+              color="primary"
+              (click)="onUploadDocument()"
+              class="upload-btn">
+        <mat-icon>cloud_upload</mat-icon>
+        Upload Documents
+      </button>
+    </div>
+
+    <app-document-list
+      [documents]="agendaItem.documents || []"
+      [canEdit]="canEdit"
+      (documentClick)="onDocumentClick($event)"
+      (documentDelete)="onDocumentDelete($event)">
+    </app-document-list>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button mat-icon-button class="add-button-circle">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <button mat-stroked-button color="warn" (click)="onAddConclusion()">
+      <mat-icon>gavel</mat-icon>
+      {{ 'agendaItems.conclusions' | translate }}
+    </button>
+
+    <button mat-stroked-button (click)="onAddNote()">
+      <mat-icon>note</mat-icon>
+      {{ 'agendaItems.notes' | translate }}
+    </button>
+
+    <button mat-stroked-button color="accent" (click)="onAddTask()">
+      <mat-icon>assignment</mat-icon>
+      {{ 'agendaItems.tasks' | translate }}
+    </button>
+
+    <button mat-stroked-button (click)="onPrintMeeting()">
+      <mat-icon>print</mat-icon>
+      {{ 'common.actions.print' | translate }}
+    </button>
+
+    <button mat-stroked-button>
+      <mat-icon>forward</mat-icon>
+      {{ 'common.actions.forward' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="empty-state" *ngIf="!agendaItem">
+  <mat-icon>inbox</mat-icon>
+  <p>{{ 'agendaItems.noItems' | translate }}</p>
+</div>

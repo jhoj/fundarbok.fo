@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>
+  <mat-icon>person_add</mat-icon>
+  {{ 'meetings.participants.addMembers' | translate }}
+</h2>
+
+<mat-dialog-content>
+  <p class="dialog-description">
+    {{ 'meetings.participants.selectMembersHint' | translate }}
+  </p>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading committee members...</p>
+  </div>
+
+  <!-- Members List -->
+  <div class="members-list" *ngIf="!loading">
+    <div class="empty-state" *ngIf="members.length === 0">
+      <mat-icon>people_outline</mat-icon>
+      <p>No committee members found</p>
+    </div>
+
+    <div class="member-item" *ngFor="let member of members">
+      <mat-checkbox
+        [(ngModel)]="member.selected"
+        [disabled]="member.alreadyParticipant">
+        <div class="member-info">
+          <span class="member-name">{{ member.name }}</span>
+          <span class="member-title" *ngIf="member.title">{{ member.title }}</span>
+          <span class="member-role">{{ member.role }}</span>
+          <span class="already-participant" *ngIf="member.alreadyParticipant">
+            (Already participating)
+          </span>
+        </div>
+      </mat-checkbox>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="saving">
+    {{ 'common.cancel' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="!hasSelections || saving">
+    <mat-icon *ngIf="!saving">check</mat-icon>
+    <mat-spinner *ngIf="saving" diameter="20"></mat-spinner>
+    {{ 'common.save' | translate }}
+  </button>
+</mat-dialog-actions>

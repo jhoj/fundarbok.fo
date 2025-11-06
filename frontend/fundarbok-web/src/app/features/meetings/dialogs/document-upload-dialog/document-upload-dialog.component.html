@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>Upload Documents</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="uploadForm">
+    <!-- Document Name -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Document Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter document name">
+      <mat-error *ngIf="uploadForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description (optional)</mat-label>
+      <textarea matInput formControlName="description" rows="3" placeholder="Enter description"></textarea>
+    </mat-form-field>
+
+    <!-- Public checkbox -->
+    <div class="checkbox-field">
+      <mat-checkbox formControlName="isPublic">
+        Make document publicly accessible
+      </mat-checkbox>
+    </div>
+
+    <!-- Drag & Drop Upload Area -->
+    <div class="upload-area"
+         [class.dragging]="isDragging"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)">
+      <mat-icon class="upload-icon">cloud_upload</mat-icon>
+      <p class="upload-text">Drag & drop files here or</p>
+      <button mat-raised-button color="primary" type="button" (click)="fileInput.click()">
+        <mat-icon>attach_file</mat-icon>
+        Choose Files
+      </button>
+      <input #fileInput type="file" multiple hidden (change)="onFileSelected($event)"
+             accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.txt">
+      <p class="upload-hint">Supported: PDF, DOC, DOCX, XLS, XLSX, Images, TXT (Max 50MB)</p>
+    </div>
+
+    <!-- Selected Files List -->
+    <div class="files-list" *ngIf="selectedFiles.length > 0">
+      <h3>Selected Files ({{ selectedFiles.length }})</h3>
+      <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
+        <mat-icon class="file-icon">insert_drive_file</mat-icon>
+        <div class="file-info">
+          <div class="file-name">{{ file.name }}</div>
+          <div class="file-size">{{ formatFileSize(file.size) }}</div>
+        </div>
+        <button mat-icon-button color="warn" type="button" (click)="removeFile(i)" [disabled]="isUploading">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Upload Progress -->
+    <mat-progress-bar *ngIf="isUploading" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="isUploading">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="isUploading || selectedFiles.length === 0">
+    <mat-icon>cloud_upload</mat-icon>
+    {{ isUploading ? 'Uploading...' : 'Upload' }}
+  </button>
+</mat-dialog-actions>

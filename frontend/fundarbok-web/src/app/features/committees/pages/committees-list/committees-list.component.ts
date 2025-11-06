@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommitteeService } from '../../../../core/services/committee.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { Committee } from '../../../../models/committee.model';
@@ -20,31 +20,32 @@ import { Committee } from '../../../../models/committee.model';
     MatTableModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    TranslatePipe
+    TranslatePipe,
+    RouterModule
   ],
   template: `
     <div class="committees-container">
       <div class="header">
         <h1>{{ 'committees.title' | translate }}</h1>
         <button mat-raised-button color="primary" (click)="createCommittee()">
-          {{ 'committees.createNew' | translate }}
+          {{ 'committees.list.createNew' | translate }}
         </button>
       </div>
 
       <mat-card class="committees-table-card" *ngIf="!isLoading">
         <table mat-table [dataSource]="committees">
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>{{ 'committees.name' | translate }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.name' | translate }}</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
           </ng-container>
 
           <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef>{{ 'common.description' | translate }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.description' | translate }}</th>
             <td mat-cell *matCellDef="let element">{{ element.description || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>{{ 'common.edit' | translate }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'common.actions.edit' | translate }}</th>
             <td mat-cell *matCellDef="let element">
               <button mat-icon-button (click)="viewCommittee(element.id)">
                 <mat-icon>edit</mat-icon>
@@ -53,11 +54,11 @@ import { Committee } from '../../../../models/committee.model';
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/committees', row.id]" class="clickable-row"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewCommittee(row.id)" class="clickable-row"></tr>
         </table>
 
         <div class="empty-state" *ngIf="committees.length === 0">
-          <p>{{ 'committees.noCommittees' | translate }}</p>
+          <p>{{ 'committees.list.noCommittees' | translate }}</p>
         </div>
       </mat-card>
 

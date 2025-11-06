@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommitteeService } from '../../../../core/services/committee.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { TranslationService } from '../../../../core/services/translation.service';
 
 @Component({
   selector: 'app-committee-form',
@@ -29,25 +30,25 @@ import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
     <div class="form-container">
       <mat-card class="form-card">
         <mat-card-header>
-          <h1>{{ isEditMode ? 'Edit Committee' : 'Create New Committee' }}</h1>
+          <h1>{{ isEditMode ? ('committees.form.editCommittee' | translate) : ('committees.form.createNew' | translate) }}</h1>
         </mat-card-header>
 
         <mat-card-content>
           <form [formGroup]="committeeForm" (ngSubmit)="onSubmit()">
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>{{ 'committees.name' | translate }}</mat-label>
+              <mat-label>{{ 'committees.form.name' | translate }}</mat-label>
               <input matInput formControlName="name" required>
-              <mat-error>{{ 'errors.required' | translate }}</mat-error>
+              <mat-error>{{ 'errors.validation.required' | translate }}</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>{{ 'common.description' | translate }}</mat-label>
+              <mat-label>{{ 'committees.form.description' | translate }}</mat-label>
               <textarea matInput formControlName="description" rows="4"></textarea>
             </mat-form-field>
 
             <div class="button-group">
               <button mat-raised-button type="button" (click)="goBack()">
-                {{ 'common.cancel' | translate }}
+                {{ 'common.actions.cancel' | translate }}
               </button>
               <button
                 mat-raised-button
@@ -55,7 +56,7 @@ import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
                 type="submit"
                 [disabled]="!committeeForm.valid || isLoading()"
               >
-                <span *ngIf="!isLoading()">{{ 'common.save' | translate }}</span>
+                <span *ngIf="!isLoading()">{{ 'common.actions.save' | translate }}</span>
                 <mat-spinner *ngIf="isLoading()" diameter="20"></mat-spinner>
               </button>
             </div>
@@ -114,7 +115,8 @@ export class CommitteeFormComponent implements OnInit {
     private committeeService: CommitteeService,
     private route: ActivatedRoute,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translationService: TranslationService
   ) {
     this.committeeForm = this.fb.group({
       name: ['', Validators.required],
@@ -146,7 +148,11 @@ export class CommitteeFormComponent implements OnInit {
       },
       error: () => {
         this.isLoading.set(false);
-        this.snackBar.open('Failed to load committee', 'Close', { duration: 5000 });
+        this.snackBar.open(
+          this.translationService.translate('errors.business.committeeNotFound'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 5000 }
+        );
       }
     });
   }
@@ -164,14 +170,16 @@ export class CommitteeFormComponent implements OnInit {
     request$.subscribe({
       next: (committee) => {
         this.isLoading.set(false);
-        const message = this.isEditMode ? 'Committee updated' : 'Committee created';
-        this.snackBar.open(message, 'Close', { duration: 3000 });
+        const message = this.isEditMode
+          ? this.translationService.translate('committees.messages.committeeUpdated')
+          : this.translationService.translate('committees.messages.committeeCreated');
+        this.snackBar.open(message, this.translationService.translate('common.actions.close'), { duration: 3000 });
         this.router.navigate(['/committees', committee.id]);
       },
       error: (error) => {
         this.isLoading.set(false);
-        const message = error.error?.message || 'Failed to save committee';
-        this.snackBar.open(message, 'Close', { duration: 5000 });
+        const message = error.error?.message || this.translationService.translate('notifications.error.failedToSave');
+        this.snackBar.open(message, this.translationService.translate('common.actions.close'), { duration: 5000 });
       }
     });
   }

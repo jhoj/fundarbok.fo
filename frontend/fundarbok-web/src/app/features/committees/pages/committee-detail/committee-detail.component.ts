@@ -6,9 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommitteeService } from '../../../../core/services/committee.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { TranslationService } from '../../../../core/services/translation.service';
 import { Committee, CommitteeMember } from '../../../../models/committee.model';
+import { AddMemberDialogComponent } from '../../dialogs/add-member-dialog/add-member-dialog.component';
 
 @Component({
   selector: 'app-committee-detail',
@@ -32,26 +36,26 @@ import { Committee, CommitteeMember } from '../../../../models/committee.model';
           <h1>{{ committee?.name }}</h1>
         </div>
         <button mat-button (click)="editCommittee()">
-          {{ 'common.edit' | translate }}
+          {{ 'common.actions.edit' | translate }}
         </button>
       </div>
 
       <div class="content-grid">
         <mat-card class="committee-info">
           <mat-card-header>
-            <h2>{{ 'committees.title' | translate }}</h2>
+            <h2>{{ 'committees.detail.title' | translate }}</h2>
           </mat-card-header>
           <mat-card-content>
-            <p><strong>{{ 'committees.name' | translate }}:</strong> {{ committee?.name }}</p>
+            <p><strong>{{ 'common.ui.name' | translate }}:</strong> {{ committee?.name }}</p>
             <p *ngIf="committee?.description">
-              <strong>{{ 'common.description' | translate }}:</strong> {{ committee?.description }}
+              <strong>{{ 'common.ui.description' | translate }}:</strong> {{ committee?.description }}
             </p>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="members-card">
           <mat-card-header>
-            <h2>{{ 'committees.members' | translate }}</h2>
+            <h2>{{ 'committees.detail.members' | translate }}</h2>
             <button mat-icon-button (click)="addMember()">
               <mat-icon>add</mat-icon>
             </button>
@@ -67,7 +71,7 @@ import { Committee, CommitteeMember } from '../../../../models/committee.model';
               </mat-list-item>
             </mat-list>
             <p *ngIf="members.length === 0" class="no-items">
-              {{ 'committees.members' | translate }} not added
+              {{ 'committees.detail.noMembers' | translate }}
             </p>
           </mat-card-content>
         </mat-card>
@@ -157,7 +161,10 @@ export class CommitteeDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private committeeService: CommitteeService
+    private committeeService: CommitteeService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -192,11 +199,35 @@ export class CommitteeDetailComponent implements OnInit {
   }
 
   editCommittee(): void {
-    // Navigate to edit form
+    this.router.navigate(['/committees', this.committeeId, 'edit']);
   }
 
   addMember(): void {
-    // Open add member dialog
+    const dialogRef = this.dialog.open(AddMemberDialogComponent, {
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.committeeService.addMember(this.committeeId, result).subscribe({
+          next: (member) => {
+            this.members.push(member);
+            this.snackBar.open(
+              this.translationService.translate('committees.messages.memberAdded'),
+              this.translationService.translate('common.actions.close'),
+              { duration: 3000 }
+            );
+          },
+          error: () => {
+            this.snackBar.open(
+              this.translationService.translate('errors.business.failedToAddMember'),
+              this.translationService.translate('common.actions.close'),
+              { duration: 5000 }
+            );
+          }
+        });
+      }
+    });
   }
 
   removeMember(memberId: string): void {

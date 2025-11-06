@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>
+  {{ isEditMode ? ('meetings.editNote' | translate) : ('meetings.createNote' | translate) }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'meetings.noteText' | translate }}</mat-label>
+      <textarea
+        matInput
+        formControlName="text"
+        rows="6"
+        [placeholder]="'meetings.notePlaceholder' | translate">
+      </textarea>
+      <mat-error *ngIf="form.get('text')?.hasError('required')">
+        {{ 'common.required' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="dialog-hint">
+      <mat-icon>info</mat-icon>
+      <span>{{ 'meetings.noteHint' | translate }}</span>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" type="button">
+    {{ 'common.cancel' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="!form.valid"
+    type="button">
+    <mat-icon>save</mat-icon>
+    {{ 'common.save' | translate }}
+  </button>
+</mat-dialog-actions>

@@ -50,10 +50,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           <mat-card-content>
             <form [formGroup]="settingsForm">
               <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Language</mat-label>
+                <mat-label>{{ 'pages.settings.language' | translate }}</mat-label>
                 <mat-select formControlName="language" (change)="onLanguageChange()">
-                  <mat-option value="en">English</mat-option>
-                  <mat-option value="fo">Føroyskt</mat-option>
+                  <mat-option value="en">{{ 'English' | translate }}</mat-option>
+                  <mat-option value="fo">{{ 'Føroyskt' | translate }}</mat-option>
                 </mat-select>
               </mat-form-field>
             </form>
@@ -151,6 +151,10 @@ export class SettingsComponent implements OnInit {
   }
 
   saveSettings(): void {
-    this.snackBar.open('Settings saved', 'Close', { duration: 3000 });
+    this.snackBar.open(
+      this.translationService.translate('notifications.success.saved'),
+      this.translationService.translate('common.actions.close'),
+      { duration: 3000 }
+    );
   }
 }

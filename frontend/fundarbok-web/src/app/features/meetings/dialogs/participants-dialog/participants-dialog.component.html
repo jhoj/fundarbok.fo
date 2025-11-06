@@ -1,0 +1,72 @@
+<h2 mat-dialog-title>{{ data.committeeName }}</h2>
+
+<mat-dialog-content>
+  <!-- Committee Description -->
+  <div class="committee-description" *ngIf="data.committeeDescription">
+    <label>{{ 'meetings.participants.committeeDescription' | translate }}</label>
+    <p>{{ data.committeeDescription }}</p>
+  </div>
+
+  <!-- Grant Access Button (Secretary Only) -->
+  <div class="actions-row" *ngIf="isSecretary">
+    <button mat-raised-button color="primary" (click)="openGrantAccessDialog()">
+      <mat-icon>person_add</mat-icon>
+      {{ 'meetings.participants.grantAccess' | translate }}
+    </button>
+  </div>
+
+  <!-- Participants Table -->
+  <div class="table-container" *ngIf="!loading">
+    <table mat-table [dataSource]="participants" *ngIf="participants.length > 0">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'meetings.participants.name' | translate }}</th>
+        <td mat-cell *matCellDef="let participant">{{ participant.committeeMember?.name }}</td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>{{ 'meetings.participants.titleLabel' | translate }}</th>
+        <td mat-cell *matCellDef="let participant">{{ participant.committeeMember?.title }}</td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>{{ 'meetings.participants.role' | translate }}</th>
+        <td mat-cell *matCellDef="let participant">{{ participant.committeeMember?.role }}</td>
+      </ng-container>
+
+      <!-- Participating Toggle Column -->
+      <ng-container matColumnDef="participating">
+        <th mat-header-cell *matHeaderCellDef>{{ 'meetings.participants.participating' | translate }}</th>
+        <td mat-cell *matCellDef="let participant">
+          <mat-slide-toggle
+            [checked]="participant.isParticipating"
+            (change)="onParticipationToggle(participant, $event)"
+            [disabled]="!isSecretary">
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="participants.length === 0">
+      <mat-icon>people_outline</mat-icon>
+      <p>{{ 'meetings.participants.noParticipants' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <p>Loading participants...</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">
+    {{ 'common.close' | translate }}
+  </button>
+</mat-dialog-actions>

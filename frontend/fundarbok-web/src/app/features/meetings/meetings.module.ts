@@ -19,26 +19,9 @@ import { MeetingsListComponent } from './meetings-list/meetings-list.component';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    MeetingsListComponent
-  ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MeetingsRoutingModule,
-    SharedModule,
-    // Material modules
-    MatTableModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule
+    MeetingsRoutingModule
   ]
 })
 export class MeetingsModule { }

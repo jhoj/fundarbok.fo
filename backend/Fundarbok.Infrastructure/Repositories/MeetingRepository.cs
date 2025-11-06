@@ -44,6 +44,10 @@ public class MeetingRepository : IMeetingRepository
                 .ThenInclude(ai => ai.Recommendations)
             .Include(m => m.AgendaItems)
                 .ThenInclude(ai => ai.Conclusions)
+            .Include(m => m.AgendaItems)
+                .ThenInclude(ai => ai.Notes)
+            .Include(m => m.AgendaItems)
+                .ThenInclude(ai => ai.Tasks)
             .FirstOrDefaultAsync(m => m.Id == id);
     }
 
