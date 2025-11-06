@@ -1403,37 +1403,50 @@ Services, Controllers, Repositories, and Components should follow this pattern.
 
 ---
 
-## Phase 20: Frontend - Approve & Close Meeting Workflow
+## Phase 20: Frontend - Approve & Close Meeting Workflow ✅
 
-### 20.1 Close Meeting Confirmation
-- [ ] Create dialog: `ng g component features/fundir/dialogs/close-fundur-dialog`
-- [ ] Design confirmation dialog:
-  - [ ] Title: "Loka fundin?"
-  - [ ] Message: "Confirm that all agenda items are complete..."
-  - [ ] Checklist of incomplete items (validation)
-  - [ ] "Nei", "Ja" buttons
-- [ ] Validate meeting completeness:
-  - [ ] All agenda items have conclusions
-  - [ ] All required documents uploaded
-- [ ] Call FundurService.updateStatus(id, 'closed')
-- [ ] Update UI on success
+### 20.1 Close Meeting Confirmation ✅
+- [x] Create dialog: `CloseMeetingDialogComponent`
+- [x] Design confirmation dialog:
+  - [x] Title: "Close Meeting?"
+  - [x] Message: Clear explanation of closing impact
+  - [x] Checklist of incomplete items (validation)
+  - [x] "Cancel", "Close Meeting" buttons
+- [x] Validate meeting completeness:
+  - [x] All agenda items must have at least one conclusion
+  - [x] Show validation error if any items missing conclusions
+- [x] Call MeetingService.updateStatus(id, 'completed')
+- [x] Update UI on success with snackbar notification
 
-### 20.2 Approve Meeting Confirmation
-- [ ] Create dialog: `ng g component features/fundir/dialogs/approve-fundur-dialog`
-- [ ] Design matching Figma screenshot 15:
-  - [ ] Title: "Fundurin verður avgreiddur og lokaður"
-  - [ ] Message: "Øll punktini á fundinum verða lokað og niðurstøðurnar frá hvørjum punkti verða avritað yvir á tær respektivu journalirnar í journalskipanini"
-  - [ ] Checklist showing items that will be approved:
-    - [ ] List all agenda items with checkmarks/x
-  - [ ] Toggle: "Loka" (Close/Lock)
-  - [ ] Toggle: "Nevndarlimir" (Committee members notification)
-  - [ ] Confirmation question: "Er tú heilt vísur í, at tú ynskir at loka fundin?"
-  - [ ] Radio buttons: "Nei", "Ja"
-- [ ] Validate all items completed
-- [ ] Call FundurService.updateStatus(id, 'approved')
-- [ ] Lock meeting from further edits
-- [ ] Show success message
-- [ ] Navigate back to list
+### 20.2 Approve Meeting Confirmation ✅
+- [x] Create dialog: `ApproveMeetingDialogComponent`
+- [x] Design comprehensive approval dialog:
+  - [x] Title: "Approve and Lock Meeting"
+  - [x] Message explaining consequences and journal sync
+  - [x] Checklist showing all agenda items with completion status
+  - [x] Toggle: "Notify participants about meeting approval"
+  - [x] Confirmation question with radio buttons (Yes/No)
+  - [x] "Cancel", "Approve Meeting" buttons
+- [x] Validate all items completed (must be closed first)
+- [x] Call MeetingService.updateStatus(id, 'approved')
+- [x] Lock meeting from further edits
+- [x] Show success message with snackbar
+- [x] Reload meeting data to reflect new status
+
+### 20.3 Integration ✅
+- [x] Added imports to MeetingDetailComponent
+- [x] Implemented closeMeeting() method
+- [x] Implemented approveMeeting() method
+- [x] Added event handlers for dialog results
+- [x] Proper error handling and user feedback
+- [x] Status updates trigger meeting reload
+
+### 20.4 Translation Keys ✅
+- [x] Added English translations for close workflow
+- [x] Added English translations for approve workflow
+- [x] Added Faroese translations for close workflow
+- [x] Added Faroese translations for approve workflow
+- [x] Added yes/no translations to common.ui
 
 ---
 
