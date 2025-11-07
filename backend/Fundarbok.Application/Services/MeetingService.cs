@@ -10,15 +10,21 @@ public class MeetingService : IMeetingService
 {
     private readonly IMeetingRepository _meetingRepository;
     private readonly ICommitteeRepository _committeeRepository;
+    private readonly IPushNotificationService _pushNotificationService;
+    private readonly IUserRepository _userRepository;
     private readonly ILogger<MeetingService> _logger;
 
     public MeetingService(
         IMeetingRepository meetingRepository,
         ICommitteeRepository committeeRepository,
+        IPushNotificationService pushNotificationService,
+        IUserRepository userRepository,
         ILogger<MeetingService> logger)
     {
         _meetingRepository = meetingRepository;
         _committeeRepository = committeeRepository;
+        _pushNotificationService = pushNotificationService;
+        _userRepository = userRepository;
         _logger = logger;
     }
 
@@ -230,6 +236,9 @@ public class MeetingService : IMeetingService
             throw new InvalidOperationException("Cannot approve a meeting that is not completed");
         }
 
+        bool wasCompleted = meeting.IsCompleted;
+        bool wasApproved = meeting.IsApproved;
+
         if (request.IsOpen.HasValue)
         {
             meeting.IsOpen = request.IsOpen.Value;
@@ -256,7 +265,75 @@ public class MeetingService : IMeetingService
         var updatedMeeting = await _meetingRepository.UpdateAsync(meeting);
         _logger.LogInformation("Updated meeting status for {MeetingId}", updatedMeeting.Id);
 
+        // Send push notifications for status changes
+        await SendMeetingStatusNotificationsAsync(meeting, wasCompleted, wasApproved);
+
         return MapToMeetingDto(updatedMeeting);
+    }
+
+    private async Task SendMeetingStatusNotificationsAsync(Meeting meeting, bool wasCompleted, bool wasApproved)
+    {
+        try
+        {
+            // Get all participants
+            var participants = await _meetingRepository.GetParticipantsAsync(meeting.Id);
+            var committeeMemberIds = participants.Select(p => p.CommitteeMemberId).ToList();
+            var users = await _userRepository.GetByCommitteeMemberIdsAsync(committeeMemberIds);
+            var userIds = users.Select(u => u.Id).ToList();
+
+            if (userIds.Count == 0)
+            {
+                return;
+            }
+
+            // Notify on meeting completed
+            if (!wasCompleted && meeting.IsCompleted)
+            {
+                try
+                {
+                    await _pushNotificationService.SendToMultipleAsync(
+                        userIds,
+                        "Fundur lokaður",
+                        $"{meeting.Title} er nú lokaður",
+                        new {
+                            type = "meeting_closed",
+                            meetingId = meeting.Id,
+                            meetingTitle = meeting.Title
+                        }
+                    );
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error sending meeting completed notification");
+                }
+            }
+
+            // Notify on meeting approved
+            if (!wasApproved && meeting.IsApproved)
+            {
+                try
+                {
+                    await _pushNotificationService.SendToMultipleAsync(
+                        userIds,
+                        "Fundur góðkendur",
+                        $"{meeting.Title} er góðkendur",
+                        new {
+                            type = "meeting_approved",
+                            meetingId = meeting.Id,
+                            meetingTitle = meeting.Title
+                        }
+                    );
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error sending meeting approved notification");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error preparing meeting status notifications");
+        }
     }
 
     public async Task<IEnumerable<MeetingParticipantDto>> GetMeetingParticipantsAsync(Guid meetingId)
@@ -291,6 +368,31 @@ public class MeetingService : IMeetingService
 
         var createdParticipant = await _meetingRepository.AddParticipantAsync(participant);
         _logger.LogInformation("Added participant {CommitteeMemberId} to meeting {MeetingId}", request.CommitteeMemberId, meetingId);
+
+        // Send push notification to assigned participant
+        try
+        {
+            var user = await _userRepository.GetByCommitteeMemberIdAsync(request.CommitteeMemberId);
+            if (user != null)
+            {
+                await _pushNotificationService.SendNotificationAsync(
+                    user.Id,
+                    "Tú ert ásettur til fund",
+                    $"Tú ert ásettur til {meeting.Title}",
+                    new {
+                        type = "meeting_assigned",
+                        meetingId = meeting.Id,
+                        meetingTitle = meeting.Title,
+                        startDate = meeting.StartDate
+                    }
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error sending push notification for participant assignment");
+            // Continue without throwing - notification failure shouldn't break the operation
+        }
 
         return MapToMeetingParticipantDto(createdParticipant);
     }

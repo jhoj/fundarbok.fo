@@ -236,8 +236,34 @@ export class MeetingsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setDefaultWeekDateFilters();
     this.loadCommittees();
     this.loadMeetings();
+  }
+
+  private setDefaultWeekDateFilters(): void {
+    const today = new Date();
+
+    // Get first day of the week (Monday)
+    const firstDayOfWeek = new Date(today);
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+    firstDayOfWeek.setDate(diff);
+    firstDayOfWeek.setHours(0, 0, 0, 0);
+
+    // Get last day of the week (Sunday)
+    const lastDayOfWeek = new Date(firstDayOfWeek);
+    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+    lastDayOfWeek.setHours(23, 59, 59, 999);
+
+    // Set filter form values
+    this.filterForm.patchValue({
+      startDate: firstDayOfWeek,
+      endDate: lastDayOfWeek
+    });
+
+    // Apply the filters
+    this.applyFilters();
   }
 
   loadCommittees(): void {

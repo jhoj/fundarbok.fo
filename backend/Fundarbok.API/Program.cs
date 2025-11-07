@@ -23,6 +23,7 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<IRecommendationRepository, RecommendationRepository>();
 builder.Services.AddScoped<IConclusionRepository, ConclusionRepository>();
 builder.Services.AddScoped<IPushSubscriptionRepository, PushSubscriptionRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Register application services
 builder.Services.AddScoped<IAuthService, AuthService>();
