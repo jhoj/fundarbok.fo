@@ -3,7 +3,7 @@
 
   # Fundarbok.fo
 
-  Icelandic parliamentary document management and tracking system for committee meetings and agenda items.
+  Parliamentary document management and tracking system for committee meetings and agenda items.
 </div>
 
 ## Project Status & Roadmap
