@@ -100,3 +100,4 @@ logs/
 # App settings with secrets (don't commit production settings)
 appsettings.Production.json
 appsettings.Staging.json
+frontend/fundarbok-web/package-lock.json
