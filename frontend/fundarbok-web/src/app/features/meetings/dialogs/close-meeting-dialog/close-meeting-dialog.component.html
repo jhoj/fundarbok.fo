@@ -1,0 +1,72 @@
+<div class="close-meeting-dialog">
+  <div mat-dialog-title class="dialog-title">
+    <mat-icon class="title-icon">lock</mat-icon>
+    <span>{{ 'meetings.workflows.close.title' | translate }}</span>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <p class="message">
+      {{ 'meetings.workflows.close.message' | translate }}
+    </p>
+
+    <div class="validation-section" *ngIf="!isValid()">
+      <div class="validation-error">
+        <mat-icon class="error-icon">warning</mat-icon>
+        <span>{{ validationMessage }}</span>
+      </div>
+
+      <div class="items-list">
+        <h3>{{ 'meetings.workflows.close.itemsNeedingConclusions' | translate }}</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let item of getItemsWithoutConclusions()" class="item-without-conclusion">
+            <mat-icon matListItemIcon class="warning-icon">info</mat-icon>
+            <div matListItemTitle>{{ item.number }}. {{ item.title }}</div>
+            <span matListItemLine class="warning-text">
+              {{ 'meetings.workflows.close.needsConclusion' | translate }}
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+
+    <div class="validation-success" *ngIf="isValid()">
+      <mat-icon class="success-icon">check_circle</mat-icon>
+      <span>{{ 'meetings.workflows.close.allItemsValid' | translate }}</span>
+    </div>
+
+    <div class="agenda-items-summary">
+      <h3>{{ 'meetings.workflows.close.agendaItemsSummary' | translate }}</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let item of meeting.agendaItems" class="agenda-item">
+          <span matListItemTitle>
+            {{ item.number }}. {{ item.title }}
+            <mat-icon class="conclusion-icon" *ngIf="item.conclusions && item.conclusions.length > 0">
+              check
+            </mat-icon>
+          </span>
+          <span matListItemLine class="conclusion-count">
+            {{ (item.conclusions.length || 0) }}
+            {{ 'meetings.workflows.close.conclusion' | translate }}(s)
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button
+      mat-stroked-button
+      (click)="onCancel()"
+      class="cancel-btn">
+      {{ 'common.actions.cancel' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onConfirm()"
+      [disabled]="!isValid()"
+      class="confirm-btn">
+      {{ 'meetings.workflows.close.confirm' | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

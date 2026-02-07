@@ -1,0 +1,38 @@
+.full-width {
+  width: 100%;
+  min-width: 500px;
+  margin-bottom: 16px;
+}
+
+.dialog-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+  margin: 0 -24px -24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+button[mat-raised-button] {
+  mat-icon {
+    margin-right: 8px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}

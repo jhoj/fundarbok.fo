@@ -1,0 +1,124 @@
+<div class="meeting-detail-page" *ngIf="!isLoading && meeting">
+  <!-- Top Header Section -->
+  <div class="page-header">
+    <div class="header-row-1">
+      <button mat-icon-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="header-content">
+        <h1 class="page-title">Fundar síða</h1>
+        <h2 class="committee-name">{{ getCommitteeName() }}</h2>
+        <span class="meeting-number">Fundur nr. {{ getMeetingNumber() }}</span>
+      </div>
+      <button mat-stroked-button (click)="openParticipantsDialog()" class="participants-button">
+        <mat-icon>people</mat-icon>
+        {{ 'meetings.detail.members' | translate }}
+      </button>
+    </div>
+
+    <div class="header-row-2">
+      <mat-chip class="status-chip" [ngClass]="getStatusClass()">
+        <mat-icon>{{ meeting.isOpen ? 'lock_open' : 'lock' }}</mat-icon>
+        {{ getStatusLabel() }}
+      </mat-chip>
+      <mat-chip class="info-chip">
+        <mat-icon>event</mat-icon>
+        {{ 'meetings.detail.meetingDay' | translate }} {{ meeting.startDate | date:'dd-MM-yyyy' }}
+      </mat-chip>
+      <mat-chip class="info-chip">
+        <mat-icon>place</mat-icon>
+        {{ 'meetings.detail.meetingLocation' | translate }} {{ meeting.location }}
+      </mat-chip>
+      <div class="header-actions">
+        <button *appHasRole="'Secretary'" mat-stroked-button (click)="editMeeting()" class="edit-button">
+          <mat-icon>edit</mat-icon>
+          {{ 'meetings.detail.editMeeting' | translate }}
+        </button>
+        <button *appHasRole="'Secretary'" mat-stroked-button color="accent" (click)="createDocument()" class="create-doc-button">
+          {{ 'meetings.detail.createDocument' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area with Sidebar -->
+  <div class="content-layout">
+    <!-- Left Sidebar: Agenda Items -->
+    <div class="sidebar">
+      <app-agenda-items-sidebar
+        [agendaItems]="meeting.agendaItems || []"
+        [selectedItemId]="selectedAgendaItem?.id || null"
+        [meetingDescription]="meeting.description || ''"
+        (selectItem)="onSelectAgendaItem($event)"
+        (addItem)="onAddAgendaItem()"
+        (reorderItems)="onReorderAgendaItems($event)">
+      </app-agenda-items-sidebar>
+    </div>
+
+    <!-- Main Content: Agenda Item Detail -->
+    <div class="main-content">
+      <app-agenda-item-detail
+        [agendaItem]="selectedAgendaItem"
+        [canEdit]="isSecretary()"
+        (addConclusion)="onAddConclusion()"
+        (addNote)="onAddNote()"
+        (addTask)="onAddTask()"
+        (printMeeting)="onPrintMeeting()"
+        (editAgendaItem)="onEditAgendaItem()"
+        (deleteAgendaItem)="onDeleteAgendaItem()"
+        (uploadDocument)="onUploadDocument()"
+        (documentClick)="onDocumentClick($event)"
+        (documentDelete)="onDocumentDelete($event)">
+      </app-agenda-item-detail>
+
+      <!-- Document Preview Cards -->
+      <div class="document-preview-section" *ngIf="getDocuments().length > 0">
+        <div class="document-cards">
+          <div class="document-card" *ngFor="let doc of getDocuments()">
+            <mat-icon class="doc-icon">description</mat-icon>
+            <span class="doc-title">{{ doc.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action Bar -->
+  <div class="bottom-action-bar">
+    <div class="status-controls" *appHasRole="'Secretary'">
+      <mat-chip class="status-badge" [class.not-approved]="!meeting.isApproved">
+        {{ meeting.isApproved ? ('notifications.success.approved' | translate) : ('errors.server.forbidden' | translate) }}
+      </mat-chip>
+      <button mat-raised-button color="accent" (click)="closeMeeting()">
+        {{ 'meetings.detail.closeMeeting' | translate }}
+      </button>
+    </div>
+
+    <div class="document-template">
+      <mat-form-field appearance="outline" class="template-input">
+        <mat-label>{{ 'meetings.form.templateDocuments' | translate }}</mat-label>
+        <input matInput [(ngModel)]="documentTemplateInput">
+        <button matSuffix mat-icon-button>
+          <mat-icon>link</mat-icon>
+        </button>
+        <button matSuffix mat-icon-button>
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="action-buttons">
+      <button mat-stroked-button (click)="goBack()">
+        {{ 'common.actions.back' | translate }}
+      </button>
+      <button mat-raised-button color="primary" (click)="saveMeeting()">
+        {{ 'common.actions.save' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

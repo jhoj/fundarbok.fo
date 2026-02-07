@@ -1,0 +1,117 @@
+<div class="meetings-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>{{ 'meetings.list.title' | translate }}</h1>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="filter-controls">
+      <!-- Committee Dropdown -->
+      <mat-form-field appearance="outline" class="committee-select">
+        <mat-label>
+          <mat-icon>list</mat-icon>
+          {{ 'committees.list.title' | translate }}
+        </mat-label>
+        <mat-select [(ngModel)]="selectedCommitteeId" (selectionChange)="onCommitteeChange($event.value)">
+          <mat-option [value]="null">{{ 'meetings.list.allCommittees' | translate }}</mat-option>
+          <mat-option *ngFor="let committee of committees" [value]="committee.id">
+            {{ committee.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Start Date Picker -->
+      <mat-form-field appearance="outline" class="date-picker">
+        <mat-label>{{ 'common.time.startDate' | translate }}</mat-label>
+        <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" (dateChange)="onDateRangeChange()">
+        <mat-datepicker-toggle matSuffix [for]="startPicker">
+          <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- End Date Picker -->
+      <mat-form-field appearance="outline" class="date-picker">
+        <mat-label>{{ 'common.time.endDate' | translate }}</mat-label>
+        <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" (dateChange)="onDateRangeChange()">
+        <mat-datepicker-toggle matSuffix [for]="endPicker">
+          <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Action Buttons (Secretary Only) -->
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" (click)="navigateToCreateMeeting()" >
+      <!-- <button mat-raised-button color="primary" (click)="navigateToCreateMeeting()" *appHasRole="'Secretary'"> -->
+        {{ 'meetings.list.createNew' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Meetings Table -->
+  <div *ngIf="!isLoading" class="table-container">
+    <table mat-table [dataSource]="meetings" matSort class="meetings-table">
+
+      <!-- Committee Name Column -->
+      <ng-container matColumnDef="committeeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'committees.list.title' | translate }}</th>
+        <td mat-cell *matCellDef="let meeting">{{ getCommitteeName(meeting.committeeId) }}</td>
+      </ng-container>
+
+      <!-- Meeting Number Column -->
+      <ng-container matColumnDef="meetingNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'common.ui.number' | translate }}</th>
+        <td mat-cell *matCellDef="let meeting">{{ meeting.meetingNumber }}</td>
+      </ng-container>
+
+      <!-- Next Meeting (Start Date) Column -->
+      <ng-container matColumnDef="nextMeeting">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'common.ui.date' | translate }}</th>
+        <td mat-cell *matCellDef="let meeting">{{ formatDate(meeting.startDate) }}</td>
+      </ng-container>
+
+      <!-- Approved Date Column -->
+      <ng-container matColumnDef="approvedDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'meetings.detail.title' | translate }}</th>
+        <td mat-cell *matCellDef="let meeting">
+          {{ meeting.isApproved ? formatDateOnly(meeting.updatedAt) : '-' }}
+        </td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.ui.description' | translate }}</th>
+        <td mat-cell *matCellDef="let meeting">
+          {{ meeting.title || meeting.description || '-' }}
+        </td>
+      </ng-container>
+
+      <!-- Is Approved Column -->
+      <ng-container matColumnDef="isApproved">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'meetings.status.approved' | translate }}</th>
+        <td mat-cell *matCellDef="let meeting" [ngClass]="isApprovedClass(meeting)">
+          {{ getApprovedStatusText(meeting) }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          class="meeting-row"
+          (click)="onRowClick(row)">
+      </tr>
+    </table>
+
+    <!-- Empty State -->
+    <div *ngIf="meetings.length === 0" class="empty-state">
+      <p>{{ 'meetings.list.noMeetings' | translate }}</p>
+    </div>
+  </div>
+</div>

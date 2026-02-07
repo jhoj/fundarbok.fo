@@ -1,0 +1,405 @@
+{
+  "common": {
+    "actions": {
+      "save": "Goym",
+      "cancel": "Avbrot",
+      "delete": "Strika",
+      "edit": "Broyta",
+      "add": "Legg til",
+      "close": "Lat aftur",
+      "back": "Aftur",
+      "create": "Stovna",
+      "confirm": "Góðkenn",
+      "approve": "Góðkenn",
+      "print": "Prenta",
+      "export": "Útflyt",
+      "download": "Halda niður",
+      "upload": "Legg inn",
+      "search": "Leita",
+      "filter": "Filtrera",
+      "view": "Hygg at",
+      "preview": "Kanna",
+      "reorder": "Endurskipa"
+    },
+    "ui": {
+      "yes": "Já",
+      "no": "Nei",
+      "loading": "Heintar...",
+      "error": "Villa",
+      "success": "Riggaði",
+      "warning": "Ávaring",
+      "info": "Upplýsingar",
+      "empty": "Eingi lutir funnin",
+      "description": "Lýsing",
+      "name": "Navn",
+      "email": "Teldupost",
+      "password": "Loyniorð",
+      "search": "Leita",
+      "filter": "Filtrera",
+      "status": "Støða",
+      "type": "Slag",
+      "date": "Dagfesting",
+      "time": "Tíð",
+      "location": "Staður",
+      "title": "Heiti",
+      "number": "Nummar"
+    },
+    "time": {
+      "dateRange": "Dagfestingar",
+      "startDate": "Byrjunardagfesting",
+      "endDate": "Endadagfesting",
+      "startTime": "Byrjunartíð",
+      "endTime": "Endatíð",
+      "hours": "Tímar",
+      "minutes": "Minuttir"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Rita inn",
+      "email": "Teldupost",
+      "password": "Loyniorð",
+      "signIn": "Rita inn",
+      "forgotPassword": "Gloymt loyniorð?",
+      "noAccount": "Hevur tú ongan brukara?",
+      "rememberMe": "Minnast til mín"
+    },
+    "register": {
+      "title": "Skráset",
+      "name": "Navn",
+      "email": "Teldupost",
+      "password": "Loyniorð",
+      "confirmPassword": "Góðkenn loyniorð",
+      "signUp": "Skráset teg",
+      "alreadyHaveAccount": "Hevur tú longu ein brukara?"
+    },
+    "messages": {
+      "loginSuccess": "Innritan eydnaðist",
+      "loginFailed": "Innskriving miseydnaðist",
+      "loginError": "Ein villa hendi undir innritan",
+      "invalidCredentials": "Ógyldugur teldupostur ella loyniorð",
+      "registerSuccess": "Skráseting eydnaðist",
+      "registerError": "Skráseting miseydnaðist"
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "meetings": "Fundir",
+    "committees": "Nevndir",
+    "settings": "Stillingar",
+    "profile": "Brúkari",
+    "logout": "Rita út"
+  },
+  "meetings": {
+    "title": "Fundir",
+    "list": {
+      "title": "Yvirlit yvir fundir",
+      "createNew": "Stovna nýggjan fund",
+      "noMeetings": "Eingin fundur á skrá",
+      "filter": "Filtrera",
+      "allCommittees": "Allar nevndir"
+    },
+    "myMeetings": {
+      "title": "Mínir Fundir",
+      "subtitle": "Hygg á alla fundir, har tú ert luttakari",
+      "allFilter": "Allir Fundir",
+      "upcomingFilter": "Næstkomandi",
+      "pastFilter": "Lidnir",
+      "noMeetings": "Eingin Fundir Enn",
+      "noMeetingsMessage": "Tú hevur eingin fundir útvisað enn"
+    },
+    "myTasks": {
+      "title": "Mínar Uppgávur",
+      "subtitle": "Stýr uppgávum, sum eru útvisaðar til tín",
+      "pending": "Ventandi Uppgávur",
+      "completed": "Liðugar Uppgávur",
+      "noTasks": "Eingin Uppgávur",
+      "noTasksMessage": "Tú hevur eingin uppgávur útvisað enn",
+      "noPendingTasks": "Tú hevur fullført allar uppgávur!",
+      "noCompletedTasks": "Eingi uppgávur eru liðugar enn",
+      "taskCompleted": "Uppgáva merkt sum fullførd",
+      "taskReactivated": "Uppgáva merkt sum ventandi",
+      "dueDate": "Skiladag"
+    },
+    "form": {
+      "editMeeting": "Rætta fund",
+      "createNewMeeting": "Stovna nýggjan fund",
+      "meetingNumber": "Nummar",
+      "meetingDate": "Dagfesting",
+      "meetingLocation": "Staður",
+      "location": "Staður",
+      "description": "Lýsing",
+      "committee": "Nevnd",
+      "startDate": "Byrjunardagfesting",
+      "endDate": "Endadagfesting",
+      "startDateTime": "Byrjunardagur & tíð",
+      "endDateTime": "Endadagur & tíð",
+      "startHours": "Byrjunar tímar",
+      "startMinutes": "Byrjunar minuttir",
+      "endHours": "Enda tímar",
+      "endMinutes": "Enda minuttir",
+      "templateDocuments": "Legg fleiri standardskriv til fundin"
+    },
+    "detail": {
+      "title": "Fundar upplýsingar",
+      "pageTitle": "Fundar síða",
+      "meetingNumberLabel": "Fundur nr.",
+      "meetingDay": "Fundardagur:",
+      "meetingLocation": "Fundarstaður:",
+      "status": "Støða",
+      "meetingClosed": "Fundur lokaður",
+      "meetingCompleted": "Fundur liðugur",
+      "meetingOpen": "Fundurin opin",
+      "approve": "Góðkenna fundin",
+      "closeMeeting": "Loka fundin",
+      "members": "Nevndarlimir",
+      "documents": "Skjøl",
+      "editMeeting": "RÆTTA FUND",
+      "createDocument": "STOVNA SKRÁ",
+      "addAgendaItem": "Legg fundarpunkt til",
+      "backButton": "AFTUR",
+      "saveButton": "GOYM"
+    },
+    "participants": {
+      "title": "Fundarlimir",
+      "grantAccess": "Tilluta atgongd",
+      "selectMembers": "Vel limur",
+      "name": "Navn",
+      "titleLabel": "Heiti",
+      "role": "Leiklutur",
+      "active": "Virkin",
+      "participating": "Taka lut",
+      "committeeDescription": "Stuttt lýsing av uppgávuni hjá nevndini",
+      "noParticipants": "Eingir luttakarar enn",
+      "addMembers": "Legg limir til fundin",
+      "selectMembersHint": "Vel nevndarlimir at leggja til fundin",
+      "participantAdded": "Luttakari lagdur til",
+      "participantRemoved": "Luttakari strikaður",
+      "participationUpdated": "Luttøkustøða dagførd"
+    },
+    "status": {
+      "open": "Opin",
+      "completed": "Liðugur",
+      "approved": "Góðkendur",
+      "closed": "Lokaður",
+      "draft": "Uppkast"
+    },
+    "messages": {
+      "agendaItemCreated": "Fundarpunktur stovnaður",
+      "agendaItemUpdated": "Fundarpunktur dagførdur",
+      "agendaItemDeleted": "Fundarpunktur strikaður",
+      "agendaItemsReordered": "Fundarpunktar endurskipaðir",
+      "conclusionCreated": "Niðurstøða skapaði",
+      "noteCreated": "Notat skapaði",
+      "taskCreated": "Uppgáva skapaði",
+      "meetingCreated": "Fundur stovnaður",
+      "meetingUpdated": "Fundur dagførdur",
+      "meetingApproved": "Fundur góðkendur og lokaður",
+      "meetingClosed": "Fundur lokaður",
+      "failedToCloseMeeting": "Kundi ikki loka fundinum",
+      "failedToApproveMeeting": "Kundi ikki góðkenna fundinn",
+      "failedToLoad": "Kundi ikki heinta fund",
+      "failedToCreate": "Kundi ikki stovna fundarpunkt",
+      "failedToUpdate": "Kundi ikki dagføra fundarpunkt",
+      "failedToDelete": "Kundi ikki strika fundarpunkt"
+    },
+    "workflows": {
+      "close": {
+        "title": "Loka fundinum?",
+        "message": "Tað er ikki til eindalýst at ganga til breytingar á fundinum eftir at hann er lokaður. Allir fundarpunktar halda gjørast at hava ein niðurstøðu áðrenn lokaaðir. Ert tú vísur?",
+        "confirm": "Loka fundinum",
+        "validationError": "Allir fundarpunktar halva gjørast at hava ein og eina niðurstøðu áðrenn lokaaðir",
+        "itemsNeedingConclusions": "Fundarpunktar sum neyðast niðurstøðu",
+        "needsConclusion": "Vant niðurstøðu",
+        "allItemsValid": "Allir fundarpunktar hava niðurstøðu",
+        "agendaItemsSummary": "Fundarpunktar",
+        "conclusion": "Niðurstøða"
+      },
+      "approve": {
+        "title": "Góðkenna og loka fundinum",
+        "message": "Tá ið fundur er góðkendur, er ikki til eindalýst at ganga til breytingar á honum. Niðurstøðurnar verða flutt til respektivu journalir. Hetta er ikki møguligt at ógera.",
+        "confirm": "Góðkenna fundinn",
+        "validationError": "Allir fundarpunktar halva gjørast at hava ein og eina niðurstøðu áðrenn góðkendir",
+        "mustBeClosed": "Fundur halv gjørast at vera lokaður áðrenn góðkendur",
+        "itemsNeedingConclusions": "Fundarpunktar sum neyðast niðurstøðu",
+        "needsConclusion": "Vant niðurstøðu",
+        "agendaItemsSummary": "Fundarpunktar",
+        "conclusion": "Niðurstøða",
+        "notifyParticipants": "Giv nevndarlamum skipur um góðkenning av fundi",
+        "confirmationQuestion": "Ert tú alveg vísur í at tú vilj at góðkenna og loka fundinum?",
+        "yes": "Já",
+        "no": "Nei"
+      }
+    }
+  },
+  "committees": {
+    "title": "Nevndir",
+    "list": {
+      "title": "Nevndir",
+      "createNew": "Stovna nýggja nevnd",
+      "noCommittees": "Eingin nevnd funnin"
+    },
+    "form": {
+      "createNew": "Stovna nevnd",
+      "editCommittee": "Rætta nevnd",
+      "name": "Nevnd navn",
+      "description": "Lýsing",
+      "memberName": "Nevndarlima navn",
+      "memberRole": "Støða",
+      "memberTitle": "Heiti"
+    },
+    "detail": {
+      "title": "Nevndar upplýsingar",
+      "members": "Nevndarlimir",
+      "addMember": "Legg nevndarlim til",
+      "removeMember": "Strika nevndarlim",
+      "noMembers": "Eingir nevndarlimir tillagdir"
+    },
+    "dialog": {
+      "addMember": "Legg nevndarlim til"
+    },
+    "roles": {
+      "chairman": "Formaður / forkvinna",
+      "viceChairman": "Varaformaður / varaforkvinna",
+      "member": "Limur",
+      "secretary": "Skrivari"
+    },
+    "member": {
+      "role": "Støða",
+      "chairman": "Formaður / forkvinna",
+      "member": "Limur",
+      "secretary": "Skrivari",
+      "memberCount": "Tal av limum"
+    },
+    "messages": {
+      "committeeCreated": "Nevnd stovnað við góðum úrsliti",
+      "committeeUpdated": "Nevnd dagførd við góðum úrsliti",
+      "committeeDeleted": "Nevnd strikað við góðum úrsliti",
+      "memberAdded": "Nevndarlim lagdur til við góðum úrsliti"
+    }
+  },
+  "agendaItems": {
+    "title": "Fundarpunktur",
+    "addItem": "Legg fundarpunkt til",
+    "editItem": "Rætta fundarpunkt",
+    "itemNumber": "Punkt númer",
+    "itemTitle": "Punkt heiti",
+    "description": "Lýsing",
+    "recommendations": "Tilmæli",
+    "conclusions": "Niðurstøður",
+    "notes": "Notat",
+    "tasks": "Uppgávur",
+    "documents": "Skjøl",
+    "noItems": "Eingir fundarpunktar"
+  },
+  "documents": {
+    "title": "Skjøl",
+    "uploadDocument": "Legg skjal inn",
+    "download": "Halda niður",
+    "preview": "Kanna",
+    "fileName": "Skjal navn",
+    "fileSize": "Skjal størleiki",
+    "uploadDate": "Innleggiðar dato",
+    "uploadedBy": "Innlegið av",
+    "dragDropText": "Dragðu og sleppdu skjølum her ella klikktu fyri at velja",
+    "maxFileSize": "Størsti skjal størleiki: 50MB",
+    "supportedFormats": "Stutt snið: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG, GIF, TXT",
+    "deleteConfirm": "Viltu sannarlega strika hendan skjal?",
+    "noDocuments": "Eingi skjøl funnin"
+  },
+  "buttons": {
+    "save": "Goym",
+    "cancel": "Avbrot",
+    "delete": "Strika",
+    "edit": "Broyta",
+    "add": "Legg til",
+    "close": "Loka",
+    "approve": "Godkenna",
+    "print": "Prenta",
+    "export": "Útflyt"
+  },
+  "notifications": {
+    "success": {
+      "saved": "Goymdi við góðum úrsliti",
+      "deleted": "Strikaði við góðum úrsliti",
+      "created": "Stovnaði við góðum úrsliti",
+      "updated": "Dagførdi við góðum úrsliti",
+      "approved": "Góðkendi við góðum úrsliti"
+    },
+    "error": {
+      "error": "Ein villa hendi",
+      "failedToSave": "Kundi ikki goyma",
+      "failedToDelete": "Kundi ikki strika",
+      "failedToCreate": "Kundi ikki stovna",
+      "failedToUpdate": "Kundi ikki dagføra",
+      "failedToLoad": "Kundi ikki heinta"
+    },
+    "confirm": {
+      "confirmDelete": "Viltu sannarlega strika hendan hlut?",
+      "confirmApprove": "Viltu sannarlega góðkenna hetta?",
+      "confirmClose": "Viltu sannarlega loka hetta?"
+    }
+  },
+  "errors": {
+    "validation": {
+      "required": "Hetta svið er kravt",
+      "invalidEmail": "Ógyldug teldupost",
+      "passwordMismatch": "Loyniorðini samsvara ikki",
+      "invalidFormat": "Ógildugur format"
+    },
+    "server": {
+      "serverError": "Tænara villa",
+      "notFound": "Ikki funnið",
+      "unauthorized": "Óheimilað",
+      "forbidden": "Bannað",
+      "internalError": "Innanhýsis tænara villa"
+    },
+    "auth": {
+      "invalidCredentials": "Ógildug innritan upplýsingar",
+      "tokenExpired": "Setanin er útrunnin"
+    },
+    "business": {
+      "committeeDuplicateName": "Ein nevnd við hesum navni finst longu",
+      "meetingNotFound": "Fundur ikki funnin",
+      "committeeNotFound": "Nevnd ikki funnin"
+    }
+  },
+  "pages": {
+    "forbidden": {
+      "title": "Atgongd neitað",
+      "message": "Tú hevur ikki loyvi til at fara inn á hesa síðu"
+    },
+    "notFound": {
+      "title": "Síða ikki funnin",
+      "message": "Síðan tú leitaði eftir finst ikki"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcomeMessage": "Vælkomin til Fundarbok",
+      "recentMeetings": "Nýggir fundir",
+      "upcomingMeetings": "Komandi fundir"
+    },
+    "settings": {
+      "title": "Stillingar",
+      "language": "Mál",
+      "theme": "Tema",
+      "notifications": "Fráboðanir"
+    }
+  },
+  "pwa": {
+    "notifications": {
+      "title": "Virka Fráboðanir",
+      "message": "Virka fráboðanir fyri at mótaka fundarupplýsingar og verkefni?",
+      "enableButton": "Virka",
+      "enabled": "Fráboðanir virkaðar!",
+      "failed": "Tók ikki at virka fráboðanir",
+      "disabled": "Fráboðanir virka ikki",
+      "offline": "Tú ert frá netinum - Sum funktionarlitir virka ikki"
+    },
+    "updates": {
+      "available": "Ný útgáva tøk",
+      "update": "Uppfæra",
+      "failed": "Tók ikki at uppfæra app"
+    }
+  }
+}

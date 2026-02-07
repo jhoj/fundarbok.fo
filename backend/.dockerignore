@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/node_modules/
+**/*.user
+**/*.suo
+**/appsettings.Development.json
+**/appsettings.json
+**/.git/
+**/.gitignore
+**/Dockerfile*
+**/.dockerignore
+**/docker-compose*.yml
+**/*.md
+**/tests/
+**/*.Tests/

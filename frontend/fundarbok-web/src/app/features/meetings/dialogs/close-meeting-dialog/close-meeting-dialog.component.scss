@@ -1,0 +1,144 @@
+.close-meeting-dialog {
+  .dialog-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 16px;
+
+    .title-icon {
+      color: #1976d2;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .dialog-content {
+    min-width: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+
+    .message {
+      margin-bottom: 20px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .validation-section {
+      margin-bottom: 24px;
+
+      .validation-error {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        border-radius: 4px;
+        margin-bottom: 16px;
+
+        .error-icon {
+          color: #ffc107;
+          flex-shrink: 0;
+        }
+
+        span {
+          color: #856404;
+          font-weight: 500;
+        }
+      }
+
+      .items-list {
+        h3 {
+          font-size: 14px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 8px;
+        }
+
+        mat-list {
+          padding: 0;
+
+          .item-without-conclusion {
+            height: auto;
+            padding: 8px 0;
+
+            .warning-icon {
+              color: #ffc107;
+            }
+
+            .warning-text {
+              color: #d9534f;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+
+    .validation-success {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background-color: #dff0d8;
+      border-left: 4px solid #5cb85c;
+      border-radius: 4px;
+      margin-bottom: 24px;
+
+      .success-icon {
+        color: #5cb85c;
+        flex-shrink: 0;
+      }
+
+      span {
+        color: #3c763d;
+        font-weight: 500;
+      }
+    }
+
+    .agenda-items-summary {
+      h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      mat-list {
+        padding: 0;
+
+        .agenda-item {
+          height: auto;
+          padding: 8px 0;
+
+          .conclusion-icon {
+            color: #5cb85c;
+            margin-left: 8px;
+          }
+
+          .conclusion-count {
+            color: #666;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .dialog-actions {
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+
+    .cancel-btn {
+      min-width: 100px;
+    }
+
+    .confirm-btn {
+      min-width: 100px;
+    }
+  }
+}

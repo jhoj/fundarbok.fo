@@ -1,0 +1,104 @@
+.dialog-description {
+  margin-bottom: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+  color: #999;
+}
+
+.members-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #999;
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.member-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .member-name {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .member-title {
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  .member-role {
+    font-size: 0.8rem;
+    color: #999;
+    text-transform: capitalize;
+  }
+
+  .already-participant {
+    font-size: 0.8rem;
+    color: #4caf50;
+    font-style: italic;
+  }
+}
+
+mat-dialog-content {
+  min-width: 400px;
+  max-height: 60vh;
+}
+
+mat-dialog-actions {
+  padding: 1rem 1.5rem;
+
+  button {
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+
+    mat-spinner {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

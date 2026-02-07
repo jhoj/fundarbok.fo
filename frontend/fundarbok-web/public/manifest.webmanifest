@@ -1,8 +1,9 @@
 {
-  "name": "fundarbok-web",
-  "short_name": "fundarbok-web",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Fundarbók - Meeting Management",
+  "short_name": "Fundarbók",
+  "description": "PWA for managing committee meetings and agendas",
+  "theme_color": "#00bcd4",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
