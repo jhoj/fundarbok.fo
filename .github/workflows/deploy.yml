@@ -1,0 +1,60 @@
+name: Deploy to VPS
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/fundarbok-web/package-lock.json
+
+      - name: Publish backend
+        run: dotnet publish backend/Fundarbok.sln -c Release -o publish/backend
+
+      - name: Build frontend
+        working-directory: frontend/fundarbok-web
+        run: |
+          npm ci
+          npm run build
+
+      - name: Copy frontend build to publish directory
+        run: cp -r frontend/fundarbok-web/dist/fundarbok-web/browser publish/frontend
+
+      - name: Deploy to VPS
+        uses: easingthemes/ssh-deploy@v5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.VPS_HOST }}
+          REMOTE_USER: ${{ secrets.VPS_USER }}
+          REMOTE_PORT: ${{ secrets.VPS_PORT || '22' }}
+          SOURCE: publish/
+          TARGET: ${{ secrets.DEPLOY_PATH || '/opt/fundarbok' }}
+
+      - name: Restart services
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || '22' }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH || '/opt/fundarbok' }}
+            sudo systemctl restart fundarbok-api
