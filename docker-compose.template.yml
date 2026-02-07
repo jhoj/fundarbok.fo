@@ -1,0 +1,83 @@
+# Docker Compose Template for Fundarbok
+# Copy this file to docker-compose.yml and configure your .env file
+#
+# For self-hosting customers:
+# 1. Copy this file to docker-compose.yml
+# 2. Create .env file (copy from .env.example)
+# 3. Run: docker-compose up -d
+# 4. Access at http://localhost (or configure your domain)
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-fundarbok}_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-fundarbok}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Database password required}
+      POSTGRES_DB: ${DB_NAME:-fundarbok}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-fundarbok} -d ${DB_NAME:-fundarbok}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fundarbok-network
+
+  # Backend API
+  backend:
+    image: ${DOCKER_REGISTRY:-ghcr.io/jhoj}/fundarbok-backend:${IMAGE_TAG:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME:-fundarbok}_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Database=${DB_NAME:-fundarbok};Username=${DB_USER:-fundarbok};Password=${DB_PASSWORD}"
+      Jwt__Secret: ${JWT_SECRET:?JWT secret required}
+      Jwt__Issuer: ${JWT_ISSUER:-Fundarbok.API}
+      Jwt__Audience: ${JWT_AUDIENCE:-Fundarbok.Web}
+      Jwt__ExpirationHours: ${JWT_EXPIRATION_HOURS:-24}
+      FileStorage__UploadPath: /app/uploads
+      Vapid__PublicKey: ${VAPID_PUBLIC_KEY:-}
+      Vapid__PrivateKey: ${VAPID_PRIVATE_KEY:-}
+      CorsOrigins__0: ${CORS_ORIGIN:-http://localhost}
+      ASPNETCORE_ENVIRONMENT: Production
+    volumes:
+      - uploads_data:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - fundarbok-network
+
+  # Frontend
+  frontend:
+    image: ${DOCKER_REGISTRY:-ghcr.io/jhoj}/fundarbok-frontend:${IMAGE_TAG:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME:-fundarbok}_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - fundarbok-network
+
+volumes:
+  postgres_data:
+  uploads_data:
+
+networks:
+  fundarbok-network:
+    driver: bridge

@@ -44,38 +44,38 @@ var key = Encoding.ASCII.GetBytes(jwtSecret);
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; // Set to true in production
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
-    };
+  options.RequireHttpsMetadata = false; // Set to true in production
+  options.SaveToken = true;
+  options.TokenValidationParameters = new TokenValidationParameters
+  {
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+    ValidateIssuer = true,
+    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+    ValidateAudience = true,
+    ValidAudience = builder.Configuration["Jwt:Audience"],
+    ValidateLifetime = true,
+    ClockSkew = TimeSpan.Zero
+  };
 });
 
 // Configure Authorization
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("SecretaryOnly", policy => policy.RequireRole("Secretary"));
-    options.AddPolicy("CommitteeMemberOnly", policy => policy.RequireRole("CommitteeMember"));
-    options.AddPolicy("AuthenticatedUser", policy => policy.RequireAuthenticatedUser());
+  options.AddPolicy("SecretaryOnly", policy => policy.RequireRole("Secretary"));
+  options.AddPolicy("CommitteeMemberOnly", policy => policy.RequireRole("CommitteeMember"));
+  options.AddPolicy("AuthenticatedUser", policy => policy.RequireAuthenticatedUser());
 });
 
 // Configure file upload limits
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 52428800; // 50MB
+  options.MultipartBodyLengthLimit = 52428800; // 50MB
 });
 
 // Add services to the container.
@@ -85,41 +85,41 @@ builder.Services.AddControllers();
 var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>() ?? new[] { "http://localhost:4200" };
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
-    {
-        policy.WithOrigins(corsOrigins)
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
-    });
+  options.AddPolicy("AllowAngular", policy =>
+  {
+    policy.WithOrigins(corsOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+  });
 });
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+  c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+  {
+    Title = "Fundarbók API",
+    Version = "v1",
+    Description = "API for Fundarbók - Meeting Management System",
+    Contact = new Microsoft.OpenApi.Models.OpenApiContact
     {
-        Title = "Fundarbók API",
-        Version = "v1",
-        Description = "API for Fundarbók - Meeting Management System",
-        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-        {
-            Name = "Fundarbók",
-        }
-    });
+      Name = "Fundarbók",
+    }
+  });
 
-    // Add JWT Authentication to Swagger
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
-        Name = "Authorization",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
+  // Add JWT Authentication to Swagger
+  c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+  {
+    Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
+    Name = "Authorization",
+    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+    Scheme = "Bearer"
+  });
 
-    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+  c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
             new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -140,12 +140,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundarbók API v1");
-        c.RoutePrefix = "swagger";
-    });
+  app.UseSwagger();
+  app.UseSwaggerUI(c =>
+  {
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundarbók API v1");
+    c.RoutePrefix = "swagger";
+  });
 }
 
 app.UseHttpsRedirection();
@@ -160,17 +160,17 @@ app.MapControllers();
 // Seed database
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<FundarbokDbContext>();
-        DbInitializer.Initialize(context);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
-    }
+  var services = scope.ServiceProvider;
+  try
+  {
+    var context = services.GetRequiredService<FundarbokDbContext>();
+    DbInitializer.Initialize(context);
+  }
+  catch (Exception ex)
+  {
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred while seeding the database.");
+  }
 }
 
 app.Run();
