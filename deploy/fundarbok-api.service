@@ -1,0 +1,18 @@
+[Unit]
+Description=Fundarbok API (.NET 8)
+After=network.target postgresql.service
+
+[Service]
+WorkingDirectory=/opt/fundarbok/backend
+ExecStart=/usr/bin/dotnet Fundarbok.API.dll
+Restart=always
+RestartSec=5
+SyslogIdentifier=fundarbok-api
+User=www-data
+Group=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://localhost:5000
+Environment=DOTNET_NOLOGO=true
+
+[Install]
+WantedBy=multi-user.target

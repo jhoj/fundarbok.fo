@@ -35,8 +35,10 @@ jobs:
           npm ci
           npm run build
 
-      - name: Copy frontend build to publish directory
-        run: cp -r frontend/fundarbok-web/dist/fundarbok-web/browser publish/frontend
+      - name: Prepare publish directory
+        run: |
+          cp -r frontend/fundarbok-web/dist/fundarbok-web/browser publish/frontend
+          cp -r deploy publish/deploy
 
       - name: Deploy to VPS
         uses: easingthemes/ssh-deploy@v5.1.0
@@ -44,17 +46,30 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
-          REMOTE_PORT: ${{ secrets.VPS_PORT || '22' }}
+          REMOTE_PORT: ${{ secrets.VPS_PORT }}
           SOURCE: publish/
-          TARGET: ${{ secrets.DEPLOY_PATH || '/opt/fundarbok' }}
+          TARGET: ${{ secrets.DEPLOY_PATH }}
+          ARGS: "-azr --delete-after"
+          EXCLUDE: "backend/appsettings.Production.json"
 
-      - name: Restart services
+      - name: Post-deploy
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT || '22' }}
+          port: ${{ secrets.VPS_PORT }}
           script: |
-            cd ${{ secrets.DEPLOY_PATH || '/opt/fundarbok' }}
+            DEPLOY_DIR=${{ secrets.DEPLOY_PATH }}
+
+            # Ensure production appsettings exists (don't overwrite if already configured)
+            if [ ! -f "$DEPLOY_DIR/backend/appsettings.Production.json" ]; then
+              cp "$DEPLOY_DIR/deploy/appsettings.Production.json" "$DEPLOY_DIR/backend/appsettings.Production.json"
+              echo "WARNING: appsettings.Production.json was copied from template - update credentials!"
+            fi
+
+            # Ensure correct ownership
+            sudo chown -R www-data:www-data "$DEPLOY_DIR"
+
+            # Restart the API service
             sudo systemctl restart fundarbok-api
