@@ -1,4 +1,5 @@
 using Fundarbok.Application.DTOs.AgendaItem;
+using Fundarbok.Application.DTOs.Committee;
 
 namespace Fundarbok.Application.DTOs.Meeting;
 
@@ -19,5 +20,5 @@ public class MeetingDetailDto
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public List<MeetingParticipantDto> Participants { get; set; } = new();
-    public List<AgendaItemDto> AgendaItems { get; set; } = new();
+    public List<AgendaItemDetailDto> AgendaItems { get; set; } = new();
 }

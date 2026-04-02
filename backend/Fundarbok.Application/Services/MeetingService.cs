@@ -1,5 +1,10 @@
 using Fundarbok.Application.DTOs.Meeting;
 using Fundarbok.Application.DTOs.AgendaItem;
+using Fundarbok.Application.DTOs.Conclusion;
+using Fundarbok.Application.DTOs.Document;
+using Fundarbok.Application.DTOs.Note;
+using Fundarbok.Application.DTOs.Recommendation;
+using Fundarbok.Application.DTOs.Task;
 using Fundarbok.Domain.Entities;
 using Fundarbok.Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
@@ -461,7 +466,7 @@ public class MeetingService : IMeetingService
             CreatedAt = meeting.CreatedAt,
             UpdatedAt = meeting.UpdatedAt,
             Participants = meeting.MeetingParticipants?.Select(MapToMeetingParticipantDto).ToList() ?? new(),
-            AgendaItems = meeting.AgendaItems?.Select(MapToAgendaItemDto).ToList() ?? new()
+            AgendaItems = meeting.AgendaItems?.Select(MapToAgendaItemDetailDto).ToList() ?? new()
         };
     }
 
@@ -494,6 +499,72 @@ public class MeetingService : IMeetingService
             DocumentCount = agendaItem.Documents?.Count ?? 0,
             RecommendationCount = agendaItem.Recommendations?.Count ?? 0,
             ConclusionCount = agendaItem.Conclusions?.Count ?? 0
+        };
+    }
+
+    private static AgendaItemDetailDto MapToAgendaItemDetailDto(AgendaItem agendaItem)
+    {
+        return new AgendaItemDetailDto
+        {
+            Id = agendaItem.Id,
+            MeetingId = agendaItem.MeetingId,
+            Number = agendaItem.Number,
+            Title = agendaItem.Title,
+            Description = agendaItem.Description,
+            CreatedAt = agendaItem.CreatedAt,
+            UpdatedAt = agendaItem.UpdatedAt,
+            Documents = agendaItem.Documents?.Select(d => new DocumentDto
+            {
+                Id = d.Id,
+                AgendaItemId = d.AgendaItemId,
+                MeetingId = d.MeetingId,
+                Name = d.Name,
+                Description = d.Description,
+                FileName = d.FileName,
+                FileSize = d.FileSize,
+                MimeType = d.MimeType,
+                Number = d.Number,
+                IsPublic = d.IsPublic,
+                IsLocked = d.IsLocked,
+                CreatedAt = d.CreatedAt,
+                UpdatedAt = d.UpdatedAt
+            }).ToList() ?? new(),
+            Recommendations = agendaItem.Recommendations?.Select(r => new RecommendationDto
+            {
+                Id = r.Id,
+                AgendaItemId = r.AgendaItemId,
+                Text = r.Text,
+                CreatedAt = r.CreatedAt,
+                UpdatedAt = r.UpdatedAt
+            }).ToList() ?? new(),
+            Conclusions = agendaItem.Conclusions?.Select(c => new ConclusionDto
+            {
+                Id = c.Id,
+                AgendaItemId = c.AgendaItemId,
+                Text = c.Text,
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt
+            }).ToList() ?? new(),
+            Notes = agendaItem.Notes?.Select(n => new NoteDto
+            {
+                Id = n.Id,
+                AgendaItemId = n.AgendaItemId,
+                UserId = n.UserId,
+                Text = n.Text,
+                CreatedAt = n.CreatedAt,
+                UpdatedAt = n.UpdatedAt
+            }).ToList() ?? new(),
+            Tasks = agendaItem.Tasks?.Select(t => new TaskDto
+            {
+                Id = t.Id,
+                AgendaItemId = t.AgendaItemId,
+                Description = t.Description,
+                AssignedUserId = t.AssignedUserId,
+                DueDate = t.DueDate,
+                IsCompleted = t.IsCompleted,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            }).ToList() ?? new()
         };
     }
 }
