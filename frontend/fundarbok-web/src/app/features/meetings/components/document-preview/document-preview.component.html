@@ -26,7 +26,24 @@
 
   <!-- PDF Preview -->
   <div *ngIf="!isLoading && !error && isPDF()" class="pdf-container">
-    <iframe [src]="blobUrl" class="pdf-viewer"></iframe>
+    <ngx-extended-pdf-viewer
+      [src]="pdfSrc!"
+      [showToolbar]="true"
+      [showSidebarButton]="false"
+      [showFindButton]="true"
+      [showPagingButtons]="true"
+      [showZoomButtons]="true"
+      [showPresentationModeButton]="false"
+      [showOpenFileButton]="false"
+      [showPrintButton]="false"
+      [showDownloadButton]="false"
+      [showSecondaryToolbarButton]="false"
+      [showRotateButton]="false"
+      [showHandToolButton]="false"
+      [showSpreadButton]="false"
+      [showPropertiesButton]="false"
+      height="100%">
+    </ngx-extended-pdf-viewer>
   </div>
 
   <!-- Image Preview -->
@@ -34,23 +51,19 @@
     <img [src]="blobUrl" [alt]="document.name" class="image-preview">
   </div>
 
+  <!-- Text Preview -->
+  <div *ngIf="!isLoading && !error && isText()" class="text-container">
+    <pre>{{ textContent }}</pre>
+  </div>
+
   <!-- Other File Types -->
-  <div *ngIf="!isLoading && !error && !isPDF() && !isImage()" class="unsupported-container">
+  <div *ngIf="!isLoading && !error && !isPDF() && !isImage() && !isText()" class="unsupported-container">
     <mat-icon>insert_drive_file</mat-icon>
     <p>{{ document.fileName }}</p>
-    <p class="file-type">{{ document.mimeType }}</p>
     <p>Preview not available for this file type</p>
     <button mat-raised-button color="primary" (click)="downloadDocument()">
       <mat-icon>download</mat-icon>
       Download
     </button>
-  </div>
-
-  <!-- Document Info -->
-  <div *ngIf="!isLoading && !error" class="document-info">
-    <p><strong>File:</strong> {{ document.fileName }}</p>
-    <p *ngIf="document.description"><strong>Description:</strong> {{ document.description }}</p>
-    <p><strong>Size:</strong> {{ (document.fileSize / 1024).toFixed(2) }} KB</p>
-    <p><strong>Type:</strong> {{ document.mimeType }}</p>
   </div>
 </mat-dialog-content>

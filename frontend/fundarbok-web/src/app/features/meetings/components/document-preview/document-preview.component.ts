@@ -1,11 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { DocumentService } from '../../../../core/services/document.service';
 import { Document as DocumentModel } from '../../../../models/document.model';
 
@@ -18,25 +18,33 @@ import { Document as DocumentModel } from '../../../../models/document.model';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxExtendedPdfViewerModule
   ],
   templateUrl: './document-preview.component.html',
   styleUrls: ['./document-preview.component.scss']
 })
-export class DocumentPreviewComponent {
+export class DocumentPreviewComponent implements OnDestroy {
   document: DocumentModel;
-  blobUrl: SafeResourceUrl | null = null;
+  blobUrl: string | null = null;
+  pdfSrc: Uint8Array | null = null;
+  textContent: string | null = null;
   isLoading = true;
   error: string | null = null;
 
   constructor(
     private documentService: DocumentService,
-    private sanitizer: DomSanitizer,
     public dialogRef: MatDialogRef<DocumentPreviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { document: DocumentModel }
   ) {
     this.document = data.document;
     this.loadDocument();
+  }
+
+  ngOnDestroy(): void {
+    if (this.blobUrl) {
+      URL.revokeObjectURL(this.blobUrl);
+    }
   }
 
   loadDocument(): void {
@@ -45,9 +53,22 @@ export class DocumentPreviewComponent {
 
     this.documentService.previewDocument(this.document.id).subscribe({
       next: (blob) => {
-        const url = URL.createObjectURL(blob);
-        this.blobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        this.isLoading = false;
+        if (this.isPDF()) {
+          blob.arrayBuffer().then(buffer => {
+            this.pdfSrc = new Uint8Array(buffer);
+            this.isLoading = false;
+          });
+        } else if (this.isText()) {
+          blob.text().then(text => {
+            this.textContent = text;
+            this.isLoading = false;
+          });
+        } else if (this.isImage()) {
+          this.blobUrl = URL.createObjectURL(blob);
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+        }
       },
       error: (err) => {
         console.error('Error loading document:', err);
@@ -79,6 +100,11 @@ export class DocumentPreviewComponent {
 
   isImage(): boolean {
     return this.document.mimeType.startsWith('image/');
+  }
+
+  isText(): boolean {
+    const textTypes = ['text/plain', 'text/csv', 'text/html', 'text/xml', 'application/json'];
+    return textTypes.includes(this.document.mimeType);
   }
 
   close(): void {

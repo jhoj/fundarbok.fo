@@ -17,20 +17,17 @@
         class="agenda-item"
         [class.selected]="isSelected(item)"
         (click)="onSelectItem(item)">
-        <div class="drag-handle" cdkDragHandle *appHasRole="'Secretary'">
+        <div class="item-drag" cdkDragHandle *appHasRole="'Secretary'">
           <mat-icon>drag_indicator</mat-icon>
         </div>
-        <div class="item-number">
-          <span class="number-badge">{{ item.number }}</span>
-        </div>
-        <div class="item-content">
+        <div class="item-title-col">
           <span class="item-title">{{ item.title }}</span>
+          <span class="document-count" *ngIf="getDocumentCount(item) > 0">
+            <mat-icon>description</mat-icon> {{ getDocumentCount(item) }}
+          </span>
         </div>
-        <div class="item-actions">
-          <div class="document-badge" *ngIf="getDocumentCount(item) > 0">
-            <mat-icon>description</mat-icon>
-            <span>{{ getDocumentCount(item) }}</span>
-          </div>
+        <div class="item-number-col">
+          {{ item.number }}
         </div>
       </mat-list-item>
     </mat-list>

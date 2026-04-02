@@ -22,9 +22,6 @@
       <button *appHasRole="'Secretary'" mat-icon-button (click)="editMeeting()" [matTooltip]="'meetings.detail.editMeeting' | translate">
         <mat-icon>edit</mat-icon>
       </button>
-      <button *appHasRole="'Secretary'" mat-icon-button (click)="createDocument()" [matTooltip]="'meetings.detail.createDocument' | translate">
-        <mat-icon>note_add</mat-icon>
-      </button>
       <button mat-icon-button (click)="openParticipantsDialog()" [matTooltip]="'meetings.detail.members' | translate">
         <mat-icon>people</mat-icon>
       </button>
@@ -75,17 +72,12 @@
 
   <!-- Bottom Action Bar -->
   <div class="bottom-action-bar">
-    <div class="status-controls" *appHasRole="'Secretary'">
-      <mat-chip class="status-badge" [class.not-approved]="!meeting.isApproved">
-        {{ meeting.isApproved ? ('notifications.success.approved' | translate) : ('errors.server.forbidden' | translate) }}
-      </mat-chip>
-      <button mat-raised-button color="accent" (click)="closeMeeting()">
-        {{ 'meetings.detail.closeMeeting' | translate }}
-      </button>
-    </div>
     <div class="action-buttons">
       <button mat-stroked-button (click)="goBack()">
         {{ 'common.actions.back' | translate }}
+      </button>
+      <button *appHasRole="'Secretary'" mat-raised-button color="accent" (click)="closeMeeting()">
+        {{ 'meetings.detail.closeMeeting' | translate }}
       </button>
       <button mat-raised-button color="primary" (click)="saveMeeting()">
         {{ 'common.actions.save' | translate }}

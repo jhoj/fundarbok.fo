@@ -198,7 +198,8 @@
       "completed": "Liðugur",
       "approved": "Góðkendur",
       "closed": "Endaður",
-      "draft": "Kladda"
+      "draft": "Kladda",
+      "notApproved": "Ikki góðkent"
     },
     "messages": {
       "agendaItemCreated": "Fundarskrá stovnað",

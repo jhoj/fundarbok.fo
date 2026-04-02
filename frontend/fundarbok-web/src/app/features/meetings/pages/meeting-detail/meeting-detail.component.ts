@@ -63,7 +63,6 @@ export class MeetingDetailComponent implements OnInit {
   selectedAgendaItem: AgendaItemDetail | null = null;
   isLoading = true;
   private meetingId = '';
-  documentTemplateInput = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -282,11 +281,6 @@ export class MeetingDetailComponent implements OnInit {
         this.loadMeeting();
       }
     });
-  }
-
-  createDocument(): void {
-    // TODO: Navigate to create document page
-    console.log('Create document');
   }
 
   closeMeeting(): void {

@@ -199,7 +199,8 @@
       "completed": "Completed",
       "approved": "Approved",
       "closed": "Closed",
-      "draft": "Draft"
+      "draft": "Draft",
+      "notApproved": "Not approved"
     },
     "messages": {
       "agendaItemCreated": "Agenda item created",
