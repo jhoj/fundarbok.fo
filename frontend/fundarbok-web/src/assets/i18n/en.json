@@ -302,13 +302,6 @@
       "member": "Member",
       "secretary": "Secretary"
     },
-    "member": {
-      "role": "Role",
-      "chairman": "Chairman",
-      "member": "Member",
-      "secretary": "Secretary",
-      "memberCount": "Member Count"
-    },
     "messages": {
       "committeeCreated": "Committee created successfully",
       "committeeUpdated": "Committee updated successfully",

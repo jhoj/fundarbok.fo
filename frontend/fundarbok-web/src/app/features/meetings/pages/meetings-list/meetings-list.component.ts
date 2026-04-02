@@ -59,18 +59,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
-            <mat-label>{{ 'meetings.dateRange' | translate }} - From</mat-label>
-            <input matInput [matDatepicker]="picker1" formControlName="startDate" (change)="applyFilters()">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label>{{ 'meetings.dateRange' | translate }} - To</mat-label>
-            <input matInput [matDatepicker]="picker2" formControlName="endDate" (change)="applyFilters()">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
+          <mat-form-field appearance="fill" class="date-range-field">
+            <mat-label>{{ 'common.time.dateRange' | translate }}</mat-label>
+            <mat-date-range-input [rangePicker]="picker" formGroupName="dateRange">
+              <input matStartDate formControlName="start" (change)="applyFilters()">
+              <input matEndDate formControlName="end" (change)="applyFilters()">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
         </form>
       </mat-card>
@@ -163,6 +159,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
       min-width: 200px;
     }
 
+    .date-range-field {
+      min-width: 300px;
+    }
+
     .meetings-table-card {
       overflow-x: auto;
     }
@@ -230,8 +230,10 @@ export class MeetingsListComponent implements OnInit {
   ) {
     this.filterForm = this.fb.group({
       committeeId: [''],
-      startDate: [''],
-      endDate: ['']
+      dateRange: this.fb.group({
+        start: [''],
+        end: ['']
+      })
     });
   }
 
@@ -258,8 +260,10 @@ export class MeetingsListComponent implements OnInit {
 
     // Set filter form values
     this.filterForm.patchValue({
-      startDate: firstDayOfWeek,
-      endDate: lastDayOfWeek
+      dateRange: {
+        start: firstDayOfWeek,
+        end: lastDayOfWeek
+      }
     });
 
     // Apply the filters
@@ -294,11 +298,11 @@ export class MeetingsListComponent implements OnInit {
     if (filters.committeeId) {
       params.committeeId = filters.committeeId;
     }
-    if (filters.startDate) {
-      params.startDate = new Date(filters.startDate).toISOString();
+    if (filters.dateRange?.start) {
+      params.startDate = new Date(filters.dateRange.start).toISOString();
     }
-    if (filters.endDate) {
-      params.endDate = new Date(filters.endDate).toISOString();
+    if (filters.dateRange?.end) {
+      params.endDate = new Date(filters.dateRange.end).toISOString();
     }
 
     this.isLoading = true;

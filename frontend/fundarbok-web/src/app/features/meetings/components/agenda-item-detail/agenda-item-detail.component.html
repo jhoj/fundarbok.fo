@@ -27,7 +27,7 @@
         <div class="item-number">{{ i + 1 }}.</div>
         <div class="item-content">
           <p>{{ recommendation.text }}</p>
-          <span class="timestamp">{{ recommendation.createdAt | date:'dd-MM-yyyy HH:mm' }}</span>
+          <span class="timestamp">{{ recommendation.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@
       <div class="item conclusion-item" *ngFor="let conclusion of agendaItem.conclusions">
         <div class="item-content">
           <p>{{ conclusion.text }}</p>
-          <span class="timestamp">Skrá leysgivin {{ conclusion.createdAt | date:'dd-MM-yyyy' }} kl. {{ conclusion.createdAt | date:'HH:mm' }}</span>
+          <span class="timestamp">Skrá leysgivin {{ conclusion.createdAt | date:'dd.MM.yyyy' }} kl. {{ conclusion.createdAt | date:'HH:mm' }}</span>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
       <div class="item" *ngFor="let note of agendaItem.notes">
         <div class="item-content">
           <p>{{ note.text }}</p>
-          <span class="timestamp">{{ note.createdAt | date:'dd-MM-yyyy HH:mm' }}</span>
+          <span class="timestamp">{{ note.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
         <div class="item-content">
           <p>{{ task.description }}</p>
           <span class="timestamp">
-            Endar: {{ task.dueDate | date:'dd-MM-yyyy' }}
+            Endar: {{ task.dueDate | date:'dd.MM.yyyy' }}
             <span *ngIf="task.isCompleted" class="completed-badge">✓ Liðugt</span>
           </span>
         </div>

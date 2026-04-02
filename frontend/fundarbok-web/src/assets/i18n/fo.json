@@ -283,13 +283,6 @@
       "member": "Limur",
       "secretary": "Skrivari"
     },
-    "member": {
-      "role": "Støða",
-      "chairman": "Formaður / forkvinna",
-      "member": "Limur",
-      "secretary": "Skrivari",
-      "memberCount": "Tal av limum"
-    },
     "messages": {
       "committeeCreated": "Nevnd stovnað",
       "committeeUpdated": "Nevnd dagførd",

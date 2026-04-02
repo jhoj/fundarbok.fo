@@ -60,7 +60,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" (click)="saveSettings()">
-              {{ 'common.save' | translate }}
+              {{ 'common.actions.save' | translate }}
             </button>
           </mat-card-actions>
         </mat-card>

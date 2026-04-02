@@ -31,7 +31,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     <div class="login-container">
       <mat-card class="login-card">
         <mat-card-header>
-          <h1>{{ 'auth.login' | translate }}</h1>
+          <h1>{{ 'auth.login.title' | translate }}</h1>
         </mat-card-header>
 
         <mat-card-content>
@@ -69,7 +69,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
             </div>
 
             <div class="register-link">
-              <p>{{ 'auth.noAccount' | translate }}
+              <p>{{ 'auth.login.noAccount' | translate }}
                 <a routerLink="/register">{{ 'auth.signUp' | translate }}</a>
               </p>
             </div>
