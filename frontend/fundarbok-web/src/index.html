@@ -14,5 +14,23 @@
 <body>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
+  <script>
+    // One-time fix: clear broken service worker cache
+    if ('serviceWorker' in navigator && !window.__swFixed) {
+      caches.keys().then(function(names) {
+        var hasOld = names.some(function(n) { return n.indexOf('ngsw') !== -1; });
+        if (hasOld && !localStorage.getItem('sw-fixed-v1')) {
+          localStorage.setItem('sw-fixed-v1', '1');
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(r) { r.unregister(); });
+          });
+          caches.keys().then(function(ns) {
+            ns.forEach(function(n) { caches.delete(n); });
+          });
+          setTimeout(function() { window.location.reload(); }, 500);
+        }
+      });
+    }
+  </script>
 </body>
 </html>

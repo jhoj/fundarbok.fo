@@ -32,7 +32,7 @@
       "name": "meetings",
       "urls": ["/api/meetings/**"],
       "cacheConfig": {
-        "strategy": "network-first",
+        "strategy": "freshness",
         "maxAge": "1h",
         "maxSize": 100
       }
@@ -41,7 +41,7 @@
       "name": "documents",
       "urls": ["/api/documents/**"],
       "cacheConfig": {
-        "strategy": "network-first",
+        "strategy": "freshness",
         "maxAge": "24h",
         "maxSize": 50
       }
@@ -50,7 +50,7 @@
       "name": "committees",
       "urls": ["/api/committees/**"],
       "cacheConfig": {
-        "strategy": "network-first",
+        "strategy": "freshness",
         "maxAge": "24h",
         "maxSize": 20
       }
@@ -59,7 +59,7 @@
       "name": "agenda-items",
       "urls": ["/api/agendaitems/**"],
       "cacheConfig": {
-        "strategy": "network-first",
+        "strategy": "freshness",
         "maxAge": "1h",
         "maxSize": 50
       }
@@ -68,7 +68,7 @@
       "name": "notes-tasks",
       "urls": ["/api/notes/**", "/api/tasks/**"],
       "cacheConfig": {
-        "strategy": "network-first",
+        "strategy": "freshness",
         "maxAge": "30m",
         "maxSize": 30
       }

@@ -43,8 +43,15 @@ export class SwUpdateService {
     this.swUpdate.versionUpdates.subscribe((event: any) => {
       if (event.type === 'VERSION_READY') {
         this.updateAvailable$.next(true);
-        this.showUpdateNotification();
+        // Auto-activate the update and reload
+        this.activateUpdate();
       }
+    });
+
+    // Handle unrecoverable state (broken service worker)
+    this.swUpdate.unrecoverable.subscribe(() => {
+      console.error('Service worker in unrecoverable state, reloading...');
+      window.location.reload();
     });
   }
 
