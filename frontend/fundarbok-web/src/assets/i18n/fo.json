@@ -55,6 +55,14 @@
     }
   },
   "auth": {
+    "login": "Rita inn",
+    "email": "Teldupost",
+    "password": "Loyniorð",
+    "signIn": "Rita inn",
+    "name": "Navn",
+    "confirmPassword": "Góðkenn loyniorð",
+    "signUp": "Stovna",
+    "alreadyHaveAccount": "Hevur tú longu ein brukara?",
     "login": {
       "title": "Rita inn",
       "email": "Teldupost",
@@ -81,6 +89,11 @@
       "registerSuccess": "Stovningin eydnaðist",
       "registerError": "Stovningin miseydnaðist"
     }
+  },
+  "errors": {
+    "required": "Hetta svið er kravt",
+    "invalidEmail": "Ógyldugur teldupostur",
+    "passwordMismatch": "Loyniorðini stemma ekki"
   },
   "navigation": {
     "dashboard": "Høvuðssíða",
@@ -233,6 +246,9 @@
     }
   },
   "committees": {
+    "role": "Støða",
+    "member": "Limur",
+    "secretary": "Skrivari",
     "title": "Nevndir",
     "list": {
       "title": "Nevndir",

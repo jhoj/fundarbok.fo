@@ -56,6 +56,14 @@
     }
   },
   "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "name": "Name",
+    "confirmPassword": "Confirm Password",
+    "signUp": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
     "login": {
       "title": "Login",
       "email": "Email",
@@ -82,6 +90,11 @@
       "registerSuccess": "Registration successful",
       "registerError": "Registration failed"
     }
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "passwordMismatch": "Passwords do not match"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -252,6 +265,9 @@
     "taskHint": "The assigned user will be notified about this task."
   },
   "committees": {
+    "role": "Role",
+    "member": "Member",
+    "secretary": "Secretary",
     "title": "Committees",
     "list": {
       "title": "Committees",
