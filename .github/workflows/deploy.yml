@@ -14,8 +14,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE: ${{ github.repository }}-backend
-  FRONTEND_IMAGE: ${{ github.repository }}-frontend
+  BACKEND_IMAGE: jhoj/fundarbok-backend
+  FRONTEND_IMAGE: jhoj/fundarbok-frontend
 
 jobs:
   build-backend:
@@ -113,7 +113,6 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          debug: true
           script: |
             cd /opt/fundarbok
             docker compose pull
