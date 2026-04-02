@@ -58,25 +58,25 @@ import { Committee } from '../../../../models/committee.model';
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>{{ 'meetings.meetingLocation' | translate }}</mat-label>
+              <mat-label>{{ 'meetings.form.meetingLocation' | translate }}</mat-label>
               <input matInput formControlName="location" required>
-              <mat-error>{{ 'errors.required' | translate }}</mat-error>
+              <mat-error>{{ 'errors.validation.required' | translate }}</mat-error>
             </mat-form-field>
 
             <div class="date-time-group">
               <!-- Start Date and Time -->
               <div class="date-time-input">
-                <mat-form-field appearance="fill">
-                  <mat-label>{{ 'meetings.startDate' | translate }}</mat-label>
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>{{ 'meetings.form.startDate' | translate }}</mat-label>
                   <input matInput [matDatepicker]="startPicker" formControlName="startDate" required>
                   <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                   <mat-datepicker #startPicker></mat-datepicker>
-                  <mat-error>{{ 'errors.required' | translate }}</mat-error>
+                  <mat-error>{{ 'errors.validation.required' | translate }}</mat-error>
                 </mat-form-field>
 
                 <div class="time-input-group">
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{ 'meetings.startTime.hours' | translate }}</mat-label>
+                  <mat-form-field appearance="fill" class="time-field">
+                    <mat-label>{{ 'meetings.form.startHours' | translate }}</mat-label>
                     <mat-select formControlName="startHours" required>
                       <mat-option *ngFor="let hour of hours" [value]="hour">
                         {{hour.toString().padStart(2, '0')}}
@@ -86,8 +86,8 @@ import { Committee } from '../../../../models/committee.model';
 
                   <span class="time-separator">:</span>
 
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{ 'meetings.startTime.minutes' | translate }}</mat-label>
+                  <mat-form-field appearance="fill" class="time-field">
+                    <mat-label>{{ 'meetings.form.startMinutes' | translate }}</mat-label>
                     <mat-select formControlName="startMinutes" required>
                       <mat-option *ngFor="let minute of minutes" [value]="minute">
                         {{minute.toString().padStart(2, '0')}}
@@ -99,17 +99,17 @@ import { Committee } from '../../../../models/committee.model';
 
               <!-- End Date and Time -->
               <div class="date-time-input">
-                <mat-form-field appearance="fill">
-                  <mat-label>{{ 'meetings.endDate' | translate }}</mat-label>
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>{{ 'meetings.form.endDate' | translate }}</mat-label>
                   <input matInput [matDatepicker]="endPicker" formControlName="endDate" required>
                   <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                   <mat-datepicker #endPicker></mat-datepicker>
-                  <mat-error>{{ 'errors.required' | translate }}</mat-error>
+                  <mat-error>{{ 'errors.validation.required' | translate }}</mat-error>
                 </mat-form-field>
 
                 <div class="time-input-group">
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{ 'meetings.endTime.hours' | translate }}</mat-label>
+                  <mat-form-field appearance="fill" class="time-field">
+                    <mat-label>{{ 'meetings.form.endHours' | translate }}</mat-label>
                     <mat-select formControlName="endHours" required>
                       <mat-option *ngFor="let hour of hours" [value]="hour">
                         {{hour.toString().padStart(2, '0')}}
@@ -119,8 +119,8 @@ import { Committee } from '../../../../models/committee.model';
 
                   <span class="time-separator">:</span>
 
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{ 'meetings.endTime.minutes' | translate }}</mat-label>
+                  <mat-form-field appearance="fill" class="time-field">
+                    <mat-label>{{ 'meetings.form.endMinutes' | translate }}</mat-label>
                     <mat-select formControlName="endMinutes" required>
                       <mat-option *ngFor="let minute of minutes" [value]="minute">
                         {{minute.toString().padStart(2, '0')}}
@@ -132,13 +132,13 @@ import { Committee } from '../../../../models/committee.model';
             </div>
 
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>{{ 'common.description' | translate }}</mat-label>
+              <mat-label>{{ 'common.ui.description' | translate }}</mat-label>
               <textarea matInput formControlName="description" rows="4"></textarea>
             </mat-form-field>
 
             <div class="button-group">
               <button mat-raised-button type="button" (click)="goBack()">
-                {{ 'common.cancel' | translate }}
+                {{ 'common.actions.cancel' | translate }}
               </button>
               <button
                 mat-raised-button
@@ -146,7 +146,7 @@ import { Committee } from '../../../../models/committee.model';
                 type="submit"
                 [disabled]="!meetingForm.valid || isLoading()"
               >
-                <span *ngIf="!isLoading()">{{ 'common.save' | translate }}</span>
+                <span *ngIf="!isLoading()">{{ 'common.actions.save' | translate }}</span>
                 <mat-spinner *ngIf="isLoading()" diameter="20"></mat-spinner>
               </button>
             </div>
@@ -199,10 +199,16 @@ import { Committee } from '../../../../models/committee.model';
       gap: 0.5rem;
     }
 
+    .time-field {
+      flex: 1;
+      min-width: 0;
+    }
+
     .time-separator {
       margin-top: -1rem;
       font-size: 1.2rem;
       font-weight: bold;
+      flex-shrink: 0;
     }
 
     .button-group {

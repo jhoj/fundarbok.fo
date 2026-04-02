@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { TranslationService } from '../../../../core/services/translation.service';
 import { MeetingParticipant } from '../../../../models/meeting.model';
-import { MeetingService } from '../../services/meeting.service';
+import { MeetingService } from '../../../../core/services/meeting.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { GrantAccessDialogComponent, GrantAccessDialogData } from '../grant-access-dialog/grant-access-dialog.component';
 
@@ -75,18 +75,24 @@ export class ParticipantsDialogComponent implements OnInit {
   }
 
   onParticipationToggle(participant: MeetingParticipant, event: any): void {
-    // Update participation status via API
     const newStatus = event.checked;
 
-    // Here we would call an API to update the participation status
-    // For now, just update locally
-    participant.isParticipating = newStatus;
-
-    this.snackBar.open(
-      this.translationService.translate('meetings.participants.participationUpdated'),
-      'Close',
-      { duration: 2000 }
-    );
+    this.meetingService.addParticipant(this.data.meetingId, {
+      committeeMemberId: participant.committeeMemberId,
+      isParticipating: newStatus
+    }).subscribe({
+      next: () => {
+        participant.isParticipating = newStatus;
+        this.snackBar.open(
+          this.translationService.translate('meetings.participants.participationUpdated'),
+          'Close',
+          { duration: 2000 }
+        );
+      },
+      error: () => {
+        this.snackBar.open('Failed to update participation', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   openGrantAccessDialog(): void {

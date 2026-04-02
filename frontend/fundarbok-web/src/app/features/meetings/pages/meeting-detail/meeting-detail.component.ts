@@ -15,7 +15,7 @@ import { AgendaItemService } from '../../services/agenda-item.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TranslationService } from '../../../../core/services/translation.service';
 import { HasRoleDirective } from '../../../../shared/directives/has-role.directive';
-import { MeetingDetail, AgendaItem, AgendaItemDetail } from '../../../../models/meeting.model';
+import { MeetingDetail, AgendaItem, AgendaItemDetail, UpdateMeetingRequest } from '../../../../models/meeting.model';
 import { AgendaItemsSidebarComponent } from '../../components/agenda-items-sidebar/agenda-items-sidebar.component';
 import { AgendaItemDetailComponent } from '../../components/agenda-item-detail/agenda-item-detail.component';
 import { AgendaItemDialogComponent, AgendaItemDialogData } from '../../dialogs/agenda-item-dialog/agenda-item-dialog.component';
@@ -397,8 +397,30 @@ export class MeetingDetailComponent implements OnInit {
   }
 
   saveMeeting(): void {
-    // TODO: Implement save functionality
-    console.log('Save meeting');
+    if (!this.meeting) return;
+    const request: UpdateMeetingRequest = {
+      title: this.meeting.title,
+      location: this.meeting.location,
+      startDate: this.meeting.startDate,
+      endDate: this.meeting.endDate,
+      description: this.meeting.description
+    };
+    this.meetingService.updateMeeting(this.meetingId, request).subscribe({
+      next: () => {
+        this.snackBar.open(
+          this.translationService.translate('meetings.messages.meetingUpdated'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 3000 }
+        );
+      },
+      error: () => {
+        this.snackBar.open(
+          this.translationService.translate('meetings.messages.failedToUpdate'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 3000 }
+        );
+      }
+    });
   }
 
   onEditAgendaItem(): void {

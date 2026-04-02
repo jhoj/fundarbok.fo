@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
-import { MeetingService } from '../meetings/services/meeting.service';
+import { MeetingService } from '../../core/services/meeting.service';
 import { CommitteeService } from '../../core/services/committee.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { Meeting } from '../../models/meeting.model';

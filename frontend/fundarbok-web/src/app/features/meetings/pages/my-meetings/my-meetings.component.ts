@@ -14,7 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { TranslationService } from '../../../../core/services/translation.service';
-import { MeetingService } from '../../services/meeting.service';
+import { MeetingService } from '../../../../core/services/meeting.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Meeting, MeetingDetail } from '../../../../models/meeting.model';
 

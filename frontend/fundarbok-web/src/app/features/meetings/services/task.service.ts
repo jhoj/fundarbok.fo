@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
 
@@ -20,38 +19,33 @@ export interface UpdateTaskRequest {
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly baseUrl = '/api/tasks';
-
-  constructor(
-    private http: HttpClient,
-    private apiService: ApiService
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   getByAgendaItemId(agendaItemId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/agenda-item/${agendaItemId}`);
+    return this.apiService.get<any[]>(`/tasks/agenda-item/${agendaItemId}`);
   }
 
   getMyTasks(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/my`);
+    return this.apiService.get<any[]>('/tasks/my');
   }
 
   getById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${id}`);
+    return this.apiService.get<any>(`/tasks/${id}`);
   }
 
   create(agendaItemId: string, request: CreateTaskRequest): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/agenda-item/${agendaItemId}`, request);
+    return this.apiService.post<any>(`/tasks/agenda-item/${agendaItemId}`, request);
   }
 
   update(id: string, request: UpdateTaskRequest): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${id}`, request);
+    return this.apiService.put<any>(`/tasks/${id}`, request);
   }
 
   toggleComplete(id: string): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/${id}/toggle-complete`, {});
+    return this.apiService.patch<any>(`/tasks/${id}/toggle-complete`, {});
   }
 
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.apiService.delete<void>(`/tasks/${id}`);
   }
 }

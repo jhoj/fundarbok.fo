@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MeetingService, MeetingFilter } from '../services/meeting.service';
+import { MeetingService, MeetingFilter } from '../../../core/services/meeting.service';
 import { CommitteeService } from '../../../core/services/committee.service';
 import { Meeting } from '../../../models/meeting.model';
 import { Committee } from '../../../models/committee.model';

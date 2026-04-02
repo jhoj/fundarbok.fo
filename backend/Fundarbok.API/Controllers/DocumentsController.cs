@@ -5,6 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fundarbok.API.Controllers;
 
+public class UploadDocumentForm
+{
+    public IFormFile File { get; set; } = null!;
+    public Guid? AgendaItemId { get; set; }
+    public Guid? MeetingId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public int Number { get; set; } = 1;
+    public bool IsPublic { get; set; } = true;
+    public bool IsLocked { get; set; } = false;
+}
+
 /// <summary>
 /// Controller for managing document uploads and downloads
 /// </summary>
@@ -111,27 +123,19 @@ public class DocumentsController : ControllerBase
     [ProducesResponseType(typeof(DocumentDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Consumes("multipart/form-data")]
-    public async Task<ActionResult<DocumentDto>> Upload(
-        [FromForm] IFormFile file,
-        [FromForm] Guid? agendaItemId,
-        [FromForm] Guid? meetingId,
-        [FromForm] string name,
-        [FromForm] string? description,
-        [FromForm] int number = 1,
-        [FromForm] bool isPublic = true,
-        [FromForm] bool isLocked = false)
+    public async Task<ActionResult<DocumentDto>> Upload([FromForm] UploadDocumentForm form)
     {
-        if (file == null || file.Length == 0)
+        if (form.File == null || form.File.Length == 0)
         {
             return BadRequest(new { message = "File is required" });
         }
 
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(form.Name))
         {
             return BadRequest(new { message = "Document name is required" });
         }
 
-        if (!agendaItemId.HasValue && !meetingId.HasValue)
+        if (!form.AgendaItemId.HasValue && !form.MeetingId.HasValue)
         {
             return BadRequest(new { message = "Either agendaItemId or meetingId must be provided" });
         }
@@ -140,16 +144,16 @@ public class DocumentsController : ControllerBase
         {
             var request = new UploadDocumentRequest
             {
-                AgendaItemId = agendaItemId,
-                MeetingId = meetingId,
-                Name = name,
-                Description = description,
-                Number = number,
-                IsPublic = isPublic,
-                IsLocked = isLocked
+                AgendaItemId = form.AgendaItemId,
+                MeetingId = form.MeetingId,
+                Name = form.Name,
+                Description = form.Description,
+                Number = form.Number,
+                IsPublic = form.IsPublic,
+                IsLocked = form.IsLocked
             };
 
-            var created = await _documentService.UploadAsync(file, request);
+            var created = await _documentService.UploadAsync(form.File, request);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
         catch (ArgumentException ex)

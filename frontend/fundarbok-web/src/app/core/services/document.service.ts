@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Document as DocumentModel } from '../../models/document.model';
 import { ApiService } from './api.service';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  private apiUrl = environment.apiUrl;
-
-  constructor(private api: ApiService, private http: HttpClient) {}
+  constructor(private api: ApiService) {}
 
   getDocumentsByAgendaItem(agendaItemId: string): Observable<DocumentModel[]> {
     return this.api.get<DocumentModel[]>(`/documents/agenda-item/${agendaItemId}`);
@@ -26,7 +22,7 @@ export class DocumentService {
   }
 
   uploadDocument(formData: FormData): Observable<DocumentModel> {
-    return this.http.post<DocumentModel>(`${this.apiUrl}/documents/upload`, formData);
+    return this.api.uploadFile<DocumentModel>('/documents/upload', formData);
   }
 
   updateDocument(id: string, request: any): Observable<DocumentModel> {

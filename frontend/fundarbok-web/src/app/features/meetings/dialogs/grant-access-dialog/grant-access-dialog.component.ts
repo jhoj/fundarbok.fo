@@ -11,7 +11,7 @@ import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { TranslationService } from '../../../../core/services/translation.service';
 import { CommitteeMember } from '../../../../models/committee.model';
 import { CommitteeService } from '../../../../core/services/committee.service';
-import { MeetingService } from '../../services/meeting.service';
+import { MeetingService } from '../../../../core/services/meeting.service';
 
 export interface GrantAccessDialogData {
   meetingId: string;

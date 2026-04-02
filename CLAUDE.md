@@ -56,10 +56,17 @@ fundarbok.fo/
 ## Development Workflow
 
 ### Prerequisites
+- Docker (for PostgreSQL)
 - .NET 8 SDK
 - Node.js (LTS) and npm
-- PostgreSQL (database: `fundarbok`, user: `postgres`, password: `postgres`)
 - Angular CLI: `npm install -g @angular/cli`
+- EF Core tools: `dotnet tool install --global dotnet-ef`
+
+### Starting the Database
+```bash
+docker compose -f docker-compose.dev.yml up -d
+```
+This starts PostgreSQL on port 5432 with database `fundarbok`, user `postgres`, password `postgres`.
 
 ### Running the Backend
 ```bash
@@ -77,7 +84,7 @@ npm install
 npm start
 ```
 - Development: `http://localhost:4200`
-- Proxy config forwards `/api` to backend at `http://localhost:5000`
+- Proxy config forwards `/api` to backend at `http://localhost:5255`
 
 ### Database Commands
 ```bash
@@ -238,24 +245,23 @@ ng generate service features/<feature-name>/services/<service-name>
 
 ## Important Notes
 
-1. **API Proxy Mismatch**: Frontend proxy targets port 5000, but backend defaults to 5255. Either update proxy.conf.json or use http profile.
+1. **Cascade Delete Rules**: Carefully review delete behavior in `FundarbokDbContext`. Documents use cascade delete from both Meeting and AgendaItem.
 
-2. **Cascade Delete Rules**: Carefully review delete behavior in `FundarbokDbContext`. Documents use cascade delete from both Meeting and AgendaItem.
+2. **PWA Service Worker**: Only enabled in production builds. Test with `ng build --configuration production` then serve the dist folder.
 
-3. **PWA Service Worker**: Only enabled in production builds. Test with `ng build --configuration production` then serve the dist folder.
+3. **CORS**: Configured for `localhost:4200` and `localhost:4300` in development.
 
-4. **CORS**: Configured for `localhost:4200` and `localhost:4300` in development.
+4. **JWT Secret**: Change `JwtSettings.SecretKey` before production deployment.
 
-5. **JWT Secret**: Change `JwtSettings.SecretKey` before production deployment.
+5. **File Uploads**: Not yet implemented. `/uploads` folder planned but not created.
 
-6. **File Uploads**: Not yet implemented. `/uploads` folder planned but not created.
-
-7. **Application Layer**: `Fundarbok.Application` is mostly empty - ready for business logic and DTOs.
+6. **Application Layer**: `Fundarbok.Application` is mostly empty - ready for business logic and DTOs.
 
 ## Troubleshooting
 
 ### Database connection fails
-- Ensure PostgreSQL is running
+- Ensure PostgreSQL container is running: `docker compose -f docker-compose.dev.yml up -d`
+- Check container logs: `docker compose -f docker-compose.dev.yml logs db`
 - Verify database `fundarbok` exists
 - Check credentials match appsettings.json
 
