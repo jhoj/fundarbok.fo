@@ -258,6 +258,28 @@
   height: calc(100vh - 64px);
 }
 
+// Error Container
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+  gap: 1rem;
+  color: #d32f2f;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
 // Responsive Design
 @media (max-width: 1024px) {
   .content-layout {

@@ -60,6 +60,7 @@ export class MeetingDetailComponent implements OnInit {
   meeting: MeetingDetail | null = null;
   selectedAgendaItem: AgendaItemDetail | null = null;
   isLoading = true;
+  hasError = false;
   private meetingId = '';
   documentTemplateInput = '';
 
@@ -87,6 +88,7 @@ export class MeetingDetailComponent implements OnInit {
 
   loadMeeting(): void {
     this.isLoading = true;
+    this.hasError = false;
     this.meetingService.getMeetingDetail(this.meetingId).subscribe({
       next: (meeting) => {
         this.meeting = meeting;
@@ -97,6 +99,7 @@ export class MeetingDetailComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
+        this.hasError = true;
         this.isLoading = false;
       }
     });
@@ -269,7 +272,7 @@ export class MeetingDetailComponent implements OnInit {
       data: {
         meetingId: this.meeting.id,
         committeeId: this.meeting.committeeId,
-        committeeName: this.meeting.committee?.name || 'Committee',
+        committeeName: this.meeting.committee?.name ?? this.meeting.committeeName ?? 'Committee',
         committeeDescription: this.meeting.committee?.description
       } as ParticipantsDialogData
     });
@@ -384,7 +387,8 @@ export class MeetingDetailComponent implements OnInit {
   }
 
   getCommitteeName(): string {
-    return this.meeting?.committee?.name.toUpperCase() || '';
+    const name = this.meeting?.committee?.name ?? this.meeting?.committeeName ?? '';
+    return name.toUpperCase();
   }
 
   getMeetingNumber(): string {

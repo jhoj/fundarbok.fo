@@ -454,6 +454,14 @@ public class MeetingService : IMeetingService
             Id = meeting.Id,
             CommitteeId = meeting.CommitteeId,
             CommitteeName = meeting.Committee?.Name ?? string.Empty,
+            Committee = meeting.Committee != null ? new CommitteeDto
+            {
+                Id = meeting.Committee.Id,
+                Name = meeting.Committee.Name,
+                Description = meeting.Committee.Description,
+                CreatedAt = meeting.Committee.CreatedAt,
+                UpdatedAt = meeting.Committee.UpdatedAt
+            } : null,
             MeetingNumber = meeting.MeetingNumber,
             Title = meeting.Title,
             Location = meeting.Location,

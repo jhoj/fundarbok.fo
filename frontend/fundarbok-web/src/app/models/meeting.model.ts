@@ -17,7 +17,12 @@ export interface Meeting {
 }
 
 export interface MeetingDetail extends Meeting {
-  committee: any;
+  committeeName: string;
+  committee?: {
+    id: string;
+    name: string;
+    description?: string;
+  };
   agendaItems: AgendaItemDetail[];
   participants: MeetingParticipant[];
 }

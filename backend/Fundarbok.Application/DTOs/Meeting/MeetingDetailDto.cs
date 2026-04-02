@@ -8,6 +8,7 @@ public class MeetingDetailDto
     public Guid Id { get; set; }
     public Guid CommitteeId { get; set; }
     public string CommitteeName { get; set; } = string.Empty;
+    public CommitteeDto? Committee { get; set; }
     public string MeetingNumber { get; set; } = string.Empty;
     public string? Title { get; set; }
     public string Location { get; set; } = string.Empty;

@@ -40,13 +40,13 @@ public class MeetingRepository : IMeetingRepository
                 .ThenInclude(mp => mp.CommitteeMember)
             .Include(m => m.AgendaItems.OrderBy(ai => ai.Number))
                 .ThenInclude(ai => ai.Documents)
-            .Include(m => m.AgendaItems)
+            .Include(m => m.AgendaItems.OrderBy(ai => ai.Number))
                 .ThenInclude(ai => ai.Recommendations)
-            .Include(m => m.AgendaItems)
+            .Include(m => m.AgendaItems.OrderBy(ai => ai.Number))
                 .ThenInclude(ai => ai.Conclusions)
-            .Include(m => m.AgendaItems)
+            .Include(m => m.AgendaItems.OrderBy(ai => ai.Number))
                 .ThenInclude(ai => ai.Notes)
-            .Include(m => m.AgendaItems)
+            .Include(m => m.AgendaItems.OrderBy(ai => ai.Number))
                 .ThenInclude(ai => ai.Tasks)
             .FirstOrDefaultAsync(m => m.Id == id);
     }
