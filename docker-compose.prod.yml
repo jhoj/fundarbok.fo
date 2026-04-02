@@ -29,7 +29,7 @@ services:
 
   # Backend API
   backend:
-    image: ${DOCKER_REGISTRY:-ghcr.io/jhoj}/fundarbok-backend:${IMAGE_TAG:-latest}
+    image: ${DOCKER_REGISTRY:-ghcr.io/jhoj}/fundarbok.fo-backend:${IMAGE_TAG:-latest}
     restart: unless-stopped
     depends_on:
       db:
@@ -58,7 +58,7 @@ services:
 
   # Frontend (exposed via nginx reverse proxy on host)
   frontend:
-    image: ${DOCKER_REGISTRY:-ghcr.io/jhoj}/fundarbok-frontend:${IMAGE_TAG:-latest}
+    image: ${DOCKER_REGISTRY:-ghcr.io/jhoj}/fundarbok.fo-frontend:${IMAGE_TAG:-latest}
     restart: unless-stopped
     depends_on:
       - backend

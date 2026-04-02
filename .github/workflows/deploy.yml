@@ -14,8 +14,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE: jhoj/fundarbok-backend
-  FRONTEND_IMAGE: jhoj/fundarbok-frontend
+  BACKEND_IMAGE: ${{ github.repository }}-backend
+  FRONTEND_IMAGE: ${{ github.repository }}-frontend
 
 jobs:
   build-backend:
