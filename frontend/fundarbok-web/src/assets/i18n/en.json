@@ -43,7 +43,10 @@
       "time": "Time",
       "location": "Location",
       "title": "Title",
-      "number": "Number"
+      "number": "Number",
+      "version": "Version",
+      "buildDate": "Build Date",
+      "commitHash": "Commit Hash"
     },
     "time": {
       "dateRange": "Date Range",

@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TranslationService } from '../../services/translation.service';
@@ -13,6 +15,7 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { NotificationPromptComponent } from '../../../shared/components/notification-prompt/notification-prompt.component';
 import { OfflineIndicatorComponent } from '../../../shared/components/offline-indicator/offline-indicator.component';
+import { AppInfoDialogComponent } from '../../../shared/dialogs/app-info-dialog/app-info-dialog.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -26,10 +29,13 @@ import { OfflineIndicatorComponent } from '../../../shared/components/offline-in
     MatButtonModule,
     MatListModule,
     MatMenuModule,
+    MatDialogModule,
+    MatTooltipModule,
     TranslatePipe,
     HasRoleDirective,
     NotificationPromptComponent,
-    OfflineIndicatorComponent
+    OfflineIndicatorComponent,
+    AppInfoDialogComponent
   ],
   template: `
     <app-offline-indicator></app-offline-indicator>
@@ -41,6 +47,9 @@ import { OfflineIndicatorComponent } from '../../../shared/components/offline-in
       </button>
       <span class="spacer"></span>
       <div class="toolbar-actions">
+        <button mat-icon-button (click)="openAppInfo()" matTooltip="App Info">
+          <mat-icon>info</mat-icon>
+        </button>
         <button mat-icon-button [matMenuTriggerFor]="languageMenu">
           <mat-icon>language</mat-icon>
         </button>
@@ -138,7 +147,8 @@ export class MainLayoutComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private dialog: MatDialog
   ) {}
 
   logout(): void {
@@ -148,5 +158,12 @@ export class MainLayoutComponent {
 
   setLanguage(lang: string): void {
     this.translationService.setLanguage(lang);
+  }
+
+  openAppInfo(): void {
+    this.dialog.open(AppInfoDialogComponent, {
+      width: '400px',
+      disableClose: false
+    });
   }
 }

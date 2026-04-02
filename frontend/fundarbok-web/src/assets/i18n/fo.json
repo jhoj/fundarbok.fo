@@ -42,7 +42,10 @@
       "time": "Tíð",
       "location": "Stað",
       "title": "Heiti",
-      "number": "Nummar"
+      "number": "Nummar",
+      "version": "Útgáva",
+      "buildDate": "Dagfesting",
+      "commitHash": "GitHash"
     },
     "time": {
       "dateRange": "Dagfestingar",
