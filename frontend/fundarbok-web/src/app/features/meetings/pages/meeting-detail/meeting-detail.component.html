@@ -1,43 +1,33 @@
 <div class="meeting-detail-page" *ngIf="!isLoading && meeting">
   <!-- Top Header Section -->
   <div class="page-header">
-    <div class="header-row-1">
-      <button mat-icon-button (click)="goBack()" class="back-button">
-        <mat-icon>arrow_back</mat-icon>
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2 class="committee-name">{{ getCommitteeName() }}</h2>
+    <span class="meeting-number">Nr. {{ getMeetingNumber() }}</span>
+    <mat-chip class="status-chip" [ngClass]="getStatusClass()">
+      <mat-icon>{{ meeting.isOpen ? 'lock_open' : 'lock' }}</mat-icon>
+      {{ getStatusLabel() }}
+    </mat-chip>
+    <mat-chip class="info-chip">
+      <mat-icon>event</mat-icon>
+      {{ meeting.startDate | date:'dd.MM.yy' }}
+    </mat-chip>
+    <mat-chip class="info-chip">
+      <mat-icon>place</mat-icon>
+      {{ meeting.location }}
+    </mat-chip>
+    <div class="header-actions">
+      <button *appHasRole="'Secretary'" mat-icon-button (click)="editMeeting()" [matTooltip]="'meetings.detail.editMeeting' | translate">
+        <mat-icon>edit</mat-icon>
       </button>
-      <div class="header-content">
-        <h1 class="page-title">Fundar síða</h1>
-        <h2 class="committee-name">{{ getCommitteeName() }}</h2>
-        <span class="meeting-number">Fundur nr. {{ getMeetingNumber() }}</span>
-      </div>
-      <button mat-stroked-button (click)="openParticipantsDialog()" class="participants-button">
+      <button *appHasRole="'Secretary'" mat-icon-button (click)="createDocument()" [matTooltip]="'meetings.detail.createDocument' | translate">
+        <mat-icon>note_add</mat-icon>
+      </button>
+      <button mat-icon-button (click)="openParticipantsDialog()" [matTooltip]="'meetings.detail.members' | translate">
         <mat-icon>people</mat-icon>
-        {{ 'meetings.detail.members' | translate }}
       </button>
-    </div>
-
-    <div class="header-row-2">
-      <mat-chip class="status-chip" [ngClass]="getStatusClass()">
-        <mat-icon>{{ meeting.isOpen ? 'lock_open' : 'lock' }}</mat-icon>
-        {{ getStatusLabel() }}
-      </mat-chip>
-      <mat-chip class="info-chip">
-        <mat-icon>event</mat-icon>
-        {{ 'meetings.detail.meetingDay' | translate }} {{ meeting.startDate | date:'dd-MM-yyyy' }}
-      </mat-chip>
-      <mat-chip class="info-chip">
-        <mat-icon>place</mat-icon>
-        {{ 'meetings.detail.meetingLocation' | translate }} {{ meeting.location }}
-      </mat-chip>
-      <div class="header-actions">
-        <button *appHasRole="'Secretary'" mat-stroked-button (click)="editMeeting()" class="edit-button">
-          <mat-icon>edit</mat-icon>
-          {{ 'meetings.detail.editMeeting' | translate }}
-        </button>
-        <button *appHasRole="'Secretary'" mat-stroked-button color="accent" (click)="createDocument()" class="create-doc-button">
-          {{ 'meetings.detail.createDocument' | translate }}
-        </button>
-      </div>
     </div>
   </div>
 
@@ -93,20 +83,6 @@
         {{ 'meetings.detail.closeMeeting' | translate }}
       </button>
     </div>
-
-    <div class="document-template">
-      <mat-form-field appearance="outline" class="template-input">
-        <mat-label>{{ 'meetings.form.templateDocuments' | translate }}</mat-label>
-        <input matInput [(ngModel)]="documentTemplateInput">
-        <button matSuffix mat-icon-button>
-          <mat-icon>link</mat-icon>
-        </button>
-        <button matSuffix mat-icon-button>
-          <mat-icon>attach_file</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-
     <div class="action-buttons">
       <button mat-stroked-button (click)="goBack()">
         {{ 'common.actions.back' | translate }}

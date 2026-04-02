@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { MeetingService } from '../../../../core/services/meeting.service';
 import { AgendaItemService } from '../../services/agenda-item.service';
@@ -47,6 +48,7 @@ import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
     MatInputModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatTooltipModule,
     FormsModule,
     HasRoleDirective,
     AgendaItemsSidebarComponent,

@@ -1,126 +1,89 @@
 .meeting-detail-page {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 64px); // Subtract navbar height
+  height: calc(100vh - 64px);
   background-color: #fafafa;
 }
 
-// Top Header Section
+// Top Header Section — single compact row
 .page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
   background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 1.5rem 2rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 
-  .header-row-1 {
+  .back-button {
+    flex-shrink: 0;
+  }
+
+  .committee-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a2332;
+    white-space: nowrap;
+  }
+
+  .meeting-number {
+    font-size: 0.85rem;
+    color: #888;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  mat-chip {
+    font-size: 0.8rem;
+    --mdc-chip-container-height: 26px;
+  }
+
+  .status-chip {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
+    gap: 0.25rem;
 
-    .back-button {
-      flex-shrink: 0;
+    &.open {
+      background-color: #00bcd4;
+      color: #fff;
     }
 
-    .header-content {
-      flex: 1;
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      flex-wrap: wrap;
-
-      .page-title {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 400;
-        color: #666;
-      }
-
-      .committee-name {
-        margin: 0;
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #1a2332;
-        letter-spacing: 0.5px;
-      }
-
-      .meeting-number {
-        font-size: 1.2rem;
-        color: #666;
-        font-weight: 500;
-      }
+    &.completed {
+      background-color: #ff9800;
+      color: #fff;
     }
 
-    .participants-button {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    &.approved {
+      background-color: #4caf50;
+      color: #fff;
+    }
+
+    mat-icon {
+      font-size: 0.9rem;
+      width: 0.9rem;
+      height: 0.9rem;
     }
   }
 
-  .header-row-2 {
+  .info-chip {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 0.25rem;
+    background-color: #f5f5f5;
 
-    mat-chip {
-      font-size: 0.9rem;
+    mat-icon {
+      font-size: 0.85rem;
+      width: 0.85rem;
+      height: 0.85rem;
+      color: #666;
     }
+  }
 
-    .status-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      &.open {
-        background-color: #00bcd4;
-        color: #fff;
-      }
-
-      &.completed {
-        background-color: #ff9800;
-        color: #fff;
-      }
-
-      &.approved {
-        background-color: #4caf50;
-        color: #fff;
-      }
-
-      mat-icon {
-        font-size: 1.1rem;
-        width: 1.1rem;
-        height: 1.1rem;
-      }
-    }
-
-    .info-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background-color: #f5f5f5;
-
-      mat-icon {
-        font-size: 1rem;
-        width: 1rem;
-        height: 1rem;
-        color: #666;
-      }
-    }
-
-    .header-actions {
-      margin-left: auto;
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-
-      .edit-button,
-      .create-doc-button {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-    }
+  .header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
   }
 }
 
@@ -131,7 +94,7 @@
   overflow: hidden;
 
   .sidebar {
-    width: 350px;
+    width: 280px;
     flex-shrink: 0;
     overflow-y: auto;
     background-color: #fff;
@@ -149,13 +112,12 @@
 
 // Document Preview Section
 .document-preview-section {
-  padding: 1.5rem 2rem;
+  padding: 0.75rem 1.25rem;
   background-color: #f5f5f5;
-  border-top: 1px solid #e0e0e0;
 
   .document-cards {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
 
@@ -164,14 +126,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-width: 120px;
-      height: 140px;
+      min-width: 90px;
+      height: 100px;
       background-color: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s;
-      padding: 1rem;
+      padding: 0.5rem;
 
       &:hover {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -179,15 +140,15 @@
       }
 
       .doc-icon {
-        font-size: 3rem;
-        width: 3rem;
-        height: 3rem;
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
         color: #00bcd4;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
       }
 
       .doc-title {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         text-align: center;
         color: #666;
         overflow: hidden;
@@ -204,19 +165,17 @@
 .bottom-action-bar {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 1rem 2rem;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
   background-color: #fff;
-  border-top: 1px solid #e0e0e0;
-  flex-wrap: wrap;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.06);
 
   .status-controls {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
 
     .status-badge {
-      padding: 0.5rem 1rem;
       font-weight: 500;
 
       &.not-approved {
@@ -226,26 +185,13 @@
     }
   }
 
-  .document-template {
-    flex: 1;
-    max-width: 500px;
-
-    .template-input {
-      width: 100%;
-
-      mat-label {
-        font-size: 0.9rem;
-      }
-    }
-  }
-
   .action-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-left: auto;
 
     button {
-      min-width: 100px;
+      min-width: 80px;
     }
   }
 }
@@ -265,18 +211,14 @@
 
     .sidebar {
       width: 100%;
-      max-height: 300px;
-      border-right: none;
-      border-bottom: 1px solid #e0e0e0;
+      max-height: 250px;
     }
   }
 
   .bottom-action-bar {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
 
     .status-controls,
-    .document-template,
     .action-buttons {
       width: 100%;
       margin-left: 0;
@@ -290,35 +232,19 @@
 
 @media (max-width: 768px) {
   .page-header {
-    padding: 1rem;
+    flex-wrap: wrap;
+    padding: 0.5rem;
 
-    .header-row-1 {
-      flex-wrap: wrap;
-
-      .header-content {
-        width: 100%;
-        order: 1;
-
-        .committee-name {
-          font-size: 1.4rem;
-        }
-      }
-
-      .participants-button {
-        order: 2;
-        width: 100%;
-      }
+    .committee-name {
+      font-size: 1rem;
     }
 
-    .header-row-2 {
-      .create-doc-button {
-        width: 100%;
-        margin-left: 0;
-      }
+    .info-chip {
+      display: none;
     }
   }
 
   .document-preview-section {
-    padding: 1rem;
+    padding: 0.5rem;
   }
 }
