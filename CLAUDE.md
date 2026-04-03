@@ -33,11 +33,13 @@ During the active meeting:
   - Auto-generates meeting summary (with minimal manual input)
   - Conducts voting on agenda items
   - Records conclusions for each agenda item
+  - Gathering signatures from participants (in-house only, MFA-secured digital signatures)
 - **Member View**:
   - Sees current agenda item
-  - Can view assigned documents/reading materials
+  - Can view assigned documents/reading materials (with admin-controlled access restrictions)
   - Can add personal notes
-  - Can participate in discussions
+  - Can participate in discussions and voting (if enabled for specific agenda items)
+  - Signs approval at meeting end via digital signature (with MFA)
 
 ### Phase 3: Complete Meeting
 After the live meeting:
@@ -46,8 +48,42 @@ After the live meeting:
 - Voting results are recorded
 - Meeting is marked as completed and approved
 - Historical record is created for the committee's archives
+- **Signature Management**: Secretary gathers digital signatures from all participants present (in-house only, MFA-verified)
+- **Journal Export**: Easy export of meeting conclusions to publicly viewable journals (Gerðabókin/meeting log format)
+- **External System Integration**: Upload completed agenda conclusions to correct journals and external systems
 
 **Note**: The system will support integration with external systems for agenda sourcing and document management in future phases, but will function as a standalone system initially.
+
+## Member Management & Security
+
+### Member Onboarding
+- **Admin**: Adds new members to the system
+- **Members**: Reset password via email link
+- **MFA Requirements**: All users must complete MFA setup (method TBD - SMS/authenticator app/etc.)
+
+### Member Access Control
+- Members can view only meetings they are explicitly added to
+- Members can read documents assigned to their meetings
+- **Admin Document Restrictions**: Secretary can restrict document/agenda access based on:
+  - Personal conflicts of interest
+  - Confidentiality requirements
+  - Role-based restrictions
+- Members cannot bypass access restrictions
+
+### Meeting Participation
+- Members see current agenda item during live meetings
+- Members can view assigned reading materials
+- Members vote when voting is enabled for an agenda item
+- Members provide digital signature for meeting approval (MFA-secured)
+
+### Digital Signatures & Audit Trail
+- All signatures collected digitally with MFA verification
+- Only participants who were present at the meeting can sign
+- System maintains complete audit trail of:
+  - Who signed and when
+  - MFA verification details
+  - Signature validity and timestamps
+- Export-ready for compliance and archival purposes
 
 ## Architecture
 
@@ -248,26 +284,36 @@ Located in `backend/Fundarbok.Domain/Entities/`:
 - Frontend project with Angular Material and PWA support
 
 **What's Pending** (Priority Order):
-1. **Phase 2 - Meeting Planning Features**:
+1. **Phase 1.5 - Member Management & Security**:
+   - MFA system (method TBD - SMS/authenticator/etc.)
+   - Admin member management (add/remove/reset password)
+   - Member access control and document restrictions
+   - Digital signature infrastructure
+   
+2. **Phase 2 - Meeting Planning Features**:
    - API endpoints for meeting creation and management
    - Secretary UI for planning meetings (committee selection, agenda ordering, document assignment)
    - Member substitution management
+   - Document access restrictions and permissions
    
-2. **Phase 3 - Live Meeting Features**:
+3. **Phase 3 - Live Meeting Features**:
    - Real-time meeting session management
    - Secretary meeting dashboard (agenda view, participant list, control panel)
    - Live speaker tracking and auto-history recording
    - Member live meeting interface
+   - Digital signature collection (MFA-secured)
    
-3. **Phase 4 - Meeting Completion & Reporting**:
+4. **Phase 4 - Meeting Completion & Reporting**:
    - Summary generation and editing
    - Voting and conclusion recording
-   - Meeting approval workflow
+   - Meeting approval workflow with signatures
+   - Journal export (Gerðabókin format)
    - Historical archives
    
-4. **Phase 5 - Integration & Enhancement**:
+5. **Phase 5 - Integration & Enhancement**:
    - External system integration for agenda sourcing
    - Document management integration
+   - Journal/conclusion upload to external systems
    - Push notifications for meeting updates
    - Advanced reporting and analytics
 
@@ -303,15 +349,39 @@ ng generate service features/<feature-name>/services/<service-name>
 
 1. **Cascade Delete Rules**: Carefully review delete behavior in `FundarbokDbContext`. Documents use cascade delete from both Meeting and AgendaItem.
 
-2. **PWA Service Worker**: Only enabled in production builds. Test with `ng build --configuration production` then serve the dist folder.
+2. **MFA Implementation** (TBD): 
+   - Required for all users
+   - Method to be determined (TOTP/SMS/etc.)
+   - Must be enforced for digital signature collection
+   - Plan domain entities and database migration
 
-3. **CORS**: Configured for `localhost:4200` and `localhost:4300` in development.
+3. **Digital Signatures & Audit Trail**:
+   - Only participants marked as "present" can sign
+   - All signatures must be MFA-verified
+   - Maintain complete audit log: who signed, when, MFA verification details
+   - Design signature storage and validation strategy
+   - Export-ready format for compliance
 
-4. **JWT Secret**: Change `JwtSettings.SecretKey` before production deployment.
+4. **Member Access Control**:
+   - Implement permission model for document access
+   - Secretary can restrict documents/agendas per member
+   - Enforce access restrictions in API layer
+   - Consider conflict-of-interest and confidentiality scenarios
 
-5. **File Uploads**: Not yet implemented. `/uploads` folder planned but not created.
+5. **Journal Export (Gerðabókin)**:
+   - Plan export format for public meeting logs
+   - Support conclusions upload to external systems
+   - Maintain formatting for compliance with Faroese standards
 
-6. **Application Layer**: `Fundarbok.Application` is mostly empty - ready for business logic and DTOs.
+6. **PWA Service Worker**: Only enabled in production builds. Test with `ng build --configuration production` then serve the dist folder.
+
+7. **CORS**: Configured for `localhost:4200` and `localhost:4300` in development.
+
+8. **JWT Secret**: Change `JwtSettings.SecretKey` before production deployment.
+
+9. **File Uploads**: Not yet implemented. `/uploads` folder planned but not created.
+
+10. **Application Layer**: `Fundarbok.Application` is mostly empty - ready for business logic and DTOs.
 
 ## Troubleshooting
 
