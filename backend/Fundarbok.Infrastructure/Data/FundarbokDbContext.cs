@@ -52,6 +52,12 @@ public class FundarbokDbContext : DbContext
                 .HasForeignKey(e => e.CommitteeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            entity.HasOne(e => e.Alternate)
+                .WithMany()
+                .HasForeignKey(e => e.AlternateId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+
             entity.HasIndex(e => e.CommitteeId);
         });
 
@@ -96,6 +102,12 @@ public class FundarbokDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(e => e.CommitteeMemberId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.SubstituteFor)
+                .WithMany()
+                .HasForeignKey(e => e.SubstituteForId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
             entity.HasIndex(e => new { e.MeetingId, e.CommitteeMemberId }).IsUnique();
         });

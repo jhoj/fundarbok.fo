@@ -16,4 +16,6 @@ public class UpdateCommitteeMemberRequest
     public string Role { get; set; } = string.Empty;
 
     public bool IsActive { get; set; }
+
+    public Guid? AlternateId { get; set; }
 }

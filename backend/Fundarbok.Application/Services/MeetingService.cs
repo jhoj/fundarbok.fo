@@ -368,6 +368,7 @@ public class MeetingService : IMeetingService
             MeetingId = meetingId,
             CommitteeMemberId = request.CommitteeMemberId,
             IsParticipating = request.IsParticipating,
+            SubstituteForId = request.SubstituteForId,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -482,6 +483,9 @@ public class MeetingService : IMeetingService
             CommitteeMemberTitle = participant.CommitteeMember?.Title ?? string.Empty,
             CommitteeMemberRole = participant.CommitteeMember?.Role ?? string.Empty,
             IsParticipating = participant.IsParticipating,
+            IsPresent = participant.IsPresent,
+            SubstituteForId = participant.SubstituteForId,
+            SubstituteForName = participant.SubstituteFor?.CommitteeMember?.Name,
             CreatedAt = participant.CreatedAt
         };
     }

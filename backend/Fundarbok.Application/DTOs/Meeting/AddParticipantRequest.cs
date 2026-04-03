@@ -8,4 +8,6 @@ public class AddParticipantRequest
     public Guid CommitteeMemberId { get; set; }
 
     public bool IsParticipating { get; set; } = true;
+
+    public Guid? SubstituteForId { get; set; }
 }

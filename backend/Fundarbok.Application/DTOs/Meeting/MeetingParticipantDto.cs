@@ -9,5 +9,8 @@ public class MeetingParticipantDto
     public string CommitteeMemberTitle { get; set; } = string.Empty;
     public string CommitteeMemberRole { get; set; } = string.Empty;
     public bool IsParticipating { get; set; }
+    public bool IsPresent { get; set; }
+    public Guid? SubstituteForId { get; set; }
+    public string? SubstituteForName { get; set; }
     public DateTime CreatedAt { get; set; }
 }

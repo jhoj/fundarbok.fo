@@ -165,6 +165,7 @@ using (var scope = app.Services.CreateScope())
   try
   {
     var context = services.GetRequiredService<FundarbokDbContext>();
+    context.Database.Migrate();
     DbInitializer.Initialize(context);
   }
   catch (Exception ex)

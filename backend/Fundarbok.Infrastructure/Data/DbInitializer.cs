@@ -6,9 +6,6 @@ public static class DbInitializer
 {
     public static void Initialize(FundarbokDbContext context)
     {
-        // Ensure database is created
-        context.Database.EnsureCreated();
-
         // Check if data already exists
         if (context.Users.Any())
         {

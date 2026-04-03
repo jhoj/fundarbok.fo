@@ -13,5 +13,7 @@ public interface IMeetingRepository
     Task<bool> DeleteAsync(Guid id);
     Task<IEnumerable<MeetingParticipant>> GetParticipantsAsync(Guid meetingId);
     Task<MeetingParticipant> AddParticipantAsync(MeetingParticipant participant);
+    Task<MeetingParticipant?> GetParticipantAsync(Guid meetingId, Guid participantId);
+    Task<MeetingParticipant> UpdateParticipantAsync(MeetingParticipant participant);
     Task<bool> RemoveParticipantAsync(Guid meetingId, Guid participantId);
 }

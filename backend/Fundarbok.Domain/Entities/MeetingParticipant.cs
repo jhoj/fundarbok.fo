@@ -6,9 +6,12 @@ public class MeetingParticipant
     public Guid MeetingId { get; set; }
     public Guid CommitteeMemberId { get; set; }
     public bool IsParticipating { get; set; } = true;
+    public bool IsPresent { get; set; } = false;
+    public Guid? SubstituteForId { get; set; }
     public DateTime CreatedAt { get; set; }
 
     // Navigation properties
     public Meeting Meeting { get; set; } = null!;
     public CommitteeMember CommitteeMember { get; set; } = null!;
+    public MeetingParticipant? SubstituteFor { get; set; }
 }
