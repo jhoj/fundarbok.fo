@@ -255,6 +255,27 @@ public class MeetingsController : ControllerBase
         }
     }
 
+    [HttpPatch("{id}/current-item")]
+    [Authorize(Policy = "SecretaryOnly")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SetCurrentAgendaItem(Guid id, [FromBody] SetCurrentAgendaItemRequest request)
+    {
+        try
+        {
+            var result = await _meetingService.SetCurrentAgendaItemAsync(id, request.AgendaItemId);
+            if (!result)
+                return NotFound(new { message = "Meeting or agenda item not found" });
+
+            return Ok(new { message = "Current agenda item updated" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error setting current agenda item for meeting {MeetingId}", id);
+            return StatusCode(500, new { message = "An error occurred" });
+        }
+    }
+
     /// <summary>
     /// Get all participants of a meeting
     /// </summary>

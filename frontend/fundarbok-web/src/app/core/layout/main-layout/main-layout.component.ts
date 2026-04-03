@@ -74,6 +74,10 @@ import { AppInfoDialogComponent } from '../../../shared/dialogs/app-info-dialog/
             <mat-icon matListItemIcon>group</mat-icon>
             <span matListItemTitle>{{ 'navigation.committees' | translate }}</span>
           </a>
+          <a mat-list-item *appHasRole="'Secretary'" routerLink="/users" routerLinkActive="active">
+            <mat-icon matListItemIcon>people</mat-icon>
+            <span matListItemTitle>{{ 'navigation.users' | translate }}</span>
+          </a>
           <a mat-list-item routerLink="/settings" routerLinkActive="active">
             <mat-icon matListItemIcon>settings</mat-icon>
             <span matListItemTitle>{{ 'navigation.settings' | translate }}</span>

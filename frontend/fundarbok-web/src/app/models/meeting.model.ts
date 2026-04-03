@@ -12,6 +12,7 @@ export interface Meeting {
   isCompleted: boolean;
   isApproved: boolean;
   description?: string;
+  currentAgendaItemId?: string;
   createdAt: string;
   updatedAt: string;
 }

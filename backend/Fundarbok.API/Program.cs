@@ -27,6 +27,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Register application services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICommitteeService, CommitteeService>();
 builder.Services.AddScoped<IMeetingService, MeetingService>();
 builder.Services.AddScoped<IAgendaItemService, AgendaItemService>();

@@ -87,6 +87,26 @@
   }
 }
 
+// Agenda Control Bar
+.agenda-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.25rem 1rem;
+  background-color: #fff3e0;
+  border-bottom: 1px solid #ffe0b2;
+  min-height: 40px;
+
+  .current-item-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #e65100;
+    min-width: 200px;
+    text-align: center;
+  }
+}
+
 // Main Content Layout
 .content-layout {
   display: flex;

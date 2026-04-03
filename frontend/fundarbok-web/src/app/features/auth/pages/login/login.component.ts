@@ -68,11 +68,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
               </button>
             </div>
 
-            <div class="register-link">
-              <p>{{ 'auth.login.noAccount' | translate }}
-                <a routerLink="/register">{{ 'auth.signUp' | translate }}</a>
-              </p>
-            </div>
           </form>
         </mat-card-content>
       </mat-card>

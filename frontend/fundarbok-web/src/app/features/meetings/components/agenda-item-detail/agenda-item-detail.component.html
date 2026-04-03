@@ -100,11 +100,7 @@
 
   <!-- Action Buttons -->
   <div class="action-buttons">
-    <button mat-icon-button class="add-button-circle">
-      <mat-icon>add</mat-icon>
-    </button>
-
-    <button mat-stroked-button color="warn" (click)="onAddConclusion()">
+    <button *appHasRole="'Secretary'" mat-stroked-button color="warn" (click)="onAddConclusion()">
       <mat-icon>gavel</mat-icon>
       {{ 'agendaItems.conclusions' | translate }}
     </button>
@@ -114,7 +110,7 @@
       {{ 'agendaItems.notes' | translate }}
     </button>
 
-    <button mat-stroked-button color="accent" (click)="onAddTask()">
+    <button *appHasRole="'Secretary'" mat-stroked-button color="accent" (click)="onAddTask()">
       <mat-icon>assignment</mat-icon>
       {{ 'agendaItems.tasks' | translate }}
     </button>
@@ -122,11 +118,6 @@
     <button mat-stroked-button (click)="onPrintMeeting()">
       <mat-icon>print</mat-icon>
       {{ 'common.actions.print' | translate }}
-    </button>
-
-    <button mat-stroked-button>
-      <mat-icon>forward</mat-icon>
-      {{ 'common.actions.forward' | translate }}
     </button>
   </div>
 </div>

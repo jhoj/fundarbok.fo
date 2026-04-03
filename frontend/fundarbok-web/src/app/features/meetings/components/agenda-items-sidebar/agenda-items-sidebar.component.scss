@@ -68,6 +68,27 @@
       border-left: 3px solid #1976d2;
     }
 
+    &.current {
+      background-color: #fff3e0;
+      border-left: 3px solid #ff9800;
+
+      .item-number-col::after {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: #ff9800;
+        border-radius: 50%;
+        margin-left: 0.35rem;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+    }
+
+    &.current.selected {
+      background-color: #e3f2fd;
+      border-left: 3px solid #1976d2;
+    }
+
     &.cdk-drag-preview {
       box-sizing: border-box;
       border-radius: 4px;
@@ -182,4 +203,9 @@
 
 .cdk-drag-placeholder {
   opacity: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }

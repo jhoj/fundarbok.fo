@@ -103,6 +103,7 @@
     "dashboard": "Dashboard",
     "meetings": "Meetings",
     "committees": "Committees",
+    "users": "Users",
     "settings": "Settings",
     "profile": "Profile",
     "logout": "Logout"
@@ -193,6 +194,11 @@
       "participantAdded": "Participant added successfully",
       "participantRemoved": "Participant removed successfully",
       "participationUpdated": "Participation status updated"
+    },
+    "agenda": {
+      "start": "Start Meeting",
+      "reopen": "Reopen",
+      "noCurrentItem": "No agenda item selected"
     },
     "status": {
       "open": "Open",
@@ -308,6 +314,35 @@
       "committeeUpdated": "Committee updated successfully",
       "committeeDeleted": "Committee deleted successfully",
       "memberAdded": "Member added successfully"
+    }
+  },
+  "users": {
+    "title": "Users",
+    "list": {
+      "createNew": "Create New User",
+      "noUsers": "No users found"
+    },
+    "form": {
+      "createNew": "Create User",
+      "editUser": "Edit User"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "role": "Role",
+      "committee": "Committee",
+      "committeeMember": "Committee Member",
+      "isActive": "Active"
+    },
+    "roles": {
+      "Secretary": "Secretary",
+      "CommitteeMember": "Committee Member"
+    },
+    "messages": {
+      "userCreated": "User created successfully",
+      "userUpdated": "User updated successfully",
+      "userDeleted": "User deleted successfully",
+      "confirmDelete": "Are you sure you want to delete this user?"
     }
   },
   "agendaItems": {

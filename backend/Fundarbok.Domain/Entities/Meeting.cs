@@ -13,6 +13,7 @@ public class Meeting
     public bool IsCompleted { get; set; } = false;
     public bool IsApproved { get; set; } = false;
     public string? Description { get; set; }
+    public Guid? CurrentAgendaItemId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

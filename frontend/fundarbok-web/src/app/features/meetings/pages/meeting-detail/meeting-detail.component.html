@@ -7,7 +7,7 @@
     <h2 class="committee-name">{{ getCommitteeName() }}</h2>
     <span class="meeting-number">Nr. {{ getMeetingNumber() }}</span>
     <mat-chip class="status-chip" [ngClass]="getStatusClass()">
-      <mat-icon>{{ meeting.isOpen ? 'lock_open' : 'lock' }}</mat-icon>
+      <mat-icon>{{ meeting.isApproved ? 'verified' : meeting.isCompleted ? 'check_circle' : 'lock_open' }}</mat-icon>
       {{ getStatusLabel() }}
     </mat-chip>
     <mat-chip class="info-chip">
@@ -19,13 +19,35 @@
       {{ meeting.location }}
     </mat-chip>
     <div class="header-actions">
-      <button *appHasRole="'Secretary'" mat-icon-button (click)="editMeeting()" [matTooltip]="'meetings.detail.editMeeting' | translate">
+      <button *appHasRole="'Secretary'" mat-icon-button (click)="editMeeting()"
+              [matTooltip]="'meetings.detail.editMeeting' | translate"
+              [disabled]="meeting.isApproved">
         <mat-icon>edit</mat-icon>
       </button>
       <button mat-icon-button (click)="openParticipantsDialog()" [matTooltip]="'meetings.detail.members' | translate">
         <mat-icon>people</mat-icon>
       </button>
     </div>
+  </div>
+
+  <!-- Agenda Control Bar (Secretary only, when meeting is open) -->
+  <div class="agenda-control-bar" *appHasRole="'Secretary'" >
+    <ng-container *ngIf="meeting.isOpen && !meeting.isCompleted">
+      <button mat-button *ngIf="!meeting.currentAgendaItemId && meeting.agendaItems.length > 0"
+              color="primary" (click)="startMeeting()">
+        <mat-icon>play_arrow</mat-icon>
+        {{ 'meetings.agenda.start' | translate }}
+      </button>
+      <ng-container *ngIf="meeting.currentAgendaItemId">
+        <button mat-icon-button (click)="previousAgendaItem()" [disabled]="!canGoPrev()">
+          <mat-icon>skip_previous</mat-icon>
+        </button>
+        <span class="current-item-label">{{ getCurrentItemLabel() }}</span>
+        <button mat-icon-button (click)="nextAgendaItem()" [disabled]="!canGoNext()">
+          <mat-icon>skip_next</mat-icon>
+        </button>
+      </ng-container>
+    </ng-container>
   </div>
 
   <!-- Main Content Area with Sidebar -->
@@ -35,6 +57,7 @@
       <app-agenda-items-sidebar
         [agendaItems]="meeting.agendaItems || []"
         [selectedItemId]="selectedAgendaItem?.id || null"
+        [currentItemId]="meeting.currentAgendaItemId || null"
         [meetingDescription]="meeting.description || ''"
         (selectItem)="onSelectAgendaItem($event)"
         (addItem)="onAddAgendaItem()"
@@ -57,31 +80,45 @@
         (documentClick)="onDocumentClick($event)"
         (documentDelete)="onDocumentDelete($event)">
       </app-agenda-item-detail>
-
-      <!-- Document Preview Cards -->
-      <div class="document-preview-section" *ngIf="getDocuments().length > 0">
-        <div class="document-cards">
-          <div class="document-card" *ngFor="let doc of getDocuments()">
-            <mat-icon class="doc-icon">description</mat-icon>
-            <span class="doc-title">{{ doc.name }}</span>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- Bottom Action Bar -->
+  <!-- Bottom Action Bar — state-dependent -->
   <div class="bottom-action-bar">
     <div class="action-buttons">
       <button mat-stroked-button (click)="goBack()">
         {{ 'common.actions.back' | translate }}
       </button>
-      <button *appHasRole="'Secretary'" mat-raised-button color="accent" (click)="closeMeeting()">
-        {{ 'meetings.detail.closeMeeting' | translate }}
-      </button>
-      <button mat-raised-button color="primary" (click)="saveMeeting()">
-        {{ 'common.actions.save' | translate }}
-      </button>
+
+      <!-- OPEN: Close + Save -->
+      <ng-container *ngIf="meeting.isOpen && !meeting.isCompleted">
+        <button *appHasRole="'Secretary'" mat-raised-button color="accent" (click)="closeMeeting()">
+          {{ 'meetings.detail.closeMeeting' | translate }}
+        </button>
+        <button *appHasRole="'Secretary'" mat-raised-button color="primary" (click)="saveMeeting()">
+          {{ 'common.actions.save' | translate }}
+        </button>
+      </ng-container>
+
+      <!-- COMPLETED (not approved): Reopen + Approve -->
+      <ng-container *ngIf="meeting.isCompleted && !meeting.isApproved">
+        <button *appHasRole="'Secretary'" mat-stroked-button (click)="reopenMeeting()">
+          <mat-icon>lock_open</mat-icon>
+          {{ 'meetings.agenda.reopen' | translate }}
+        </button>
+        <button *appHasRole="'Secretary'" mat-raised-button color="primary" (click)="approveMeeting()">
+          <mat-icon>verified</mat-icon>
+          {{ 'meetings.detail.approve' | translate }}
+        </button>
+      </ng-container>
+
+      <!-- APPROVED: Print only -->
+      <ng-container *ngIf="meeting.isApproved">
+        <button mat-stroked-button (click)="onPrintMeeting()">
+          <mat-icon>print</mat-icon>
+          {{ 'common.actions.print' | translate }}
+        </button>
+      </ng-container>
     </div>
   </div>
 </div>

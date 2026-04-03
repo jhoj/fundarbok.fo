@@ -17,6 +17,7 @@ public class MeetingDetailDto
     public bool IsCompleted { get; set; }
     public bool IsApproved { get; set; }
     public string? Description { get; set; }
+    public Guid? CurrentAgendaItemId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public List<MeetingParticipantDto> Participants { get; set; } = new();

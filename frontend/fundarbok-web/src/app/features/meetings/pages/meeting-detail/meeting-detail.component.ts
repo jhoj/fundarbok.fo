@@ -91,9 +91,12 @@ export class MeetingDetailComponent implements OnInit {
     this.meetingService.getMeetingDetail(this.meetingId).subscribe({
       next: (meeting) => {
         this.meeting = meeting;
-        // Auto-select first agenda item if available
+        // Auto-select current agenda item (for members), or first item
         if (meeting.agendaItems && meeting.agendaItems.length > 0) {
-          this.selectedAgendaItem = meeting.agendaItems[0];
+          const currentItem = meeting.currentAgendaItemId
+            ? meeting.agendaItems.find(a => a.id === meeting.currentAgendaItemId)
+            : null;
+          this.selectedAgendaItem = currentItem || meeting.agendaItems[0];
         }
         this.isLoading = false;
       },
@@ -559,5 +562,70 @@ export class MeetingDetailComponent implements OnInit {
 
   isSecretary(): boolean {
     return this.authService.hasRole('Secretary');
+  }
+
+  // Agenda navigation for secretary
+  getCurrentItemIndex(): number {
+    if (!this.meeting?.agendaItems || !this.meeting.currentAgendaItemId) return -1;
+    return this.meeting.agendaItems.findIndex(a => a.id === this.meeting!.currentAgendaItemId);
+  }
+
+  getCurrentItemLabel(): string {
+    const idx = this.getCurrentItemIndex();
+    if (idx < 0 || !this.meeting?.agendaItems) return this.translationService.translate('meetings.agenda.noCurrentItem');
+    const item = this.meeting.agendaItems[idx];
+    return `${item.number}. ${item.title}`;
+  }
+
+  canGoPrev(): boolean {
+    return this.getCurrentItemIndex() > 0;
+  }
+
+  canGoNext(): boolean {
+    if (!this.meeting?.agendaItems) return false;
+    const idx = this.getCurrentItemIndex();
+    return idx < this.meeting.agendaItems.length - 1;
+  }
+
+  previousAgendaItem(): void {
+    if (!this.meeting?.agendaItems || !this.canGoPrev()) return;
+    const idx = this.getCurrentItemIndex();
+    this.setCurrentItem(this.meeting.agendaItems[idx - 1].id);
+  }
+
+  nextAgendaItem(): void {
+    if (!this.meeting?.agendaItems || !this.canGoNext()) return;
+    const idx = this.getCurrentItemIndex();
+    this.setCurrentItem(this.meeting.agendaItems[idx + 1].id);
+  }
+
+  startMeeting(): void {
+    if (!this.meeting?.agendaItems?.length) return;
+    this.setCurrentItem(this.meeting.agendaItems[0].id);
+  }
+
+  private setCurrentItem(agendaItemId: string): void {
+    this.meetingService.setCurrentAgendaItem(this.meetingId, agendaItemId).subscribe({
+      next: () => {
+        if (this.meeting) {
+          this.meeting.currentAgendaItemId = agendaItemId;
+          const item = this.meeting.agendaItems.find(a => a.id === agendaItemId);
+          if (item) this.selectedAgendaItem = item;
+        }
+      }
+    });
+  }
+
+  reopenMeeting(): void {
+    this.meetingService.updateStatus(this.meetingId, { status: 'open' as any }).subscribe({
+      next: () => {
+        this.snackBar.open(
+          this.translationService.translate('meetings.messages.meetingUpdated'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 3000 }
+        );
+        this.loadMeeting();
+      }
+    });
   }
 }

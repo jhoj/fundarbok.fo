@@ -73,6 +73,12 @@ public class FundarbokDbContext : DbContext
 
             entity.HasIndex(e => e.CommitteeId);
             entity.HasIndex(e => e.StartDate);
+
+            entity.HasOne<AgendaItem>()
+                .WithMany()
+                .HasForeignKey(e => e.CurrentAgendaItemId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
         });
 
         // MeetingParticipant configuration

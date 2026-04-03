@@ -96,4 +96,8 @@ export class MeetingService {
   reorderAgendaItems(meetingId: string, request: ReorderAgendaItemsRequest): Observable<any> {
     return this.api.post(`/agendaitems/meeting/${meetingId}/reorder`, request);
   }
+
+  setCurrentAgendaItem(meetingId: string, agendaItemId: string | null): Observable<any> {
+    return this.api.patch(`/meetings/${meetingId}/current-item`, { agendaItemId });
+  }
 }

@@ -102,6 +102,7 @@
     "dashboard": "Høvuðssíða",
     "meetings": "Fundir",
     "committees": "Nevndir",
+    "users": "Brúkarar",
     "settings": "Stillingar",
     "profile": "Brúkari",
     "logout": "Rita út"
@@ -192,6 +193,11 @@
       "participantAdded": "Luttakari skrásettur",
       "participantRemoved": "Luttakari strikaður",
       "participationUpdated": "Luttøkustøða dagførd"
+    },
+    "agenda": {
+      "start": "Byrja fund",
+      "reopen": "Opna aftur",
+      "noCurrentItem": "Eingin fundarpunktur vald"
     },
     "status": {
       "open": "Opin",
@@ -289,6 +295,35 @@
       "committeeUpdated": "Nevnd dagførd",
       "committeeDeleted": "Nevnd strikað",
       "memberAdded": "Nevndarlimur stovnaður"
+    }
+  },
+  "users": {
+    "title": "Brúkarar",
+    "list": {
+      "createNew": "Stovna nýggjan brúkara",
+      "noUsers": "Eingin brúkari funnin"
+    },
+    "form": {
+      "createNew": "Stovna brúkara",
+      "editUser": "Broyt brúkara"
+    },
+    "fields": {
+      "email": "Teldupostur",
+      "password": "Loyniorð",
+      "role": "Leiklutur",
+      "committee": "Nevnd",
+      "committeeMember": "Nevndarlimur",
+      "isActive": "Virkur"
+    },
+    "roles": {
+      "Secretary": "Skrivari",
+      "CommitteeMember": "Nevndarlimur"
+    },
+    "messages": {
+      "userCreated": "Brúkari stovnaður",
+      "userUpdated": "Brúkari dagførdur",
+      "userDeleted": "Brúkari strikaður",
+      "confirmDelete": "Ert tú vís/ur í at strika henda brúkaran?"
     }
   },
   "agendaItems": {

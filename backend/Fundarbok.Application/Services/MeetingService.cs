@@ -463,6 +463,7 @@ public class MeetingService : IMeetingService
             IsCompleted = meeting.IsCompleted,
             IsApproved = meeting.IsApproved,
             Description = meeting.Description,
+            CurrentAgendaItemId = meeting.CurrentAgendaItemId,
             CreatedAt = meeting.CreatedAt,
             UpdatedAt = meeting.UpdatedAt,
             Participants = meeting.MeetingParticipants?.Select(MapToMeetingParticipantDto).ToList() ?? new(),
@@ -566,5 +567,23 @@ public class MeetingService : IMeetingService
                 UpdatedAt = t.UpdatedAt
             }).ToList() ?? new()
         };
+    }
+
+    public async Task<bool> SetCurrentAgendaItemAsync(Guid meetingId, Guid? agendaItemId)
+    {
+        var meeting = await _meetingRepository.GetByIdAsync(meetingId);
+        if (meeting == null) return false;
+
+        if (agendaItemId.HasValue)
+        {
+            var meetingWithDetails = await _meetingRepository.GetWithDetailsAsync(meetingId);
+            var itemExists = meetingWithDetails?.AgendaItems?.Any(a => a.Id == agendaItemId.Value) ?? false;
+            if (!itemExists) return false;
+        }
+
+        meeting.CurrentAgendaItemId = agendaItemId;
+        meeting.UpdatedAt = DateTime.UtcNow;
+        await _meetingRepository.UpdateAsync(meeting);
+        return true;
     }
 }

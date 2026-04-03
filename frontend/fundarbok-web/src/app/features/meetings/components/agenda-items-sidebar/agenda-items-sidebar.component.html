@@ -16,6 +16,7 @@
         cdkDrag
         class="agenda-item"
         [class.selected]="isSelected(item)"
+        [class.current]="isCurrentItem(item)"
         (click)="onSelectItem(item)">
         <div class="item-drag" cdkDragHandle *appHasRole="'Secretary'">
           <mat-icon>drag_indicator</mat-icon>

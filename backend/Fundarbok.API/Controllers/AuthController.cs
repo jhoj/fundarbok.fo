@@ -65,49 +65,6 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// Register a new user
-    /// </summary>
-    /// <param name="request">Registration details</param>
-    /// <returns>JWT token and user information</returns>
-    [HttpPost("register")]
-    [ProducesResponseType(typeof(AuthResult), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<AuthResult>> Register([FromBody] RegisterRequest request)
-    {
-        if (string.IsNullOrWhiteSpace(request.Email) ||
-            string.IsNullOrWhiteSpace(request.Password) ||
-            string.IsNullOrWhiteSpace(request.Name))
-        {
-            return BadRequest(new AuthResult
-            {
-                Success = false,
-                ErrorMessage = "Email, password, and name are required"
-            });
-        }
-
-        try
-        {
-            var result = await _authService.RegisterAsync(request);
-
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-
-            return CreatedAtAction(nameof(GetMe), new { }, result);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error during registration for user {Email}", request.Email);
-            return StatusCode(500, new AuthResult
-            {
-                Success = false,
-                ErrorMessage = "An error occurred during registration"
-            });
-        }
-    }
-
-    /// <summary>
     /// Get current authenticated user information
     /// </summary>
     /// <returns>Current user details</returns>

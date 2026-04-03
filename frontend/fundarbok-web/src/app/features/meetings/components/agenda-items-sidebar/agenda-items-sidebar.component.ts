@@ -29,6 +29,7 @@ import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 export class AgendaItemsSidebarComponent {
   @Input() agendaItems: AgendaItemDetail[] = [];
   @Input() selectedItemId: string | null = null;
+  @Input() currentItemId: string | null = null;
   @Input() meetingDescription: string = '';
   @Output() selectItem = new EventEmitter<AgendaItemDetail>();
   @Output() addItem = new EventEmitter<void>();
@@ -46,6 +47,10 @@ export class AgendaItemsSidebarComponent {
 
   isSelected(item: AgendaItemDetail): boolean {
     return item.id === this.selectedItemId;
+  }
+
+  isCurrentItem(item: AgendaItemDetail): boolean {
+    return item.id === this.currentItemId;
   }
 
   getDocumentCount(item: AgendaItemDetail): number {

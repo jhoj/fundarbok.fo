@@ -16,4 +16,5 @@ public interface IMeetingService
     Task<IEnumerable<MeetingParticipantDto>> GetMeetingParticipantsAsync(Guid meetingId);
     Task<MeetingParticipantDto> AddParticipantAsync(Guid meetingId, AddParticipantRequest request);
     Task<bool> RemoveParticipantAsync(Guid meetingId, Guid participantId);
+    Task<bool> SetCurrentAgendaItemAsync(Guid meetingId, Guid? agendaItemId);
 }
