@@ -4,11 +4,50 @@ This file provides guidance for AI assistants working with the Fundarbók codeba
 
 ## Project Overview
 
-Fundarbók is a Progressive Web Application (PWA) for meeting management, built for Faroese organizations. It allows secretaries to create and manage committee meetings, agenda items, documents, and enables committee members to view meetings and add personal notes.
+Fundarbók is a Progressive Web Application (PWA) for committee meeting management, built for Faroese organizations (councils and similar bodies). The system manages the complete lifecycle of meetings with distinct roles and workflows for secretaries (admins) and committee members.
 
 **Primary Users:**
-- **Secretary (Skrivari)**: Full admin access - create/edit/approve meetings
-- **Committee Member (Nevndarlimur)**: View meetings, add personal notes, complete assigned tasks
+- **Secretary (Skrivari)**: Full admin access - plans meetings, manages agendas, controls live meetings, approves conclusions
+- **Committee Member (Nevndarlimur)**: Views meetings, adds personal notes, speaks during live meetings, completes assigned tasks
+
+## System Workflow Overview
+
+The system operates in three distinct phases:
+
+### Phase 1: Plan Meeting
+The secretary plans an upcoming meeting by:
+- Selecting the committee
+- Choosing agenda items (initially standalone, will integrate with external systems for agendas and documents)
+- Ordering agenda items
+- Assigning reading materials/documents to each agenda item
+- Managing member substitutions when members decline participation
+- **Future Integration**: Agendas and documents will be sourced from external systems, but the system starts standalone
+
+### Phase 2: Live Meeting
+During the active meeting:
+- **Secretary View**: 
+  - Clear view of the full agenda list
+  - Real-time participant list
+  - Can click on members to mark them as "speaking"
+  - System automatically records to meeting history: participant name, timestamp, action (speaking)
+  - Auto-generates meeting summary (with minimal manual input)
+  - Conducts voting on agenda items
+  - Records conclusions for each agenda item
+- **Member View**:
+  - Sees current agenda item
+  - Can view assigned documents/reading materials
+  - Can add personal notes
+  - Can participate in discussions
+
+### Phase 3: Complete Meeting
+After the live meeting:
+- Secretary finalizes the meeting summary
+- All conclusions are reviewed and confirmed
+- Voting results are recorded
+- Meeting is marked as completed and approved
+- Historical record is created for the committee's archives
+
+**Note**: The system will support integration with external systems for agenda sourcing and document management in future phases, but will function as a standalone system initially.
 
 ## Architecture
 
@@ -198,7 +237,7 @@ Located in `backend/Fundarbok.Domain/Entities/`:
 
 ## Project Status
 
-**Current Phase**: Phase 1 complete, Phase 2 (Domain Models) complete
+**Current Phase**: Phase 0 (Infrastructure) and Phase 1 (Foundation) complete
 
 **What's Done**:
 - Project structure and configuration
@@ -208,14 +247,31 @@ Located in `backend/Fundarbok.Domain/Entities/`:
 - Database seeding with sample data
 - Frontend project with Angular Material and PWA support
 
-**What's Pending**:
-- API Controllers
-- Authentication endpoints
-- Business logic services
-- Frontend components and routing
-- Testing infrastructure
+**What's Pending** (Priority Order):
+1. **Phase 2 - Meeting Planning Features**:
+   - API endpoints for meeting creation and management
+   - Secretary UI for planning meetings (committee selection, agenda ordering, document assignment)
+   - Member substitution management
+   
+2. **Phase 3 - Live Meeting Features**:
+   - Real-time meeting session management
+   - Secretary meeting dashboard (agenda view, participant list, control panel)
+   - Live speaker tracking and auto-history recording
+   - Member live meeting interface
+   
+3. **Phase 4 - Meeting Completion & Reporting**:
+   - Summary generation and editing
+   - Voting and conclusion recording
+   - Meeting approval workflow
+   - Historical archives
+   
+4. **Phase 5 - Integration & Enhancement**:
+   - External system integration for agenda sourcing
+   - Document management integration
+   - Push notifications for meeting updates
+   - Advanced reporting and analytics
 
-See `TODO.md` for the complete implementation roadmap.
+See `TODO.md` for the detailed implementation roadmap.
 
 ## Common Tasks
 
