@@ -3,8 +3,53 @@
 
   # Fundarbok.fo
 
-  Parliamentary document management and tracking system for committee meetings and agenda items.
+  Committee meeting management system for Faroese councils and organizations.
 </div>
+
+## Overview
+
+Fundarbók is a Progressive Web Application (PWA) that manages the complete lifecycle of committee meetings with distinct workflows for secretaries (admins) and committee members.
+
+### Three-Phase Meeting Workflow
+
+**1. Plan Meeting**
+- Secretary selects committee and agenda items
+- Orders agenda items and assigns reading materials/documents
+- Manages member substitutions
+- (Future: Integration with external systems for agendas and documents)
+
+**2. Live Meeting**
+- Secretary controls the meeting with real-time dashboard:
+  - Clear agenda list and participant list
+  - Mark members as "speaking" (auto-records to history with timestamp)
+  - Auto-generates meeting summary
+  - Conducts voting and records conclusions
+- Members participate:
+  - View current agenda item and assigned documents
+  - Add personal notes
+  - Vote when enabled
+  - Sign approval digitally (MFA-secured)
+
+**3. Complete Meeting**
+- Secretary finalizes summary and conclusions
+- Collects digital signatures from all participants (in-house only, MFA-verified)
+- Exports meeting conclusions to public journals (Gerðabókin format)
+- Uploads to external systems for archival
+
+### User Roles
+
+**Secretary (Skrivari) - Admin Access**
+- Full meeting management (plan, control, complete)
+- Approve conclusions
+- Manage members and document permissions
+- Gather signatures
+- Export meeting logs
+
+**Committee Member (Nevndarlimur) - Participant Access**
+- View assigned meetings and documents
+- Add personal notes
+- Speak and vote during meetings
+- Sign meeting approval
 
 ## Project Status & Roadmap
 
