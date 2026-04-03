@@ -187,6 +187,11 @@
       "active": "Virkin",
       "participating": "Luttakarar",
       "committeeDescription": "Stutt lýsing av uppgávuni hjá nevndini",
+      "present": "Til staðar",
+      "absent": "Fráverandi",
+      "substitute": "Varamaður",
+      "substituteFor": "Varamaður fyri",
+      "suggestAlternate": "Legg afturat [name] sum varamann?",
       "noParticipants": "Eingir luttakarar enn",
       "addMembers": "Stovna limir til fundin",
       "selectMembersHint": "Vel limir, sum skulu á fundin",
@@ -272,7 +277,8 @@
       "description": "Lýsing",
       "memberName": "Navn á nevndarlimi",
       "memberRole": "Støða",
-      "memberTitle": "Heiti"
+      "memberTitle": "Heiti",
+      "alternate": "Varamaður"
     },
     "detail": {
       "title": "Nevndar upplýsingar",

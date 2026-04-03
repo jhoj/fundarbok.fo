@@ -188,6 +188,11 @@
       "active": "Active",
       "participating": "Participating",
       "committeeDescription": "Committee Description",
+      "present": "Present",
+      "absent": "Absent",
+      "substitute": "Substitute",
+      "substituteFor": "Substitute for",
+      "suggestAlternate": "Add [name] as substitute?",
       "noParticipants": "No participants added yet",
       "addMembers": "Add Members to Meeting",
       "selectMembersHint": "Select committee members to add as meeting participants",
@@ -291,7 +296,8 @@
       "description": "Description",
       "memberName": "Member Name",
       "memberRole": "Role",
-      "memberTitle": "Title"
+      "memberTitle": "Title",
+      "alternate": "Alternate"
     },
     "detail": {
       "title": "Committee Details",

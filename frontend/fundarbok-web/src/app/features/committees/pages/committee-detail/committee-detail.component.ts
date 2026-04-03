@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommitteeService } from '../../../../core/services/committee.service';
@@ -24,6 +26,8 @@ import { AddMemberDialogComponent } from '../../dialogs/add-member-dialog/add-me
     MatIconModule,
     MatProgressSpinnerModule,
     MatListModule,
+    MatSelectModule,
+    MatFormFieldModule,
     TranslatePipe
   ],
   template: `
@@ -62,12 +66,28 @@ import { AddMemberDialogComponent } from '../../dialogs/add-member-dialog/add-me
           </mat-card-header>
           <mat-card-content>
             <mat-list>
-              <mat-list-item *ngFor="let member of members">
-                <span matListItemTitle>{{ member.name }}</span>
-                <span matListItemLine>{{ member.role }}</span>
-                <button mat-icon-button matListItemMeta (click)="removeMember(member.id)">
-                  <mat-icon>close</mat-icon>
-                </button>
+              <mat-list-item *ngFor="let member of members" class="member-item">
+                <div class="member-info">
+                  <span class="member-name">{{ member.name }}</span>
+                  <span class="member-role">{{ member.role }}</span>
+                  <span class="member-alternate" *ngIf="member.alternateName">
+                    {{ 'committees.form.alternate' | translate }}: {{ member.alternateName }}
+                  </span>
+                </div>
+                <div class="member-actions">
+                  <mat-form-field appearance="outline" class="alternate-select">
+                    <mat-label>{{ 'committees.form.alternate' | translate }}</mat-label>
+                    <mat-select [value]="member.alternateId || ''" (selectionChange)="onAlternateChange(member, $event.value)">
+                      <mat-option value="">—</mat-option>
+                      <mat-option *ngFor="let alt of getAlternateOptions(member)" [value]="alt.id">
+                        {{ alt.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <button mat-icon-button (click)="removeMember(member.id)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
               </mat-list-item>
             </mat-list>
             <p *ngIf="members.length === 0" class="no-items">
@@ -125,6 +145,48 @@ import { AddMemberDialogComponent } from '../../dialogs/add-member-dialog/add-me
     mat-card-header h2 {
       margin: 0;
       font-size: 1.1rem;
+    }
+
+    .member-item {
+      height: auto !important;
+      padding: 0.5rem 0;
+    }
+
+    .member-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .member-name {
+      font-weight: 500;
+    }
+
+    .member-role {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .member-alternate {
+      font-size: 0.8rem;
+      color: #ff9800;
+      font-style: italic;
+    }
+
+    .member-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .alternate-select {
+      width: 160px;
+      font-size: 0.85rem;
+    }
+
+    ::ng-deep .alternate-select .mat-mdc-form-field-subscript-wrapper {
+      display: none;
     }
 
     .no-items {
@@ -226,6 +288,30 @@ export class CommitteeDetailComponent implements OnInit {
             );
           }
         });
+      }
+    });
+  }
+
+  getAlternateOptions(member: CommitteeMember): CommitteeMember[] {
+    return this.members.filter(m => m.id !== member.id && m.isActive);
+  }
+
+  onAlternateChange(member: CommitteeMember, alternateId: string): void {
+    this.committeeService.updateMember(this.committeeId, member.id, {
+      name: member.name,
+      title: member.title || '',
+      role: member.role,
+      isActive: member.isActive,
+      alternateId: alternateId || undefined
+    }).subscribe({
+      next: (updated) => {
+        member.alternateId = updated.alternateId;
+        member.alternateName = updated.alternateName;
+        this.snackBar.open(
+          this.translationService.translate('committees.messages.committeeUpdated'),
+          this.translationService.translate('common.actions.close'),
+          { duration: 2000 }
+        );
       }
     });
   }

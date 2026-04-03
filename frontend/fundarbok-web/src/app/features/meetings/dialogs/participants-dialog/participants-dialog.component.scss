@@ -44,6 +44,22 @@
   td {
     color: #333;
   }
+
+  .absent-row {
+    opacity: 0.5;
+  }
+
+  .absent {
+    text-decoration: line-through;
+    color: #999;
+  }
+
+  .substitute-badge {
+    display: block;
+    font-size: 0.75rem;
+    color: #ff9800;
+    font-style: italic;
+  }
 }
 
 .empty-state {
