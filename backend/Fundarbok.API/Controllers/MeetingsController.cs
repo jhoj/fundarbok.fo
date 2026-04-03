@@ -359,4 +359,27 @@ public class MeetingsController : ControllerBase
             return StatusCode(500, new { message = "An error occurred while removing the participant" });
         }
     }
+
+    [HttpPatch("{id}/participants/{participantId}/attendance")]
+    [Authorize(Policy = "SecretaryOnly")]
+    [ProducesResponseType(typeof(MeetingParticipantDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateAttendance(Guid id, Guid participantId, [FromBody] UpdateAttendanceRequest request)
+    {
+        try
+        {
+            var result = await _meetingService.UpdateAttendanceAsync(id, participantId, request);
+            if (result == null)
+            {
+                return NotFound(new { message = $"Participant with ID {participantId} not found in meeting {id}" });
+            }
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating attendance for participant {ParticipantId} in meeting {MeetingId}", participantId, id);
+            return StatusCode(500, new { message = "An error occurred while updating attendance" });
+        }
+    }
 }

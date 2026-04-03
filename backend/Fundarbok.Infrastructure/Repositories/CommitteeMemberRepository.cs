@@ -17,6 +17,7 @@ public class CommitteeMemberRepository : ICommitteeMemberRepository
     {
         return await _context.CommitteeMembers
             .Include(m => m.Committee)
+            .Include(m => m.Alternate)
             .FirstOrDefaultAsync(m => m.Id == id);
     }
 

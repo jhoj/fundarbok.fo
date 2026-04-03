@@ -13,6 +13,8 @@ export interface CommitteeMember {
   title?: string;
   role: CommitteeMemberRole;
   isActive: boolean;
+  alternateId?: string;
+  alternateName?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -41,4 +43,5 @@ export interface UpdateCommitteeMemberRequest {
   title?: string;
   role: CommitteeMemberRole;
   isActive: boolean;
+  alternateId?: string;
 }

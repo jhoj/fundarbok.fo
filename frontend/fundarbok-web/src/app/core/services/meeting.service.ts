@@ -72,6 +72,10 @@ export class MeetingService {
     return this.api.delete(`/meetings/${meetingId}/participants/${participantId}`);
   }
 
+  updateAttendance(meetingId: string, participantId: string, isPresent: boolean): Observable<MeetingParticipant> {
+    return this.api.patch<MeetingParticipant>(`/meetings/${meetingId}/participants/${participantId}/attendance`, { isPresent });
+  }
+
   // Agenda Items
   getAgendaItems(meetingId: string): Observable<AgendaItem[]> {
     return this.api.get<AgendaItem[]>(`/agendaitems/meeting/${meetingId}`);

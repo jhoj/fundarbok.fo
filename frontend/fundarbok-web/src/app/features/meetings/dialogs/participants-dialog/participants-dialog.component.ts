@@ -9,7 +9,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { TranslationService } from '../../../../core/services/translation.service';
 import { MeetingParticipant } from '../../../../models/meeting.model';
+import { CommitteeMember } from '../../../../models/committee.model';
 import { MeetingService } from '../../../../core/services/meeting.service';
+import { CommitteeService } from '../../../../core/services/committee.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { GrantAccessDialogComponent, GrantAccessDialogData } from '../grant-access-dialog/grant-access-dialog.component';
 
@@ -38,13 +40,15 @@ export interface ParticipantsDialogData {
 })
 export class ParticipantsDialogComponent implements OnInit {
   participants: MeetingParticipant[] = [];
-  displayedColumns: string[] = ['name', 'title', 'role', 'participating'];
+  committeeMembers: CommitteeMember[] = [];
+  displayedColumns: string[] = ['name', 'title', 'role', 'present', 'participating'];
   isSecretary = false;
   loading = true;
 
   constructor(
     private dialogRef: MatDialogRef<ParticipantsDialogComponent>,
     private meetingService: MeetingService,
+    private committeeService: CommitteeService,
     private authService: AuthService,
     private translationService: TranslationService,
     private snackBar: MatSnackBar,
@@ -56,6 +60,7 @@ export class ParticipantsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadParticipants();
+    this.loadCommitteeMembers();
   }
 
   loadParticipants(): void {
@@ -70,6 +75,63 @@ export class ParticipantsDialogComponent implements OnInit {
       error: () => {
         this.snackBar.open('Failed to load participants', 'Close', { duration: 3000 });
         this.loading = false;
+      }
+    });
+  }
+
+  loadCommitteeMembers(): void {
+    this.committeeService.getMembers(this.data.committeeId).subscribe({
+      next: (members) => {
+        this.committeeMembers = members;
+      }
+    });
+  }
+
+  onAttendanceToggle(participant: MeetingParticipant, event: any): void {
+    const isPresent = event.checked;
+
+    this.meetingService.updateAttendance(this.data.meetingId, participant.id, isPresent).subscribe({
+      next: () => {
+        participant.isPresent = isPresent;
+
+        // If marked absent, check for alternate and suggest adding
+        if (!isPresent) {
+          const member = this.committeeMembers.find(m => m.id === participant.committeeMemberId);
+          if (member?.alternateId && member?.alternateName) {
+            const alreadyParticipant = this.participants.some(p => p.committeeMemberId === member.alternateId);
+            if (!alreadyParticipant) {
+              const message = this.translationService.translate('meetings.participants.suggestAlternate')
+                .replace('[name]', member.alternateName);
+              const ref = this.snackBar.open(message, this.translationService.translate('common.actions.add'), { duration: 8000 });
+              ref.onAction().subscribe(() => {
+                this.addSubstitute(member.alternateId!, participant.id);
+              });
+            }
+          }
+        }
+      },
+      error: () => {
+        this.snackBar.open('Failed to update attendance', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  addSubstitute(committeeMemberId: string, substituteForId: string): void {
+    this.meetingService.addParticipant(this.data.meetingId, {
+      committeeMemberId,
+      isParticipating: true,
+      substituteForId
+    }).subscribe({
+      next: () => {
+        this.loadParticipants();
+        this.snackBar.open(
+          this.translationService.translate('meetings.participants.participantAdded'),
+          'Close',
+          { duration: 2000 }
+        );
+      },
+      error: () => {
+        this.snackBar.open('Failed to add substitute', 'Close', { duration: 3000 });
       }
     });
   }

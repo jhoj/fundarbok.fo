@@ -60,6 +60,7 @@ public class CommitteeRepository : ICommitteeRepository
     public async Task<IEnumerable<CommitteeMember>> GetMembersAsync(Guid committeeId)
     {
         return await _context.CommitteeMembers
+            .Include(m => m.Alternate)
             .Where(m => m.CommitteeId == committeeId)
             .OrderBy(m => m.Name)
             .ToListAsync();

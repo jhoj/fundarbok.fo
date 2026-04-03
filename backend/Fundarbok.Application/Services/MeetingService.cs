@@ -573,6 +573,17 @@ public class MeetingService : IMeetingService
         };
     }
 
+    public async Task<MeetingParticipantDto?> UpdateAttendanceAsync(Guid meetingId, Guid participantId, UpdateAttendanceRequest request)
+    {
+        var participant = await _meetingRepository.GetParticipantAsync(meetingId, participantId);
+        if (participant == null) return null;
+
+        participant.IsPresent = request.IsPresent;
+        await _meetingRepository.UpdateParticipantAsync(participant);
+
+        return MapToMeetingParticipantDto(participant);
+    }
+
     public async Task<bool> SetCurrentAgendaItemAsync(Guid meetingId, Guid? agendaItemId)
     {
         var meeting = await _meetingRepository.GetByIdAsync(meetingId);

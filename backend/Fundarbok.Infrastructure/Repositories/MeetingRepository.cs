@@ -104,6 +104,22 @@ public class MeetingRepository : IMeetingRepository
         return participant;
     }
 
+    public async Task<MeetingParticipant?> GetParticipantAsync(Guid meetingId, Guid participantId)
+    {
+        return await _context.MeetingParticipants
+            .Include(mp => mp.CommitteeMember)
+            .Include(mp => mp.SubstituteFor)
+                .ThenInclude(sf => sf!.CommitteeMember)
+            .FirstOrDefaultAsync(mp => mp.MeetingId == meetingId && mp.Id == participantId);
+    }
+
+    public async Task<MeetingParticipant> UpdateParticipantAsync(MeetingParticipant participant)
+    {
+        _context.MeetingParticipants.Update(participant);
+        await _context.SaveChangesAsync();
+        return participant;
+    }
+
     public async Task<bool> RemoveParticipantAsync(Guid meetingId, Guid participantId)
     {
         var participant = await _context.MeetingParticipants

@@ -27,7 +27,13 @@ export interface MeetingParticipant {
   id: string;
   meetingId: string;
   committeeMemberId: string;
+  committeeMemberName?: string;
+  committeeMemberTitle?: string;
+  committeeMemberRole?: string;
   isParticipating: boolean;
+  isPresent: boolean;
+  substituteForId?: string;
+  substituteForName?: string;
   createdAt: string;
   committeeMember?: any;
 }
@@ -35,6 +41,11 @@ export interface MeetingParticipant {
 export interface AddParticipantRequest {
   committeeMemberId: string;
   isParticipating: boolean;
+  substituteForId?: string;
+}
+
+export interface UpdateAttendanceRequest {
+  isPresent: boolean;
 }
 
 export interface CreateMeetingRequest {

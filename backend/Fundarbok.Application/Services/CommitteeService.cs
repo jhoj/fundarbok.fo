@@ -150,6 +150,7 @@ public class CommitteeService : ICommitteeService
         member.Title = request.Title;
         member.Role = request.Role;
         member.IsActive = request.IsActive;
+        member.AlternateId = request.AlternateId;
         member.UpdatedAt = DateTime.UtcNow;
 
         var updatedMember = await _committeeMemberRepository.UpdateAsync(member);
@@ -199,6 +200,8 @@ public class CommitteeService : ICommitteeService
             Title = member.Title,
             Role = member.Role,
             IsActive = member.IsActive,
+            AlternateId = member.AlternateId,
+            AlternateName = member.Alternate?.Name,
             CreatedAt = member.CreatedAt
         };
     }
